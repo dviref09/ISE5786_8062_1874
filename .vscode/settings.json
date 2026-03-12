@@ -4,8 +4,13 @@
 		"editor.insertSpaces": false,
 		"editor.detectIndentation": false
 	},
+	"javadoc-tools.generateJavadoc.runMode": "-private",
+	"javadoc-tools.generateJavadoc.targetFolder": "doc",
+	"javadoc-tools.generateJavadoc.workspaceSourceFolder": "src",
 	"editor.defaultFormatter": "redhat.java",
 	"notebook.defaultFormatter": "redhat.java",
+	"formatFiles.runOrganizeImports": true,
+	"editor.formatOnSave": true,
 	"java.completion.importOrder": [
 		"java", "javax", "org", "com", "", "#"], 
 	"formatFiles.excludedFolders": [

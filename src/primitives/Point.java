@@ -11,7 +11,7 @@ public class Point {
 	protected final Double3 _coordinates;
 
 	/**
-	 * A constant representing the axes origin.
+	 * A constant representing the axis origin.
 	 */
 	protected final Double3 ZERO = Double3.ZERO;
 
@@ -26,8 +26,8 @@ public class Point {
 	}
 
 	/**
-	 * Constructs a new points from the coordinate given in the parameters.
-	 * @param coordinates The cooridantes of the point.
+	 * Constructs a new point from the coordinates given in the parameters.
+	 * @param coordinates The coordinates of the point.
 	 */
 	public Point(Double3 coordinates) {
 		_coordinates = coordinates;
@@ -37,7 +37,7 @@ public class Point {
 	 * Subtracts another point from our point.
 	 * @param other The point to subtract from our point.
 	 * @return The result vector.
-	 * @throw IllegalArgumentException When the two points are equal.
+	 * @throws IllegalArgumentException When the two points are equal.
 	 */
 	public Vector subtract(Point other) {
 		if (other.equals(this)) {
