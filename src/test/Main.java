@@ -1,20 +1,20 @@
 package test;
 
+import geometries.impl.Plane;
 import geometries.impl.Polygon;
 import primitives.Double3;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import static java.lang.System.out;
 import static primitives.Util.isZero;
 
 /**
- * Basic sanity tests for the primitives classes. The program performs a small
- * set of runtime checks on the basic geometric primitives and on constructors
- * of several geometry objects. The tests verify correctness of the main
- * algebraic operations and several edge cases such as zero vectors and
- * orthogonality. The program prints error messages only if a test fails. If no
- * output appears, all tests succeeded.
+ * Basic sanity tests for the primitives classes. The program performs a small set of runtime checks on the basic
+ * geometric primitives and on constructors of several geometry objects. The tests verify correctness of the main
+ * algebraic operations and several edge cases such as zero vectors and orthogonality. The program prints error messages
+ * only if a test fails. If no output appears, all tests succeeded.
  * @author Dan Zilberstein
  */
 @SuppressWarnings("java:S109")
@@ -43,10 +43,9 @@ public final class Main {
 	private static final Vector V5 = new Vector(3, 6, 9);
 
 	/**
-	 * Entry point of the project's basic sanity tests. The program checks the core
-	 * functionality implemented in the first stage. It is intended to be executed
-	 * again in later stages, without modification, to verify that new code does not
-	 * break the existing functionality.
+	 * Entry point of the project's basic sanity tests. The program checks the core functionality implemented in the
+	 * first stage. It is intended to be executed again in later stages, without modification, to verify that new code
+	 * does not break the existing functionality.
 	 */
 	public static void main() {
 		pointTests();
@@ -59,8 +58,7 @@ public final class Main {
 	}
 
 	/**
-	 * Basic test for the Ray constructor. Verifies that the direction vector is
-	 * normalized by the constructor.
+	 * Basic test for the Ray constructor. Verifies that the direction vector is normalized by the constructor.
 	 */
 	private static void rayTests() {
 		Ray r = new Ray(P1, new Vector(2, 4, 6));
@@ -95,8 +93,8 @@ public final class Main {
 	}
 
 	/**
-	 * Tests distance and distanceSquared operations of Point. Includes symmetry
-	 * checks and consistency between the two methods.
+	 * Tests distance and distanceSquared operations of Point. Includes symmetry checks and consistency between the two
+	 * methods.
 	 */
 	private static void pointDistancesTests() { // distances
 		if (!isZero(P1.distanceSquared(P1)))
@@ -215,12 +213,10 @@ public final class Main {
 	}
 
 	/**
-	 * Basic constructor checks for geometry classes. At this stage most geometry
-	 * constructors only store the given parameters. Therefore the tests verify
-	 * mainly that objects can be created successfully. The only geometry that
-	 * performs structural validation in its constructor is {@link Polygon}, which
-	 * checks coplanarity, ordering and convexity. However, Polygon is supplied to
-	 * the students already tested, therefore it is not tested here.
+	 * Basic constructor checks for geometry classes. At this stage most geometry constructors only store the given
+	 * parameters. Therefore the tests verify mainly that objects can be created successfully. The only geometry that
+	 * performs structural validation in its constructor is {@link Polygon}, which checks coplanarity, ordering and
+	 * convexity. However, Polygon is supplied to the students already tested, therefore it is not tested here.
 	 */
 	private static void geometryConstructorTests() {
 		// At this stage geometries mainly store constructor parameters.

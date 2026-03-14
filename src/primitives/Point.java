@@ -86,12 +86,10 @@ public class Point {
 
 	@Override
 	public boolean equals(Object other) {
-		if (this == other) {
+		if (this == other)
 			return true;
-		}
-		if (other == null || getClass() != other.getClass()) {
+		if (other == null || getClass() != other.getClass())
 			return false;
-		}
 		return _coordinates.equals(((Point) other)._coordinates);
 	}
 

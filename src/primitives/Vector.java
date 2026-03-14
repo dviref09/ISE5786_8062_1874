@@ -104,9 +104,9 @@ public class Vector extends Point {
 		return scale(1 / length());
 	}
 
-	/* We didn't implement hashCode and equals methods, because their implementation is the same as the super class, so we didn't want to needlessly repeat ourselves */
-	@Override
-	public String toString() {
-		return _coordinates;
-	}
+	/*
+	 * We didn't implement hashCode, toString and equals methods, because their
+	 * implementation is the same as the super class, so we didn't want to
+	 * needlessly repeat ourselves
+	 */
 }
