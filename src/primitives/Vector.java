@@ -104,23 +104,9 @@ public class Vector extends Point {
 		return scale(1 / length());
 	}
 
-	/*
-	 * The following segment of code has been generated through github copilot with
-	 * the following prompt: "עכשיו תדרוס את מתודות equlas, tostring, hashcode בצורה
-	 * שתתאים לסגנון הקוד כאן בפרוייקט, ובדומה לפונקציות האלו בpoint, ותקפיד על dry"
-	 */
-	@Override
-	public boolean equals(Object other) {
-		return super.equals(other);
-	}
-
+	/* We didn't implement hashCode and equals methods, because their implementation is the same as the super class, so we didn't want to needlessly repeat ourselves */
 	@Override
 	public String toString() {
-		return "Vector: " + _coordinates;
-	}
-
-	@Override
-	public int hashCode() {
-		return super.hashCode();
+		return _coordinates;
 	}
 }

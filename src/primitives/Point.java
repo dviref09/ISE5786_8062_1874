@@ -97,7 +97,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "Point: " + _coordinates;
+		return _coordinates;
 	}
 
 	@Override
