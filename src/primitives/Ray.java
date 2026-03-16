@@ -11,12 +11,12 @@ public class Ray {
 	/**
 	 * The origin point of the ray.
 	 */
-	private Point origin;
+	private Point _origin;
 	/**
 	 * The direction vector of the ray.<br />
 	 * The vector is normalized.
 	 */
-	private Vector direction;
+	private Vector _direction;
 
 	/**
 	 * Constructs a new ray with the specified origin and direction.
@@ -24,8 +24,26 @@ public class Ray {
 	 * @param direction
 	 */
 	public Ray(Point origin, Vector direction) {
-		this.origin = origin;
-		this.direction = direction.normalize();
+		this._origin = origin;
+		this._direction = direction.normalize();
+	}
+
+	// getters
+
+	/**
+	 * Getter for the origin point.
+	 * @return The origin point of the ray.
+	 */
+	public Point origin() {
+		return _origin;
+	}
+
+	/**
+	 * Getter for the direction vector.
+	 * @return The direction vector of the ray.
+	 */
+	public Vector direction() {
+		return _direction;
 	}
 
 	@Override
@@ -34,16 +52,16 @@ public class Ray {
 			return true;
 		if (other == null || getClass() != other.getClass())
 			return false;
-		return origin.equals(((Ray) other).origin) && direction.equals(((Ray) other).direction);
+		return _origin.equals(((Ray) other)._origin) && _direction.equals(((Ray) other)._direction);
 	}
 
 	@Override
 	public String toString() {
-		return "Ray:\n\t" + "Origin: " + origin + "\n\t" + "Direction: " + direction;
+		return "Ray:\n\t" + "Origin: " + _origin + "\n\t" + "Direction: " + _direction;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(origin, direction);
+		return Objects.hash(_origin, _direction);
 	}
 }

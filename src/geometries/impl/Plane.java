@@ -14,11 +14,11 @@ public class Plane extends Geometry {
 	/**
 	 * A point on the plane
 	 */
-	private Point point;
+	private Point _point;
 	/**
 	 * The normal vector to the plane. The normal is normlized.
 	 */
-	private Vector normal;
+	private Vector _normal;
 
 	/**
 	 * Constructs a plane given three points in space.
@@ -27,7 +27,8 @@ public class Plane extends Geometry {
 	 * @param p3 The third point defining the plane
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
-		this.point = p1;
+		this._point = p1;
+		this._normal = null;
 		// To be continued...
 	}
 
@@ -37,27 +38,27 @@ public class Plane extends Geometry {
 	 * @param normal The normal vector to the plane
 	 */
 	public Plane(Point point, Vector normal) {
-		this.point = point;
-		this.normal = normal.normalize();
+		this._point = point;
+		this._normal = normal.normalize();
 	}
 
 	@Override
 	public Vector getNormal(Point point) {
-		return normal;
+		return _normal;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return super.equals(obj) && point.equals((Plane) obj.point) && normal.equals(((Plane) obj).normal);
+		return super.equals(obj) && _point.equals((Plane) obj._point) && _normal.equals(((Plane) obj)._normal);
 	}
 
 	@Override
 	public String toString() {
-		return "Plane:\n\t" + "Point: " + point + "\n\t" + "Normal: " + normal;
+		return "Plane:\n\t" + "Point: " + _point + "\n\t" + "Normal: " + _normal;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(point, normal);
+		return Objects.hash(_point, _normal);
 	}
 }

@@ -13,7 +13,7 @@ public class Point {
 	/**
 	 * A constant representing the axis origin.
 	 */
-	protected final Double3 ZERO = Double3.ZERO;
+	public final Double3 ZERO = Double3.ZERO;
 
 	/**
 	 * Constructs a new point from the coordinates given in the parameters.
@@ -40,9 +40,6 @@ public class Point {
 	 * @throws IllegalArgumentException When the two points are equal.
 	 */
 	public Vector subtract(Point other) {
-		if (other.equals(this)) {
-			throw new IllegalArgumentException("Subtraction of point on itself results in zero vector");
-		}
 		return new Vector(this._coordinates.subtract(other._coordinates));
 	}
 

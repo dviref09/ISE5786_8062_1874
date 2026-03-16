@@ -12,34 +12,34 @@ public abstract class RadialGeometry extends Geometry {
 	/**
 	 * The radius of the radial geometric body
 	 */
-	protected double radius;
+	protected double _radius;
 	/**
 	 * The radius squared of the radial geometric body
 	 */
-	protected double radiusSquared;
+	protected double _radiusSquared;
 
 	/**
 	 * Constructor with radius parameter
 	 * @param radius The radius of the radial geometric body
 	 */
 	public RadialGeometry(double radius) {
-		this.radius = radius;
-		this.radiusSquared = radius * radius;
+		this._radius = radius;
+		this._radiusSquared = radius * radius;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return super.equals(obj) && Double.compare(radius, ((RadialGeometry) obj).radius) == 0;
+		return super.equals(obj) && Util.isZero(_radius - ((RadialGeometry) obj)._radius);
 	}
 
 	@Override
 	public String toString() {
-		return Double.toString(radius);
+		return Double.toString(_radius);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(radius);
+		return Objects.hash(_radius);
 	}
 
 }

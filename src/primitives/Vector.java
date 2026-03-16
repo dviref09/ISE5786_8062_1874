@@ -6,6 +6,20 @@ package primitives;
  */
 public class Vector extends Point {
 	/**
+	 * The unit vector for x axis
+	 */
+	public final Vector AXIS_X = new Vector(1, 0, 0);
+	/**
+	 * The unit vector for y axis
+	 */
+	public final Vector AXIS_Y = new Vector(0, 1, 0);
+	/**
+	 * The unit vector for z axis
+	 */
+	public final Vector AXIS_Z = new Vector(0, 0, 1);
+
+
+	/**
 	 * Constructs a new vector with the specified coordinates.
 	 * @param x the x coordinate of the vector
 	 * @param y the y coordinate of the vector
