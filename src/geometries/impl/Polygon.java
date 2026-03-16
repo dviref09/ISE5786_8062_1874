@@ -11,8 +11,8 @@ import static primitives.Util.isZero;
 /**
  * Represents a convex polygon in a 3D Cartesian coordinate system.
  * <p>
- * The polygon is defined by an ordered sequence of vertices. All vertices must
- * lie in the same plane and be arranged along the polygon edge path.
+ * The polygon is defined by an ordered sequence of vertices. All vertices must lie in the same plane and be arranged
+ * along the polygon edge path.
  * </p>
  * <p>
  * The polygon must be convex.
@@ -39,8 +39,7 @@ public class Polygon extends Geometry {
 	 * <li>Form a convex polygon</li>
 	 * </ul>
 	 * @param vertices polygon vertices in edge order
-	 * @throws IllegalArgumentException if the vertices do not form a valid convex
-	 *                                  polygon
+	 * @throws IllegalArgumentException if the vertices do not form a valid convex polygon
 	 */
 	public Polygon(Point... vertices) {
 		if (vertices.length < 3)

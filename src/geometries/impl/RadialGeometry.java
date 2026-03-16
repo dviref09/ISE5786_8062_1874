@@ -3,6 +3,7 @@ package geometries.impl;
 import java.util.Objects;
 
 import geometries.api.Geometry;
+import primitives.Util;
 
 /**
  * Represents a geometry with a radius
@@ -12,11 +13,11 @@ public abstract class RadialGeometry extends Geometry {
 	/**
 	 * The radius of the radial geometric body
 	 */
-	protected double _radius;
+	protected final double _radius;
 	/**
 	 * The radius squared of the radial geometric body
 	 */
-	protected double _radiusSquared;
+	protected final double _radiusSquared;
 
 	/**
 	 * Constructor with radius parameter

@@ -1,35 +1,50 @@
 package geometries.impl;
 
-import geometries.api.Geometry;
-import primitives.Ray;
+import java.util.Objects;
 
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 /**
- * Class representing an infinitley long tube in 3D space.
+ * Class representing an tube (infinite cylinder) in 3D space.
+ * @author Dvir Farkash
  */
 public class Tube extends RadialGeometry {
 	/**
 	 * The axis that the tube wraps around.
 	 */
-	protected Ray _axis;
-	
+	protected final Ray _axis;
+
+	/**
+	 * Construct a tube with the given axis and radius.
+	 * @param axis   The axis that the tube wraps around.
+	 * @param radius The tube's radius.
+	 */
+	public Tube(double radius, Ray axis) {
+		super(radius);
+		_axis = axis;
+	}
+
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
+
 	@Override
 	public boolean equals(Object other) {
-		return super.equals(other) && _axis.equals((Tube) other._axis));
+		return super.equals(other) && _axis.equals((Tube) other._axis);
 	}
 
 	@Override
 	public String toString() {
 		return "Tube:\n\t" +
 				"Radius: " + super.toString() + "\n\t" +
-				"Axis: " + _axis;
-				/* since axis is a ray, and Ray is itself made up of point and vector,
-				 * it will be a problem, because we will have just 1 tab for the point and vector
-				 * when it needs to be 2 tabs (cause it's Point/Vector in Ray in Tube) */
+				"Axis:\n\t\t" + _axis.toString().replace("\n", "\n\t\t");
 	}
 
 	@Override
 	public int hashCode() {
-		Objects.hash(super.hashCode(), _axis);
+		return Objects.hash(super.hashCode(), _axis);
 	}
 }

@@ -14,11 +14,11 @@ public class Plane extends Geometry {
 	/**
 	 * A point on the plane
 	 */
-	private Point _point;
+	private final Point _point;
 	/**
 	 * The normal vector to the plane. The normal is normlized.
 	 */
-	private Vector _normal;
+	private final Vector _normal;
 
 	/**
 	 * Constructs a plane given three points in space.

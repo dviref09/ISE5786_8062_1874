@@ -1,6 +1,11 @@
 package geometries.impl;
 
-import geometries.api.Geometry;
+import java.util.Objects;
+
+import primitives.Point;
+import primitives.Ray;
+import primitives.Util;
+import primitives.Vector;
 
 /**
  * Class representing a cylinder in 3D space.
@@ -9,11 +14,27 @@ public class Cylinder extends Tube {
 	/**
 	 * The height (or lenghth) of the cylinder.
 	 */
-	private double _height;
-	
+	private final double _height;
+
+	/**
+	 * Construct a cylinder with the given axis ray, radius, and height.
+	 * @param axis   The axis that the cylinder wraps around.
+	 * @param radius The cylinder's radius.
+	 * @param height The cylinder's height.
+	 */
+	public Cylinder(double radius, Ray axis, double height) {
+		super(radius, axis);
+		_height = height;
+	}
+
+	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
+
 	@Override
 	public boolean equals(Object other) {
-		return super.equals(other) && Util.isZero(height - ((Cylinder) other).height;
+		return super.equals(other) && Util.isZero(_height - ((Cylinder) other)._height);
 	}
 
 	@Override
@@ -21,11 +42,11 @@ public class Cylinder extends Tube {
 		return "Cylinder:\n\t" +
 				super.toString() + "\n\t" +
 				"Height: " + Double.toString(_height);
-				// same problem as in Tube, but even worse
+		// same problem as in Tube, but even worse
 	}
 
 	@Override
 	public int hashCode() {
-		Objects.hash(super.hashCode(), _height);
+		return Objects.hash(super.hashCode(), _height);
 	}
 }

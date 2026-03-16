@@ -13,7 +13,7 @@ public class Point {
 	/**
 	 * A constant representing the axis origin.
 	 */
-	public final Double3 ZERO = Double3.ZERO;
+	public static final Point ZERO = new Point(Double3.ZERO);
 
 	/**
 	 * Constructs a new point from the coordinates given in the parameters.
@@ -44,11 +44,9 @@ public class Point {
 	}
 
 	/*
-	 * The following segment of code has been generated through github copilot with
-	 * the following prompt: "can you write this? make sure to keep DRY principle,
-	 * the same style of code, use Double3 when possible, and don't create temporary
-	 * variables. And create javadoc comments, simmilarly to what is already in the
-	 * code"
+	 * The following segment of code has been generated through github copilot with the following prompt: "can you write
+	 * this? make sure to keep DRY principle, the same style of code, use Double3 when possible, and don't create
+	 * temporary variables. And create javadoc comments, simmilarly to what is already in the code"
 	 */
 
 	/**
@@ -92,7 +90,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return _coordinates;
+		return _coordinates.toString();
 	}
 
 	@Override

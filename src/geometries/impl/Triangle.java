@@ -1,12 +1,15 @@
 package geometries.impl;
 
-import geometries.api.Geometry;
+import java.util.Objects;
+
+import primitives.Point;
+import primitives.Vector;
 
 /**
  * Class representing a triangle in 3D space.
  * @author Amichai Feigelson
  */
-public class Trianle extends Polygon {
+public class Triangle extends Polygon {
 	/**
 	 * Constructs a triangle given three vertices.
 	 * @param p1 The first vertex of the triangle.
@@ -18,23 +21,28 @@ public class Trianle extends Polygon {
 	}
 
 	@Override
+	public Vector getNormal(Point point) {
+		return null;
+	}
+
+	@Override
 	public boolean equals(Object other) {
-		if(this == other)
+		if (this == other)
 			return true;
-		if(other == null || getClass() != other.getClass())
+		if (other == null || getClass() != other.getClass())
 			return false;
 		return super.equals(other);
 	}
 
 	@Override
 	public String toString() {
-		return "Triangle:\n\t" + "Vertex 1: " + _vertices[0] +
-				"\n\t" + "Vertex 2: " + _vertices[1] +
-				"\n\t" + "Vertex 3: " + _vertices[2];
+		return "Triangle:\n\t" + "Vertex 1: " + _vertices.get(0) +
+				"\n\t" + "Vertex 2: " + _vertices.get(1) +
+				"\n\t" + "Vertex 3: " + _vertices.get(2);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(_vertices[0], _vertices[1], _vertices[2]);
+		return Objects.hash(_vertices);
 	}
 }

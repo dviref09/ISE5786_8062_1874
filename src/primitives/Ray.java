@@ -3,20 +3,19 @@ package primitives;
 import java.util.Objects;
 
 /**
- * A class representing a ray in 3D space, which is a straight line starting at
- * a point.
+ * A class representing a ray in 3D space, which is a straight line starting at a point.
  * @author Amichai Feigelson
  */
 public class Ray {
 	/**
 	 * The origin point of the ray.
 	 */
-	private Point _origin;
+	private final Point _origin;
 	/**
 	 * The direction vector of the ray.<br />
 	 * The vector is normalized.
 	 */
-	private Vector _direction;
+	private final Vector _direction;
 
 	/**
 	 * Constructs a new ray with the specified origin and direction.
@@ -57,7 +56,9 @@ public class Ray {
 
 	@Override
 	public String toString() {
-		return "Ray:\n\t" + "Origin: " + _origin + "\n\t" + "Direction: " + _direction;
+		return "Ray:\n\t" +
+				"Origin: " + _origin + "\n\t" +
+				"Direction: " + _direction;
 	}
 
 	@Override

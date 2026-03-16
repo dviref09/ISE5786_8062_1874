@@ -1,25 +1,22 @@
 package primitives;
 
 /**
- * Collection of low-level utility methods used throughout the primitives
- * package.
+ * Collection of low-level utility methods used throughout the primitives package.
  * <p>
- * The class provides operations related to floating-point accuracy control,
- * sign comparison, and simple numeric utilities.
+ * The class provides operations related to floating-point accuracy control, sign comparison, and simple numeric
+ * utilities.
  * </p>
  * <p>
- * The implementation is optimized for performance and therefore avoids
- * expensive floating-point operations where possible, relying instead on direct
- * manipulation of the IEEE-754 {@code double} representation.
+ * The implementation is optimized for performance and therefore avoids expensive floating-point operations where
+ * possible, relying instead on direct manipulation of the IEEE-754 {@code double} representation.
  * </p>
  * This class cannot be instantiated.
  * @author Dan Zilberstein
  */
 public final class Util {
 	/**
-	 * Accuracy threshold expressed in exponent units. Values whose exponent is
-	 * smaller than this threshold are considered zero. Roughly corresponds to about
-	 * 1e-12.
+	 * Accuracy threshold expressed in exponent units. Values whose exponent is smaller than this threshold are
+	 * considered zero. Roughly corresponds to about 1e-12.
 	 */
 	private static final int ACCURACY = -40;
 	/** Bias used in the IEEE-754 double exponent representation (1023). */
@@ -73,8 +70,7 @@ public final class Util {
 	/**
 	 * Returns zero if the given value is numerically close to zero.
 	 * <p>
-	 * This helps eliminate floating-point noise that may accumulate in geometric
-	 * calculations.
+	 * This helps eliminate floating-point noise that may accumulate in geometric calculations.
 	 * </p>
 	 * @param number the number to align
 	 * @return 0.0 if the value is considered zero, otherwise the original value

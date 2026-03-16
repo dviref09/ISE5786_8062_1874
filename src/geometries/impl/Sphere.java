@@ -1,7 +1,9 @@
 package geometries.impl;
 
-import geometries.api.Geometry;
+import java.util.Objects;
+
 import primitives.Point;
+import primitives.Vector;
 
 /**
  * Class representing a shphere in 3D space.
@@ -12,6 +14,16 @@ public class Sphere extends RadialGeometry {
 	 * The center point of the sphere.
 	 */
 	private final Point _center;
+
+	/**
+	 * Constructor a sphere from center point and radius.
+	 * @param center The sphere's center point.
+	 * @param radius The sphere's radius.
+	 */
+	public Sphere(Point center, double radius) {
+		super(radius);
+		_center = center;
+	}
 
 	@Override
 	public Vector getNormal(Point point) {
@@ -25,13 +37,13 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public String toString() {
-		return "Sphere:/n/t" + 
-				"Center: " + _center + "/n/t" + 
+		return "Sphere:/n/t" +
+				"Center: " + _center + "/n/t" +
 				"Radius: " + _radius;
 	}
 
 	@Override
 	public int hashCode() {
-		Objects.hash(super.hashCode(), _center);
+		return Objects.hash(super.hashCode(), _center);
 	}
 }

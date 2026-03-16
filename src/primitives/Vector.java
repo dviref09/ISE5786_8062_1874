@@ -8,16 +8,15 @@ public class Vector extends Point {
 	/**
 	 * The unit vector for x axis
 	 */
-	public final Vector AXIS_X = new Vector(1, 0, 0);
+	public static final Vector AXIS_X = new Vector(1, 0, 0);
 	/**
 	 * The unit vector for y axis
 	 */
-	public final Vector AXIS_Y = new Vector(0, 1, 0);
+	public static final Vector AXIS_Y = new Vector(0, 1, 0);
 	/**
 	 * The unit vector for z axis
 	 */
-	public final Vector AXIS_Z = new Vector(0, 0, 1);
-
+	public static final Vector AXIS_Z = new Vector(0, 0, 1);
 
 	/**
 	 * Constructs a new vector with the specified coordinates.
@@ -27,7 +26,7 @@ public class Vector extends Point {
 	 */
 	public Vector(double x, double y, double z) {
 		super(x, y, z);
-		if (_coordinates.equals(ZERO)) {
+		if (_coordinates.equals(Double3.ZERO)) {
 			throw new IllegalArgumentException("Zero vector is not allowed");
 		}
 	}
@@ -38,15 +37,14 @@ public class Vector extends Point {
 	 */
 	public Vector(Double3 coordinates) {
 		super(coordinates);
-		if (_coordinates.equals(ZERO)) {
+		if (_coordinates.equals(Double3.ZERO)) {
 			throw new IllegalArgumentException("Zero vector is not allowed");
 		}
 	}
 	/*
-	 * The following segment of code has been generated through github copilot with
-	 * the following prompt: "תכין לי את רשימת המתודות שכתובה בתמונה, אם יש מתודה
-	 * שאתה לא בטוח מה היא אמורה לעשות תשאל אותי. תייצר גם הערת javadoc, תקפיד על כך
-	 * שסגנון ההערכות והקוד יהיה דומה לשאר הקוד וההערות."
+	 * The following segment of code has been generated through github copilot with the following prompt: "תכין לי את
+	 * רשימת המתודות שכתובה בתמונה, אם יש מתודה שאתה לא בטוח מה היא אמורה לעשות תשאל אותי. תייצר גם הערת javadoc, תקפיד
+	 * על כך שסגנון ההערכות והקוד יהיה דומה לשאר הקוד וההערות."
 	 */
 
 	/**
@@ -119,8 +117,7 @@ public class Vector extends Point {
 	}
 
 	/*
-	 * We didn't implement hashCode, toString and equals methods, because their
-	 * implementation is the same as the super class, so we didn't want to
-	 * needlessly repeat ourselves
+	 * We didn't implement hashCode, toString and equals methods, because their implementation is the same as the super
+	 * class, so we didn't want to needlessly repeat ourselves
 	 */
 }

@@ -7,18 +7,16 @@ import static primitives.Util.isZero;
 /**
  * Immutable container for three double values.
  * <p>
- * The class is used as a basic numeric structure in the primitives package.
- * Typical uses include:
+ * The class is used as a basic numeric structure in the primitives package. Typical uses include:
  * <ul>
  * <li>RGB color components</li>
  * <li>Point or vector coordinates</li>
  * <li>Material or attenuation coefficients</li>
  * </ul>
  * </p>
- * This class is intentionally minimal and optimized for performance, as it is
- * heavily used in geometric and color computations. It performs no argument
- * validation (such as {@code null} checks or division-by-zero checks). It
- * assumes correct usage by the calling code.
+ * This class is intentionally minimal and optimized for performance, as it is heavily used in geometric and color
+ * computations. It performs no argument validation (such as {@code null} checks or division-by-zero checks). It assumes
+ * correct usage by the calling code.
  * @param _d1 first component
  * @param _d2 second component
  * @param _d3 third component
@@ -111,11 +109,9 @@ public record Double3(double _d1, double _d2, double _d3) {
 	}
 
 	/**
-	 * Checks whether all components of this triad are smaller than the
-	 * corresponding components of another triad.
+	 * Checks whether all components of this triad are smaller than the corresponding components of another triad.
 	 * @param other the triad to compare with
-	 * @return {@code true} if each component of this triad is smaller than the
-	 *         corresponding component in {@code other}
+	 * @return {@code true} if each component of this triad is smaller than the corresponding component in {@code other}
 	 */
 	public boolean isLowerThan(Double3 other) {
 		return _d1 < other._d1 && _d2 < other._d2 && _d3 < other._d3;
