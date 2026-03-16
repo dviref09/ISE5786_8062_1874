@@ -5,7 +5,7 @@ import primitives.Ray;
 
 
 /**
- * Class representing a tube in 3D space.
+ * Class representing an infinitley long tube in 3D space.
  */
 public class Tube extends RadialGeometry {
 	/**
