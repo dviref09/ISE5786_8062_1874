@@ -33,14 +33,12 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	public boolean equals(Object other) {
-		return super.equals(other) && _axis.equals((Tube) other._axis);
+		return super.equals(other) && _axis.equals(((Tube) other)._axis);
 	}
 
 	@Override
 	public String toString() {
-		return "Tube:\n\t" +
-				"Radius: " + super.toString() + "\n\t" +
-				"Axis:\n\t\t" + _axis.toString().replace("\n", "\n\t\t");
+		return "Tube: " + " Axis: " + _axis + " " + super.toString();
 	}
 
 	@Override

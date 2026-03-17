@@ -32,14 +32,12 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public boolean equals(Object other) {
-		return super.equals(other) && _center.equals((Sphere) other._center);
+		return super.equals(other) && _center.equals(((Sphere) other)._center);
 	}
 
 	@Override
 	public String toString() {
-		return "Sphere:/n/t" +
-				"Center: " + _center + "/n/t" +
-				"Radius: " + _radius;
+		return "Sphere: Center: " + _center + " " + super.toString();
 	}
 
 	@Override

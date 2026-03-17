@@ -39,10 +39,7 @@ public class Cylinder extends Tube {
 
 	@Override
 	public String toString() {
-		return "Cylinder:\n\t" +
-				super.toString() + "\n\t" +
-				"Height: " + Double.toString(_height);
-		// same problem as in Tube, but even worse
+		return "Cylinder: " + super.toString() + " Height: " + _height;
 	}
 
 	@Override

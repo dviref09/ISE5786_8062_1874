@@ -36,9 +36,9 @@ public class Triangle extends Polygon {
 
 	@Override
 	public String toString() {
-		return "Triangle:\n\t" + "Vertex 1: " + _vertices.get(0) +
-				"\n\t" + "Vertex 2: " + _vertices.get(1) +
-				"\n\t" + "Vertex 3: " + _vertices.get(2);
+		return "Triangle: Vertex 1: " + _vertices.get(0) +
+				" Vertex 2: " + _vertices.get(1) +
+				" Vertex 3: " + _vertices.get(2);
 	}
 
 	@Override

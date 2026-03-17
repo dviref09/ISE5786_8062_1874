@@ -26,7 +26,7 @@ public class Vector extends Point {
 	 */
 	public Vector(double x, double y, double z) {
 		super(x, y, z);
-		if (_coordinates.equals(Double3.ZERO)) {
+		if (_xyz.equals(Double3.ZERO)) {
 			throw new IllegalArgumentException("Zero vector is not allowed");
 		}
 	}
@@ -37,7 +37,7 @@ public class Vector extends Point {
 	 */
 	public Vector(Double3 coordinates) {
 		super(coordinates);
-		if (_coordinates.equals(Double3.ZERO)) {
+		if (_xyz.equals(Double3.ZERO)) {
 			throw new IllegalArgumentException("Zero vector is not allowed");
 		}
 	}
@@ -54,7 +54,7 @@ public class Vector extends Point {
 	 * @throws IllegalArgumentException When the result is the zero vector.
 	 */
 	public Vector add(Vector other) {
-		return new Vector(_coordinates.add(other._coordinates));
+		return new Vector(_xyz.add(other._xyz));
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Vector extends Point {
 	 * @throws IllegalArgumentException When the factor is zero.
 	 */
 	public Vector scale(double factor) {
-		return new Vector(_coordinates.scale(factor));
+		return new Vector(_xyz.scale(factor));
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class Vector extends Point {
 	 * @return The dot product of the two vectors.
 	 */
 	public double dotProduct(Vector other) {
-		return _coordinates._d1() * other._coordinates._d1() + _coordinates._d2() * other._coordinates._d2()
-				+ _coordinates._d3() * other._coordinates._d3();
+		return _xyz._d1() * other._xyz._d1() + _xyz._d2() * other._xyz._d2()
+				+ _xyz._d3() * other._xyz._d3();
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class Vector extends Point {
 	 * @throws IllegalArgumentException When the two vectors are parallel.
 	 */
 	public Vector crossProduct(Vector other) {
-		double otherX = other._coordinates._d1(), otherY = other._coordinates._d2(), otherZ = other._coordinates._d3();
-		double thisX = _coordinates._d1(), thisY = _coordinates._d2(), thisZ = _coordinates._d3();
+		double otherX = other._xyz._d1(), otherY = other._xyz._d2(), otherZ = other._xyz._d3();
+		double thisX = _xyz._d1(), thisY = _xyz._d2(), thisZ = _xyz._d3();
 		double resultX = thisY * otherZ - thisZ * otherY;
 		double resultY = thisZ * otherX - thisX * otherZ;
 		double resultZ = thisX * otherY - thisY * otherX;
@@ -120,4 +120,9 @@ public class Vector extends Point {
 	 * We didn't implement hashCode, toString and equals methods, because their implementation is the same as the super
 	 * class, so we didn't want to needlessly repeat ourselves
 	 */
+
+	@Override
+	public String toString() {
+		return "Vector: " + _xyz;
+	}
 }
