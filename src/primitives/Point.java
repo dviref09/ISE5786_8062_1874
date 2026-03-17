@@ -8,7 +8,7 @@ public class Point {
 	/**
 	 * The coordinates of the point.
 	 */
-	protected final Double3 _coordinates;
+	protected final Double3 _xyz;
 
 	/**
 	 * A constant representing the axis origin.
@@ -22,7 +22,7 @@ public class Point {
 	 * @param z the z coordinate of the point.
 	 */
 	public Point(double x, double y, double z) {
-		_coordinates = new Double3(x, y, z);
+		_xyz = new Double3(x, y, z);
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Point {
 	 * @param coordinates The coordinates of the point.
 	 */
 	public Point(Double3 coordinates) {
-		_coordinates = coordinates;
+		_xyz = coordinates;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class Point {
 	 * @throws IllegalArgumentException When the two points are equal.
 	 */
 	public Vector subtract(Point other) {
-		return new Vector(this._coordinates.subtract(other._coordinates));
+		return new Vector(this._xyz.subtract(other._xyz));
 	}
 
 	/*
@@ -55,7 +55,7 @@ public class Point {
 	 * @return A new point after adding the vector to this point.
 	 */
 	public Point add(Vector vector) {
-		return new Point(_coordinates.add(vector._coordinates));
+		return new Point(_xyz.add(vector._xyz));
 	}
 
 	/**
@@ -64,9 +64,9 @@ public class Point {
 	 * @return The squared distance between the two points.
 	 */
 	public double distanceSquared(Point other) {
-		double distanceX = this._coordinates._d1() - other._coordinates._d1();
-		double distanceY = this._coordinates._d2() - other._coordinates._d2();
-		double distanceZ = this._coordinates._d3() - other._coordinates._d3();
+		double distanceX = this._xyz._d1() - other._xyz._d1();
+		double distanceY = this._xyz._d2() - other._xyz._d2();
+		double distanceZ = this._xyz._d3() - other._xyz._d3();
 		return distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ;
 	}
 
@@ -85,16 +85,16 @@ public class Point {
 			return true;
 		if (other == null || getClass() != other.getClass())
 			return false;
-		return _coordinates.equals(((Point) other)._coordinates);
+		return _xyz.equals(((Point) other)._xyz);
 	}
 
 	@Override
 	public String toString() {
-		return _coordinates.toString();
+		return "Point: " + _xyz;
 	}
 
 	@Override
 	public int hashCode() {
-		return _coordinates.hashCode();
+		return _xyz.hashCode();
 	}
 }

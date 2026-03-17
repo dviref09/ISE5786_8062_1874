@@ -49,7 +49,7 @@ public class Plane extends Geometry {
 
 	@Override
 	public boolean equals(Object obj) {
-		return super.equals(obj) && _point.equals((Plane) obj._point) && _normal.equals(((Plane) obj)._normal);
+		return super.equals(obj) && _point.equals(((Plane) obj)._point) && _normal.equals(((Plane) obj)._normal);
 	}
 
 	@Override
