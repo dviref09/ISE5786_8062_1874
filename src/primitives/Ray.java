@@ -19,8 +19,8 @@ public class Ray {
 
 	/**
 	 * Constructs a new ray with the specified origin and direction.
-	 * @param origin
-	 * @param direction
+	 * @param origin    The origin point of the ray.
+	 * @param direction The direction vector of the ray. It will be normalized.
 	 */
 	public Ray(Point origin, Vector direction) {
 		this._origin = origin;
