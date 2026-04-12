@@ -1,19 +1,13 @@
 package geometries.impl;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
-import geometries.impl.Plane;
-import geometries.impl.Polygon;
 import primitives.Point;
-import primitives.Ray;
 import primitives.Vector;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for class {@link Polygon}. The tests verify:

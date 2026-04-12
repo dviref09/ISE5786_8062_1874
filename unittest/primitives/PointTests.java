@@ -18,12 +18,12 @@ class PointTests {
 	/**
 	 * General point for testing.
 	 */
-	final Point testPoint = new Point(1, 1, 1);
+	private final static Point testPoint = new Point(1, 1, 1);
 
 	/**
 	 * Point used for distance tests.
 	 */
-	Point distancePoint = new Point(3, 3, 2);
+	private final static Point distancePoint = new Point(3, 3, 2);
 
 	/**
 	 * Messages for assertion failures.

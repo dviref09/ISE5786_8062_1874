@@ -19,11 +19,11 @@
 		"doc"
 	],
 	"java.project.sourcePaths": [
-		"src",
-		"unittest"
-	],
+        "src",
+        "unittest"
+    ],
 	"java.project.referencedLibraries": [
-		"lib\\junit-platform-console-standalone-1.13.0-M3.jar"
-	],
+        "..\\lib\\junit-platform-console-standalone-1.13.0-M3.jar"
+    ],
 	"java.project.outputPath": "output"
 }
