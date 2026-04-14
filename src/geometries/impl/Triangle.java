@@ -21,11 +21,6 @@ public class Triangle extends Polygon {
 	}
 
 	@Override
-	public Vector getNormal(Point point) {
-		return null;
-	}
-
-	@Override
 	public boolean equals(Object other) {
 		if (this == other)
 			return true;
