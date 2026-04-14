@@ -123,6 +123,6 @@ public class Vector extends Point {
 
 	@Override
 	public String toString() {
-		return "Vector: " + _xyz;
+		return "->" + super.toString();
 	}
 }

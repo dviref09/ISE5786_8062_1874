@@ -56,7 +56,7 @@ public class Ray {
 
 	@Override
 	public String toString() {
-		return "Ray: " + _origin + _direction;
+		return "Ray:" + _origin + _direction;
 	}
 
 	@Override

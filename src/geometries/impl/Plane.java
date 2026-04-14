@@ -28,8 +28,22 @@ public class Plane extends Geometry {
 	 */
 	public Plane(Point p1, Point p2, Point p3) {
 		this._point = p1;
-		this._normal = null;
-		// To be continued...
+
+		if(p1.equals(p2) || p1.equals(p3) || p2.equals(p3)) {
+			throw new IllegalArgumentException("Two or more points are the same.");
+		}
+
+		Vector v1 = p1.subtract(p2);
+		Vector v2 = p1.subtract(p3);
+
+		try {
+			v1.crossProduct(v2);
+		}
+		catch(IllegalArgumentException e) {
+			throw new IllegalArgumentException("All three points are collinear to each other.");
+		}
+
+		this._normal = v1.crossProduct(v2).normalize();
 	}
 
 	/**
