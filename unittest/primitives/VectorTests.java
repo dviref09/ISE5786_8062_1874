@@ -12,7 +12,7 @@ public class VectorTests {
 	/**
 	 * Delta value for accuracy when comparing double values.
 	 */
-	private static final double DELTA = 1e-6;
+	private final static double DELTA = 1e-6;
 
 	/**
 	 * General vector for testing.
