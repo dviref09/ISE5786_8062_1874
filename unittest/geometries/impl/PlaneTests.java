@@ -31,7 +31,7 @@ public class PlaneTests {
 	private final static String LENGTH_FAILURE_MESSAGE = "The normal should be of length 1.";
 	private final static String DIRECTION_FAILURE_MESSAGE = "The dot product of the normal and a vector made from 2 points in the plane should be 0.";
 	private final static String CONSTRUCTOR_FAILURE_MESSAGE1 = "Constructor should throw an exception when trying to create plane with 2 or more same points.";
-	private final static String CONSTRUCTOR_FAILURE_MESSAGE2 = "Constructor should throw an exception when trying to create plane with 3 points are colinear to each other.";
+	private final static String CONSTRUCTOR_FAILURE_MESSAGE2 = "Constructor should throw an exception when trying to create plane with 3 points are collinear to each other.";
 
 	/**
 	 * Test method for {@link geometries.impl.Plane#getNormal(Point)}
@@ -87,7 +87,7 @@ public class PlaneTests {
 		// BV04: All three points are the same
 		assertThrows(IllegalArgumentException.class, () -> new Plane(point1, point1, point1), CONSTRUCTOR_FAILURE_MESSAGE1);
 
-		// BV05: All three points are colinear
+		// BV05: All three points are collinear
 		assertThrows(IllegalArgumentException.class, () -> new Plane(point1, point4, point5), CONSTRUCTOR_FAILURE_MESSAGE2);
 	}
 }
