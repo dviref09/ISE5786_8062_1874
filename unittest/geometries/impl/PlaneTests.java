@@ -32,12 +32,15 @@ public class PlaneTests {
 		// EP01: Getting a normal for point on the plane
 		Vector result = plane1.getNormal(new Point(0, 2, 1));
 		assertEquals(1, result.length(), DELTA, GETNORMAL_LENGTH_EP_FAILURE_MESSAGE);
-		assertEquals(0, result.dotProduct(orthogonalVector1), DELTA, );
-		assertEquals(0, result.dotProduct(orthogonalVector2), DELTA);
+		assertEquals(0, result.dotProduct(orthogonalVector1), DELTA, GETNORMAL_DIRECTION_EP_FAILURE_MESSAGE);
+		assertEquals(0, result.dotProduct(orthogonalVector2), DELTA, GETNORMAL_DIRECTION_EP_FAILURE_MESSAGE);
 
 		// =============== Boundary Values Tests ==================
 		// BV01: Getting a normal for the point used in the plane constructor
-
+		result = plane1.getNormal(new Point(0, 0, 1));
+		assertEquals(1, result.length(), DELTA, GETNORMAL_LENGTH_EP_FAILURE_MESSAGE);
+		assertEquals(0, result.dotProduct(orthogonalVector1), DELTA, GETNORMAL_DIRECTION_EP_FAILURE_MESSAGE);
+		assertEquals(0, result.dotProduct(orthogonalVector2), DELTA, GETNORMAL_DIRECTION_EP_FAILURE_MESSAGE);
 	}
 
 	/**
