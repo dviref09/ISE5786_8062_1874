@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit test class for {@link primitives.Vector}.
  * @author Dvir Farkash
  */
-public class VectorTests {
+class VectorTests {
 	/**
 	 * Delta value for accuracy when comparing double values.
 	 */

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Unit test class for {@link geometries.impl.Triangle}.
  * @author Dvir Farkash
  */
-public class TriangleTests {
+class TriangleTests {
 	/**
 	 * Delta value for accuracy when comparing double values.
 	 */

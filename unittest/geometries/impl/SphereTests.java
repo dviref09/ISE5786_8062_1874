@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Unit test class for {@link geometries.impl.Sphere}.
  * @author Dvir Farkash
  */
-public class SphereTests {
+class SphereTests {
 	/** Delta value for accuracy when comparing double values. */
 	private final static double DELTA = 1e-6;
 
