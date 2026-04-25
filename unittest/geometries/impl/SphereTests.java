@@ -11,10 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Dvir Farkash
  */
 class SphereTests {
-	/** Delta value for accuracy when comparing double values. */
-	private final static double DELTA = 1e-6;
-
+	/**
+	 * Test data.
+	 */
 	private final static Sphere sphere = new Sphere(new Point(0, 0, 0), 1);
+
+	/**
+	 * Failure messages for the tests.
+	 */
 	private final static String NORMAL_FAILURE_MESSAGE = "Sphere normal is incorrect.";
 
 	/**

@@ -22,8 +22,25 @@
         "src",
         "unittest"
     ],
-	"java.project.referencedLibraries": [
-		"test-lib/**/*.jar"
+	"java.project.referencedLibraries": {
+		"include": [
+			"lib/**/*.jar"
+		]
+	},
+	"java.project.outputPath": "output",
+	"java.test.config": [
+		{
+			"name": "unmanaged-junit5",
+			"workingDirectory": "${workspaceFolder}",
+			"sourcePaths": [
+				"src",
+				"unittest"
+			],
+			"classPaths": [
+				"output",
+				"test-lib/junit-platform-console-standalone-1.13.0-M3.jar"
+			]
+		}
 	],
-	"java.project.outputPath": "output"
+	"java.test.defaultConfig": "unmanaged-junit5"
 }

@@ -18,6 +18,9 @@ class PlaneTests {
 	 */
 	private final static double DELTA = 1e-6;
 
+	/**
+	 * Test data
+	 */
 	private final static Point point1 = new Point(0, 0, 1);
 	private final static Point point2 = new Point(0, 9, 2);
 	private final static Point point3 = new Point(0, 10, 8);
@@ -25,14 +28,12 @@ class PlaneTests {
 	private final static Point point5 = new Point(0, 4, 1);
 	private final static Plane plane1 = new Plane(point1, new Vector(9, 0, 0));
 	private final static Plane plane2 = new Plane(point1, point2, point3);
-	/*
-	 * private final static Plane plane3 = new Plane(point1, point1, new Point(0, 9, 2)); private final static Plane plane4
-	 * = new Plane(point1, point1, point1); private final static Plane plane5 = new Plane(point1, new Point(0, 0, 2), new
-	 * Point(0, 0, 3));
-	 */
 	private final static Vector orthogonalVector1 = point1.subtract(point2);
 	private final static Vector orthogonalVector2 = point1.subtract(point3);
 
+	/**
+	 * Failure messages for the tests
+	 */
 	private final static String LENGTH_FAILURE_MESSAGE = "The normal should be of length 1.";
 	private final static String DIRECTION_FAILURE_MESSAGE = "The dot product of the normal and a vector made from 2 points in the plane should be 0.";
 	private final static String CONSTRUCTOR_FAILURE_MESSAGE1 = "Constructor should throw an exception when trying to create plane with 2 or more same points.";
