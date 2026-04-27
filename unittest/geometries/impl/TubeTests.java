@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Unit test class for {@link geometries.impl.Tube}.
  * @author Dvir Farkash
  */
-public class TubeTests {
+class TubeTests {
     /**
      * Test data
      */
     // Simple tube along the Z axis (from z=1 upwards), radius 1
-    Ray axis = new Ray(new Point(0, 0, 1), new Vector(0, 0, 1));
-    Tube testTube = new Tube(1, axis);
+    private static final Ray axis = new Ray(new Point(0, 0, 1), new Vector(0, 0, 1));
+    private static final Tube testTube = new Tube(1, axis);
 
     /**
      * Failure messages for the tests

@@ -22,11 +22,10 @@
         "src",
         "unittest"
     ],
-	"java.project.referencedLibraries": {
-		"include": [
-			"lib/**/*.jar"
-		]
-	},
+	"java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "z:\\lib\\junit-platform-console-standalone-1.13.0-M3.jar"
+    ],
 	"java.project.outputPath": "output",
 	"java.test.config": [
 		{
