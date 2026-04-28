@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile Java Sources And Tests",
+      "type": "shell",
+      "command": "javac",
+      "args": [
+        "-cp",
+        "test-lib/junit-platform-console-standalone-1.13.0-M3.jar",
+        "-d",
+        "output",
+        "src/primitives/*.java",
+        "src/geometries/api/*.java",
+        "src/geometries/impl/*.java",
+        "unittest/primitives/*.java",
+        "unittest/geometries/impl/*.java"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$javac"
+      ]
+    },
+    {
+      "label": "Run JUnit Tests (Console)",
+      "type": "shell",
+      "command": "java",
+      "args": [
+        "-jar",
+        "test-lib/junit-platform-console-standalone-1.13.0-M3.jar",
+        "--class-path",
+        "output",
+        "--scan-class-path"
+      ],
+      "dependsOn": "Compile Java Sources And Tests",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}
