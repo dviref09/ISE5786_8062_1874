@@ -48,7 +48,7 @@ public class Cylinder extends Tube {
 		}
 		catch (IllegalArgumentException e) {
 			// this means the point is in the center of the bottom face
-			return (_axis.direction().scale(-1));
+			return _axis.direction().scale(-1);
 		}
 	}
 
