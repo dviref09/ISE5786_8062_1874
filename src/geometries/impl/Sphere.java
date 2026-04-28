@@ -2,6 +2,9 @@ package geometries.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.lang.Math;
+
+import static primitives.Util.alignZero;
 
 import primitives.Point;
 import primitives.Ray;
@@ -12,43 +15,72 @@ import primitives.Vector;
  * @author Amichai Feigelson
  */
 public class Sphere extends RadialGeometry {
-	/**
-	 * The center point of the sphere.
-	 */
-	private final Point _center;
+    /**
+     * The center point of the sphere.
+     */
+    private final Point _center;
 
-	/**
-	 * Constructor a sphere from center point and radius.
-	 * @param center The sphere's center point.
-	 * @param radius The sphere's radius.
-	 */
-	public Sphere(Point center, double radius) {
-		super(radius);
-		_center = center;
-	}
+    /**
+     * Constructor a sphere from center point and radius.
+     * @param center The sphere's center point.
+     * @param radius The sphere's radius.
+     */
+    public Sphere(Point center, double radius) {
+        super(radius);
+        _center = center;
+    }
 
-	@Override
-	public Vector getNormal(Point point) {
-		return point.subtract(_center).normalize();
-	}
+    @Override
+    public Vector getNormal(Point point) {
+        return point.subtract(_center).normalize();
+    }
 
-	@Override
-	public List<Point> findIntersections(Ray ray) {
-		return null;
-	}
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        Vector pointToCenter;
+        try {
+            pointToCenter = _center.subtract(ray.origin());
+        } catch (IllegalArgumentException e) {
+            // this happens when the origin point of the ray is in the center of the sphere
+            return List.of(ray.getPoint(_radius));
+        }
 
-	@Override
-	public boolean equals(Object other) {
-		return super.equals(other) && _center.equals(((Sphere) other)._center);
-	}
+        double tm = alignZero(pointToCenter.dotProduct(ray.direction()));
+        double centerToRayDistance = Math.sqrt(pointToCenter.dotProduct(pointToCenter) - tm * tm);
 
-	@Override
-	public String toString() {
-		return "Sphere: Center: " + _center + " " + super.toString();
-	}
+        if (alignZero(centerToRayDistance - _radius) >= 0) {
+            return null;
+        }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), _center);
-	}
+        double th = Math.sqrt(_radius * _radius - centerToRayDistance * centerToRayDistance);
+        double t1 = alignZero(tm - th);
+        double t2 = alignZero(tm + th);
+        if (t1 > 0) {
+            // there's two intersection points
+            return List.of(ray.getPoint(t1), ray.getPoint(t2));
+        }
+        else if (t2 <= 0) {
+            // there's no intersection points
+            return null;
+        }
+        else {
+            // there's one intersection point
+            return List.of(ray.getPoint(t2));
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other) && _center.equals(((Sphere) other)._center);
+    }
+
+    @Override
+    public String toString() {
+        return "Sphere: Center: " + _center + " " + super.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), _center);
+    }
 }

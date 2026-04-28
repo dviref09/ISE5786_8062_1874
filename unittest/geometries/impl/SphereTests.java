@@ -16,11 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  */
 class SphereTests {
 	/**
-	 * Delta value for accuracy when comparing double values.
-	 */
-	private final static double DELTA = 1e-6;
-
-	/**
 	 * Test data.
 	 */
 	private final static Sphere testSphere = new Sphere(new Point(1, 0, 0), 1);
@@ -109,7 +104,7 @@ class SphereTests {
 		// BV05: Ray starts at the center (1 points)
 		testRay = new Ray(new Point(1, 0, 0), new Vector(0, 1, 0));
 		p1 = new Point(1, 1, 0);
-		expectedIntersectionList = List.of(p1, p2);
+		expectedIntersectionList = List.of(p1);
 		assertEquals(expectedIntersectionList, testSphere.findIntersections(testRay), INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE);
 
 		// BV06: Ray starts at sphere and back goes to center (0 points)

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test class for {@link primitives.Vector}.
+ * Unit test class for {@link Vector}.
  * @author Dvir Farkash
  */
 class VectorTests {
@@ -44,7 +44,7 @@ class VectorTests {
 	private final static String NORMALIZATION_OPPOSITE_DIRECTION_FAILURE_MESSAGE = "Normalizing a vector produced a vector in the opposite direction.";
 
 	/**
-	 * Test method for {@link primitives.Vector#Vector(double, double, double)}
+	 * Test method for {@link Vector#Vector(double, double, double)}
 	 */
 	@Test
 	void testConstructorDouble() {
@@ -54,7 +54,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#Vector(Double3)}
+	 * Test method for {@link Vector#Vector(Double3)}
 	 */
 	@Test
 	void testConstructorDouble3() {
@@ -64,7 +64,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#add(Vector)}
+	 * Test method for {@link Vector#add(Vector)}
 	 */
 	@Test
 	void testAdd() {
@@ -80,7 +80,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#subtract(Vector)}
+	 * Test method for {@link Vector#subtract(Vector)}
 	 */
 	@Test
 	void testSubtract() {
@@ -96,7 +96,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#scale(double)}
+	 * Test method for {@link Vector#scale(double)}
 	 */
 	@Test
 	void testScale() {
@@ -112,7 +112,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#dotProduct(Vector)}
+	 * Test method for {@link Vector#dotProduct(Vector)}
 	 */
 	@Test
 	void testDotProduct() {
@@ -135,7 +135,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#crossProduct(Vector)}
+	 * Test method for {@link Vector#crossProduct(Vector)}
 	 */
 	@Test
 	void testCrossProduct() {
@@ -151,7 +151,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#length()}
+	 * Test method for {@link Vector#length()}
 	 */
 	@Test
 	void testLength() {
@@ -163,7 +163,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#lengthSquared()}
+	 * Test method for {@link Vector#lengthSquared()}
 	 */
 	@Test
 	void testLengthSquared() {
@@ -175,7 +175,7 @@ class VectorTests {
 	}
 
 	/**
-	 * Test method for {@link primitives.Vector#normalize()}
+	 * Test method for {@link Vector#normalize()}
 	 */
 	@Test
 	void testNormalize() {

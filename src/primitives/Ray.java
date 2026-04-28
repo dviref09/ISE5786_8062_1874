@@ -45,6 +45,20 @@ public class Ray {
 		return _direction;
 	}
 
+	/**
+	 * Function for calculating the formula p0 + t*v for points on the ray
+	 * @param t The t parameter in the formula
+	 * @return The result point of the formula
+	 */
+	public Point getPoint(double t) {
+		try {
+			return _origin.add(_direction.scale(t));
+		}
+		catch (IllegalArgumentException e) {
+			return _origin;
+		}
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (this == other)
