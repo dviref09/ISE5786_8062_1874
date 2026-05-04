@@ -46,7 +46,7 @@ public class Sphere extends RadialGeometry {
         }
 
         double tm = alignZero(pointToCenter.dotProduct(ray.direction()));
-        double centerToRayDistance = Math.sqrt(pointToCenter.dotProduct(pointToCenter) - tm * tm);
+        double centerToRayDistance = Math.sqrt(pointToCenter.lengthSquared() - tm * tm);
 
         if (alignZero(centerToRayDistance - _radius) >= 0) {
             return null;

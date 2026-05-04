@@ -52,7 +52,6 @@ class SphereTests {
 	@Test
 	void testFindIntersections() {
 		// ============ Equivalence Partitions Tests =============
-
 		// EP01: Ray's line is outside the sphere (0 points)
 		Ray testRay = new Ray(new Point(-1, 0, 0), new Vector(1, 1, 0));
 		assertNull(testSphere.findIntersections(testRay), INTERSECTION_LINE_OUTSIDE_FAILURE_MESSAGE);
@@ -75,16 +74,15 @@ class SphereTests {
 		assertNull(testSphere.findIntersections(testRay), INTERSECTION_START_AFTER_FAILURE_MESSAGE);
 
 		// =============== Boundary Values Tests ==================
-
 		// **** Group: Ray's line starts on the sphere's surface
 		// BV01: Ray starts at sphere and goes inside (1 points)
-		testRay = new Ray(new Point(0, 0, 0), new Vector(1, 1, 0));
-		p1 = new Point(1, 1, 0);
+		testRay = new Ray(new Point(2, 0, 0), new Vector(-1, -1, 0));
+		p1 = new Point(1, -1, 0);
 		expectedIntersectionList = List.of(p1);
 		assertEquals(expectedIntersectionList, testSphere.findIntersections(testRay), INTERSECTION_START_ON_SURFACE_FAILURE_MESSAGE);
 
 		// BV02: Ray starts at sphere and goes outside (0 points)
-		testRay = new Ray(new Point(0, 0, 0), new Vector(-1, -1, 0));
+		testRay = new Ray(new Point(2, 0, 0), new Vector(1, 1, 0));
 		assertNull(testSphere.findIntersections(testRay), INTERSECTION_START_ON_SURFACE_FAILURE_MESSAGE);
 
 		// **** Group: Ray's line goes through the center
@@ -112,8 +110,8 @@ class SphereTests {
 		assertNull(testSphere.findIntersections(testRay), INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE);
 
 		// BV07: Ray starts inside and back goes to center (1 points)
-		testRay = new Ray(new Point(0.5, 0, 0), new Vector(-1, 0, 0));
-		p1 = new Point(0, 0, 0);
+		testRay = new Ray(new Point(1.5, 0, 0), new Vector(1, 0, 0));
+		p1 = new Point(2, 0, 0);
 		expectedIntersectionList = List.of(p1);
 		assertEquals(expectedIntersectionList, testSphere.findIntersections(testRay), INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE);
 

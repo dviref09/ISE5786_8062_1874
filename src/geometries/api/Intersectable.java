@@ -10,7 +10,7 @@ import primitives.Ray;
 public abstract class Intersectable {
 	/**
 	 * Finds the intersections between a ray and the intersectable body.
-	 * @param ray The ray which were finding it's intersections with the body.
+	 * @param ray The ray which were finding its intersections with the body.
 	 * @return The intersection points.
 	 */
 	public abstract List<Point> findIntersections(Ray ray);
