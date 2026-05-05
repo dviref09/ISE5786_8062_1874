@@ -25,6 +25,7 @@ class PlaneTests {
     /**
      * Test data
      */
+    // this is for constructor and getNormal tests
     private final static Point point1 = new Point(0, 0, 1);
     private final static Point point2 = new Point(0, 9, 2);
     private final static Point point3 = new Point(0, 10, 8);
@@ -34,6 +35,7 @@ class PlaneTests {
     private final static Plane plane2 = new Plane(point1, point2, point3);
     private final static Vector orthogonalVector1 = point1.subtract(point2);
     private final static Vector orthogonalVector2 = point1.subtract(point3);
+
     // this is for findIntersection tests
     private final static Plane testPlane = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
 
@@ -115,7 +117,8 @@ class PlaneTests {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Ray intersects the plane (1 point)
         Ray testRay = new Ray(new Point(0, 0, 2), new Vector(1, 1, -1));
-        List<Point> expectedIntersectionList = List.of(new Point(1, 1, 1));
+        Point intersectionPoint = new Point(1, 1, 1);
+        List<Point> expectedIntersectionList = List.of(intersectionPoint);
         assertEquals(expectedIntersectionList, testPlane.findIntersections(testRay), INTERSECTION_FAILURE_MESSAGE);
 
         // EP02: Ray does not intersect the plane (0 points)
@@ -135,7 +138,8 @@ class PlaneTests {
         // **** Group: Ray is orthogonal to the plane
         // BV03: Ray starts before the plane (1 point)
         testRay = new Ray(new Point(1, 1, 0), new Vector(0, 0, 1));
-        expectedIntersectionList = List.of(new Point(1, 1, 1));
+        intersectionPoint = new Point(1, 1, 1);
+        expectedIntersectionList = List.of(intersectionPoint);
         assertEquals(expectedIntersectionList, testPlane.findIntersections(testRay), INTERSECTION_FAILURE_MESSAGE);
 
         // BV04: Ray starts in the plane (0 points)
@@ -146,12 +150,12 @@ class PlaneTests {
         testRay = new Ray(new Point(1, 1, 2), new Vector(0, 0, 1));
         assertNull(testPlane.findIntersections(testRay), NO_INTERSECTION_FAILURE_MESSAGE);
 
-        // **** Group: Special cases
-        // BV06: Ray is neither orthogonal nor parallel and begins at the plane (0 points)
+        // **** Group: Ray is neither orthogonal nor parallel and starts at the plane
+        // BV06: Ray starts at a general point on the plane (0 points)
         testRay = new Ray(new Point(2, 2, 1), new Vector(1, 1, 1));
         assertNull(testPlane.findIntersections(testRay), START_IN_PLANE_FAILURE_MESSAGE);
 
-        // BV07: Ray begins at the plane's reference point (0 points)
+        // BV07: Ray starts at the plane's reference point (0 points)
         testRay = new Ray(new Point(0, 0, 1), new Vector(1, 1, 1));
         assertNull(testPlane.findIntersections(testRay), START_IN_PLANE_FAILURE_MESSAGE);
     }
