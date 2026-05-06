@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Unit test class for {@link Plane}.
  * @author Amichai Feigelson
  */
-
 class PlaneTests {
     /**
      * Delta value for accuracy when comparing double values.

@@ -7,6 +7,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 /**
  * Class representing a triangle in 3D space.
  * @author Amichai Feigelson
@@ -24,7 +27,69 @@ public class Triangle extends Polygon {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		return null;
+		/*
+		* We are using Möller–Trumbore algorithm
+		Explanation of the algorithm and naming of variables:
+		A, B, C = The vertices of the triangle
+		P = The origin point of the ray
+		D = The direction vector of the ray
+		t = The parameter for the ray equation: P + tD
+		u, v = The barycentric coordinates
+		E1, E2 = Two edges of the triangle (E1 = B - A, E2 = C - A)
+		T = P - A
+		P = D x E2
+		Q = T x E1
+		The formula:
+		[t]      1  [Q•E2]
+		|u| = ------|P•T |
+		[v]    P•E1 [Q•D ]
+		P•E1 is the determinant of the matrix [-D, E1, E2] so i will name it 'det'.
+		If P•E1 is zero then the ray and triangle are parallel so there isn't an intersection.
+		Else, if u > 0 and v > 0 and (u + v) ≤ 1 and t > 0 then there is an intersection.
+		Else there isn't and intersection.
+		 */
+		Vector E1 = _vertices.get(1).subtract(_vertices.get(0));
+		Vector E2 = _vertices.get(2).subtract(_vertices.get(0));
+		Vector P;
+		try {
+			P = ray.direction().crossProduct(E2);
+		}
+		catch (IllegalArgumentException e) {
+			// When the ray direction vector and E2 are parallel or converge, P will be zero vector(in that case there is no intersection)
+			return null;
+		}
+		double det = P.dotProduct(E1);
+
+		if (isZero(det)) {
+			return null;
+		}
+
+		Vector T;
+		try {
+			T = ray.origin().subtract(_vertices.get(0));
+		}
+		catch (IllegalArgumentException e) {
+			// this means the ray started from the first vertex (so there is no intersection)
+			return null;
+		}
+		Vector Q = T.crossProduct(E1);
+
+		double u = alignZero(P.dotProduct(T) / det);
+		if (u <= 0 || u >= 1) {
+			return null;
+		}
+
+		double v = alignZero(Q.dotProduct(ray.direction()) / det);
+		if (v <= 0 || u + v >= 1) {
+			return null;
+		}
+
+		double t = alignZero(Q.dotProduct(E2) / det);
+		if (t <= 0) {
+			return null;
+		}
+
+		return List.of(ray.getPoint(t));
 	}
 
 	@Override
