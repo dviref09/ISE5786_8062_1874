@@ -1,5 +1,7 @@
 package renderer;
 
+import java.util.MissingResourceException;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -73,15 +75,16 @@ public class Camera implements Cloneable {
         private final Camera _camera = new Camera();
 
         /**
+         * Constructor for the builder, sets default values to camera's fields
+         */
+        public Builder() {
+            _camera._vUp = Vector.AXIS_Y;
+            _camera._vTo = null;
+        }
+        /**
          * Helper variable for the setDirection method
          */
         private Point _targetPoint = null;
-
-        /**
-         * More helper variable to help in the building process
-         */
-        private Vector _vToHelper = null;
-        private Vector _vUpHelper = Vector.AXIS_Y;
 
         /**
          * Sets the location of the camera
@@ -102,8 +105,6 @@ public class Camera implements Cloneable {
         public Builder setDirection(Vector to, Vector up) {
             _camera._vTo = to;
             _camera._vUp = up;
-            _vToHelper = to;
-            _vUpHelper = up;
             return this;
         }
 
@@ -116,7 +117,6 @@ public class Camera implements Cloneable {
         public Builder setDirection(Point target, Vector up) {
             _targetPoint = target;
             _camera._vUp = up;
-            _vUpHelper = up;
             return this;
         }
 
@@ -137,8 +137,8 @@ public class Camera implements Cloneable {
          * @return The same builder for chaining
          */
         public Builder setVpSize(double width, double height) {
-            _camera._pixelWidth = width;
-            _camera._pixelHeight = height;
+            _camera._width = width;
+            _camera._height = height;
             return this;
         }
 
@@ -165,9 +165,95 @@ public class Camera implements Cloneable {
         }
 
         /**
+         * Checks that all values are valid and generates the missing data
+         * @return The finished camera object
+         */
+        public Camera build() {
+            checkResolution();
+            checkLocationAndDirection();
+            checkViewPlane();
+
+            try {
+                return (Camera)_camera.clone();
+            } catch (CloneNotSupportedException e) {
+                return null;
+            }
+        }
+        /**
+         * Checks whether the resolution values are valid or not
+         * @throws IllegalArgumentException if the resolution values are not valid
+         */
+        private void checkResolution() {
+            if (_camera._nX < 1 || _camera._nY < 1) {
+                throw new IllegalArgumentException("Resolution in either axes should be greater than 0.");
+            }
+        }
+
+        /**
+         * Checks if there is enough data about the camera position
+         * Enough data is:
+         * Mandatory: camera's position and at least one of below:
+         * 1) Target point
+         * 2) vTo
+         * After that calculates the remaining data using {@link Builder#calcVectors()}
+         * @throws MissingResourceException If the camera's position is missing or both target point an vTo are missing
+         * @throws IllegalArgumentException If the target point is in the camera's position and we don't have vTo already
+         */
+        private void checkLocationAndDirection() {
+            if (_camera._p0 == null) {
+                throw new MissingResourceException("The camera must have a location", "Builder", "_po");
+            }
+            if (_targetPoint == null && _camera._vTo == null) {
+                throw new MissingResourceException("The camera must have vTo vector or target point", "Builder", "_vTo or _targetPoint");
+            }
+
+            if (_camera._vTo == null) {
+                try {
+                    _camera._vTo = _targetPoint.subtract(_camera._p0);
+                }
+                catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException("The camera's target point can't be in the camera's position");
+                }
+            }
+            calcVectors();
+        }
+
+        /**
+         * Checks if the view plane data is valid
+         * And then calculates the center point of the view plane and the pixel dimensions using {@link Builder#calcViewPlane()}
+         */
+        private void checkViewPlane() {
+            if (_camera._width <= 0 || _camera._height <= 0 || _camera._distance <= 0) {
+                throw new IllegalArgumentException("The camera's view plane dimensions must be greater than 0.");
+            }
+            calcViewPlane();
+        }
+
+        /**
          * Calculates the vUp, vRight vectors.
          * All of the vectors will be normalized
+         * @throws IllegalArgumentException If the vTo and vUp are parallel
          */
-        private void calcVector() {} // TODO: implementing the method
+        private void calcVectors() {
+            _camera._vTo = _camera._vTo.normalize();
+            try {
+                _camera._vRight = _camera._vTo.crossProduct(_camera._vUp).normalize();
+            }
+            catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("vTo and vUp can't be parallel.");
+            }
+
+            _camera._vUp = _camera._vRight.crossProduct(_camera._vTo).normalize();
+        }
+
+        /**
+         * Calculates the missing data of the view plane:
+         * The center point and the pixel dimensions
+         */
+        private void calcViewPlane() {
+            _camera._vpCenter = _camera._vTo.scale(_camera._distance);
+            _camera._pixelWidth = _camera._width / _camera._nX;
+            _camera._pixelHeight = _camera._height / _camera._nY;
+        }
     }
 }
