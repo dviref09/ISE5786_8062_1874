@@ -52,7 +52,7 @@ public class Sphere extends RadialGeometry {
             return null;
         }
 
-        double th = Math.sqrt(_radius * _radius - centerToRayDistance * centerToRayDistance);
+        double th = Math.sqrt(_radiusSquared - centerToRayDistance * centerToRayDistance);
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
         if (t1 > 0) {
