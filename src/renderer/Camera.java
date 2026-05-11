@@ -6,6 +6,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 /**
  * Class for representing the camera in 3D scene
  * @author Dvir Farkash
@@ -62,7 +64,18 @@ public class Camera implements Cloneable {
      * @return A ray through the pixel
      */
     public Ray constructRay(int xIndex, int yIndex) {
-        return null;
+        double xJ = (xIndex - (double) (_nX - 1) / 2) * _pixelWidth;
+        double yI = -(yIndex - (double) (_nY - 1) / 2) * _pixelHeight;
+        Point pIJ = _vpCenter;
+
+        if (!isZero(xJ)) {
+            pIJ = pIJ.add(_vRight.scale(xJ));
+        }
+        if (!isZero(yI)) {
+            pIJ = pIJ.add(_vUp.scale(yI));
+        }
+
+        return new Ray(_p0, pIJ.subtract(_p0));
     }
 
     /**

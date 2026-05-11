@@ -25,6 +25,7 @@ public class Plane extends Geometry {
 
 	/**
 	 * Constructs a plane given three points in space.
+	 * 
 	 * @param p1 The first point defining the plane
 	 * @param p2 The second point defining the plane
 	 * @param p3 The third point defining the plane
