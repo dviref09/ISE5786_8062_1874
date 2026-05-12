@@ -52,8 +52,7 @@ public class GeometriesTests {
         assertEquals(4, testGeometries.findIntersections(testRay).size(), FIND_INTERSECTIONS_FAILURE_MESSAGE);
 
         // BV04: There is no bodies at all
-        testRay = new Ray(rayOrigin, new Vector(1, 1, 1);
+        testRay = new Ray(rayOrigin, new Vector(1, 1, 1));
         assertNull(emptyGeometries.findIntersections(testRay), FIND_INTERSECTIONS_FAILURE_MESSAGE);
-        
     }
 }
