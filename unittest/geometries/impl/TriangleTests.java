@@ -73,6 +73,9 @@ class TriangleTests {
         List<Point> expectedIntersectionList = List.of(intersectionPoint);
         assertEquals(expectedIntersectionList, testTriangleIntersection.findIntersections(testRay), INTERSECTION_FAILURE_MESSAGE);
 
+        testRay = new Ray(new Point(-1,0,1), new Vector(1,1,1));
+        assertNull(testTriangleIntersection.findIntersections(testRay));
+
         // EP02: Outside against an edge (0 points)
         testRay = new Ray(new Point(0.5, 0.5, 0), new Vector(1, 1, 1));
         assertNull(testTriangleIntersection.findIntersections(testRay), INTERSECTION_OUTSIDE_FAILURE_MESSAGE);
