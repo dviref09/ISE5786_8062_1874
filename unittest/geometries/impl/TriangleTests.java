@@ -155,5 +155,8 @@ class TriangleTests {
         // BV15: Point on edge continuation (0 points)
         testRay = new Ray(new Point(3, 0, 0), new Vector(0, 0, 1));
         assertNull(testTriangleIntersection.findIntersections(testRay), INTERSECTION_OUTSIDE_FAILURE_MESSAGE);
+
+        testRay = new Ray(new Point(-1, 0, 1), new Vector(1,1,1));
+        assertNull(testTriangleIntersection.findIntersections(testRay));
     }
 }

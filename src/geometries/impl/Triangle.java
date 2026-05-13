@@ -45,7 +45,7 @@ public class Triangle extends Polygon {
 		[v]    P•E1 [Q•D ]
 		P•E1 is the determinant of the matrix [-D, E1, E2] so i will name it 'det'.
 		If P•E1 is zero then the ray and triangle are parallel so there isn't an intersection.
-		Else, if u > 0 and v > 0 and (u + v) ≤ 1 and t > 0 then there is an intersection.
+		Else, if u > 0 and v > 0 and (u + v) < 1 and t > 0 then there is an intersection.
 		Else there isn't and intersection.
 		 */
 		Vector E1 = _vertices.get(1).subtract(_vertices.get(0));
@@ -72,10 +72,17 @@ public class Triangle extends Polygon {
 			// this means the ray started from the first vertex (so there is no intersection)
 			return null;
 		}
-		Vector Q = T.crossProduct(E1);
+
+		Vector Q;
+		try {
+			Q = T.crossProduct(E1);
+		}
+		catch (IllegalArgumentException e) {
+			return null;
+		}
 
 		double u = alignZero(P.dotProduct(T) / det);
-		if (u <= 0 || u >= 1) {
+		if (u <= 0 || u >= 1) { 
 			return null;
 		}
 
