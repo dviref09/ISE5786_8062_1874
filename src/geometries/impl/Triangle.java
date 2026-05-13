@@ -50,26 +50,25 @@ public class Triangle extends Polygon {
 		 */
 		Vector E1 = _vertices.get(1).subtract(_vertices.get(0));
 		Vector E2 = _vertices.get(2).subtract(_vertices.get(0));
+		Vector normal = getNormal(_vertices.get(0));
 		Vector P;
-		try {
-			P = ray.direction().crossProduct(E2);
-		}
-		catch (IllegalArgumentException e) {
-			// When the ray direction vector and E2 are parallel or converge, P will be zero vector(in that case there is no intersection)
+		if (isZero(ray.direction().dotProduct(normal))) {
+			// this means the ray is parallel to the triangle
 			return null;
 		}
+		P = ray.direction().crossProduct(E2);
 		double det = P.dotProduct(E1);
 
 		if (isZero(det)) {
 			return null;
 		}
 
-		Vector T;
-		try {
-			T = ray.origin().subtract(_vertices.get(0));
+		if (_vertices.get(0).equals(ray.origin())) {
+			return null;
 		}
-		catch (IllegalArgumentException e) {
-			// this means the ray started from the first vertex (so there is no intersection)
+		Vector T = ray.origin().subtract(_vertices.get(0));
+
+		if (isZero(T.dotProduct(normal))) {
 			return null;
 		}
 
@@ -80,6 +79,7 @@ public class Triangle extends Polygon {
 		catch (IllegalArgumentException e) {
 			return null;
 		}
+
 
 		double u = alignZero(P.dotProduct(T) / det);
 		if (u <= 0 || u >= 1) { 

@@ -20,6 +20,7 @@ public class GeometriesTests {
     Triangle testTriangle = new Triangle(new Point(-1, -1, 0), new Point(-1, 1, 0), new Point(-1, 0, 2));
     Plane testPlane = new Plane(new Point(-2, 0, 0), new Vector(1, 0, 0));
     Geometries testGeometries = new Geometries(testSphere, testTriangle, testPlane);
+    Geometries emptyGeometries = new Geometries();
     Point rayOrigin = new Point(-3, 0, 1.5);
 
     /**
@@ -49,5 +50,9 @@ public class GeometriesTests {
         // BV03: All geometric bodies get intersected
         testRay = new Ray(rayOrigin, new Vector(4, 0, -1));
         assertEquals(4, testGeometries.findIntersections(testRay).size(), FIND_INTERSECTIONS_FAILURE_MESSAGE);
+
+        // BV04: There is no bodies at all
+        testRay = new Ray(rayOrigin, new Vector(1, 1, 1));
+        assertNull(emptyGeometries.findIntersections(testRay), FIND_INTERSECTIONS_FAILURE_MESSAGE);
     }
 }

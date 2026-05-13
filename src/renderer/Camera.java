@@ -221,12 +221,10 @@ public class Camera implements Cloneable {
             }
 
             if (_camera._vTo == null) {
-                try {
-                    _camera._vTo = _targetPoint.subtract(_camera._p0);
-                }
-                catch (IllegalArgumentException e) {
+                if (_targetPoint.equals(_camera._p0)) {
                     throw new IllegalArgumentException("The camera's target point can't be in the camera's position");
                 }
+                _camera._vTo = _targetPoint.subtract(_camera._p0);
             }
             calcVectors();
         }
