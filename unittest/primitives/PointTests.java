@@ -18,23 +18,23 @@ class PointTests {
 	/**
 	 * General point for testing.
 	 */
-	private final static Point testPoint = new Point(1, 1, 1);
+	private static final Point testPoint = new Point(1, 1, 1);
 
 	/**
 	 * Point used for distance tests.
 	 */
-	private final static Point distancePoint = new Point(3, 3, 2);
+	private static final Point distancePoint = new Point(3, 3, 2);
 
 	/**
 	 * Messages for assertion failures.
 	 */
-	final static String ADDITION_FAILURE_MESSAGE = "Adding a vector to a point did not return the expected new point.";
-	final static String SUBTRACTION_EP_FAILURE_MESSAGE = "Subtracting a point from another point did not return the expected vector.";
-	final static String SUBTRACTION_BV_FAILURE_MESSAGE = "Subtracting a point from itself did not throw the expected exception.";
-	final static String DISTANCE_SQUARED_EP_FAILURE_MESSAGE = "Distance squared between two different points did not return the expected value.";
-	final static String DISTANCE_SQUARED_BV_FAILURE_MESSAGE = "Distance squared between a point and itself did not return 0.";
-	final static String DISTANCE_EP_FAILURE_MESSAGE = "Distance between two different points did not return the expected value.";
-	final static String DISTANCE_BV_FAILURE_MESSAGE = "Distance between a point and itself did not return 0.";
+	static final String ADDITION_FAILURE_MESSAGE = "Adding a vector to a point did not return the expected new point.";
+	static final String SUBTRACTION_EP_FAILURE_MESSAGE = "Subtracting a point from another point did not return the expected vector.";
+	static final String SUBTRACTION_BV_FAILURE_MESSAGE = "Subtracting a point from itself did not throw the expected exception.";
+	static final String DISTANCE_SQUARED_EP_FAILURE_MESSAGE = "Distance squared between two different points did not return the expected value.";
+	static final String DISTANCE_SQUARED_BV_FAILURE_MESSAGE = "Distance squared between a point and itself did not return 0.";
+	static final String DISTANCE_EP_FAILURE_MESSAGE = "Distance between two different points did not return the expected value.";
+	static final String DISTANCE_BV_FAILURE_MESSAGE = "Distance between a point and itself did not return 0.";
 
 	/**
 	 * Test method for {@link primitives.Point#add(primitives.Vector)}.
@@ -93,12 +93,12 @@ class PointTests {
 		// EP01: Distance between two different points should return the correct value
 		double expectedDistance = 3;
 
-		assertEquals(expectedDistance, testPoint.distance(distancePoint), DELTA, "Distance between two different points did not return the expected value.");
+		assertEquals(expectedDistance, testPoint.distance(distancePoint), DELTA, DISTANCE_EP_FAILURE_MESSAGE);
 
 		// =============== Boundary Values Tests ==================
 		// BV01: Distance between a point and itself should return 0
 		expectedDistance = 0;
 
-		assertEquals(expectedDistance, testPoint.distance(testPoint), DELTA, "Distance between a point and itself did not return 0.");
+		assertEquals(expectedDistance, testPoint.distance(testPoint), DELTA, DISTANCE_BV_FAILURE_MESSAGE);
 	}
 }

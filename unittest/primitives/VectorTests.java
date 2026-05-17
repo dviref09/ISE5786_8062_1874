@@ -12,36 +12,36 @@ class VectorTests {
 	/**
 	 * Delta value for accuracy when comparing double values.
 	 */
-	private final static double DELTA = 1e-6;
+	private static final double DELTA = 1e-6;
 
 	/**
 	 * General vector for testing.
 	 */
-	private final static Vector vector1 = new Vector(1, 2, 3);
-	private final static Vector vector1Opp = new Vector(-1, -2, -3);
-	private final static Vector vector2 = new Vector(7, 8, 7);
-	private final static Vector orthogonalVector1 = new Vector(-2, 1, 0);
+	private static final Vector vector1 = new Vector(1, 2, 3);
+	private static final Vector vector1Opp = new Vector(-1, -2, -3);
+	private static final Vector vector2 = new Vector(7, 8, 7);
+	private static final Vector orthogonalVector1 = new Vector(-2, 1, 0);
 
 	/**
 	 * Messages for assertion failures.
 	 */
-	private final static String CONSTRUCTOR_FAILURE_MESSAGE = "Constructor should throw an exception when trying to create zero vector.";
-	private final static String ADDITION_EP_FAILURE_MESSAGE = "Adding two vectors did not produce the expected result.";
-	private final static String ADDITION_BVA_FAILURE_MESSAGE = "Adding the opposite vector should throw an exception";
-	private final static String SUBTRACTION_EP_FAILURE_MESSAGE = "Subtracting two vectors did not produce the expected result.";
-	private final static String SUBTRACTION_BVA_FAILURE_MESSAGE = "Subtracting a vector from itself should throw an exception.";
-	private final static String SCALING_EP_FAILURE_MESSAGE = "Scaling a vector by a scalar did not produce the expected result.";
-	private final static String SCALING_BVA_FAILURE_MESSAGE = "Scaling a vector by zero should throw an exception.";
-	private final static String DOT_PRODUCT_EP_FAILURE_MESSAGE = "Dot product of two vectors did not produce the expected result.";
-	private final static String DOT_PRODUCT_BVA1_FAILURE_MESSAGE = "Dot product of orthogonal vectors should be zero.";
-	private final static String DOT_PRODUCT_BVA2_FAILURE_MESSAGE = "Dot product of a vector with itself should return the square of its length.";
-	private final static String CROSS_PRODUCT_EP_FAILURE_MESSAGE = "Cross product of two vectors did not produce the expected result.";
-	private final static String CROSS_PRODUCT_BVA_FAILURE_MESSAGE = "Cross product of parallel vectors should throw an exception.";
-	private final static String LENGTH_FAILURE_MESSAGE = "Length of the vector did not produce the expected result.";
-	private final static String LENGTH_SQUARED_FAILURE_MESSAGE = "Length squared of the vector did not produce the expected result.";
-	private final static String NORMALIZATION_LENGTH_FAILURE_MESSAGE = "Normalizing a vector did not produce a vector with length 1.";
-	private final static String NORMALIZATION_DIRECTION_FAILURE_MESSAGE = "Normalizing a vector did not produce a vector in the same direction.";
-	private final static String NORMALIZATION_OPPOSITE_DIRECTION_FAILURE_MESSAGE = "Normalizing a vector produced a vector in the opposite direction.";
+	private static final String CONSTRUCTOR_FAILURE_MESSAGE = "Constructor should throw an exception when trying to create zero vector.";
+	private static final String ADDITION_EP_FAILURE_MESSAGE = "Adding two vectors did not produce the expected result.";
+	private static final String ADDITION_BVA_FAILURE_MESSAGE = "Adding the opposite vector should throw an exception";
+	private static final String SUBTRACTION_EP_FAILURE_MESSAGE = "Subtracting two vectors did not produce the expected result.";
+	private static final String SUBTRACTION_BVA_FAILURE_MESSAGE = "Subtracting a vector from itself should throw an exception.";
+	private static final String SCALING_EP_FAILURE_MESSAGE = "Scaling a vector by a scalar did not produce the expected result.";
+	private static final String SCALING_BVA_FAILURE_MESSAGE = "Scaling a vector by zero should throw an exception.";
+	private static final String DOT_PRODUCT_EP_FAILURE_MESSAGE = "Dot product of two vectors did not produce the expected result.";
+	private static final String DOT_PRODUCT_BVA1_FAILURE_MESSAGE = "Dot product of orthogonal vectors should be zero.";
+	private static final String DOT_PRODUCT_BVA2_FAILURE_MESSAGE = "Dot product of a vector with itself should return the square of its length.";
+	private static final String CROSS_PRODUCT_EP_FAILURE_MESSAGE = "Cross product of two vectors did not produce the expected result.";
+	private static final String CROSS_PRODUCT_BVA_FAILURE_MESSAGE = "Cross product of parallel vectors should throw an exception.";
+	private static final String LENGTH_FAILURE_MESSAGE = "Length of the vector did not produce the expected result.";
+	private static final String LENGTH_SQUARED_FAILURE_MESSAGE = "Length squared of the vector did not produce the expected result.";
+	private static final String NORMALIZATION_LENGTH_FAILURE_MESSAGE = "Normalizing a vector did not produce a vector with length 1.";
+	private static final String NORMALIZATION_DIRECTION_FAILURE_MESSAGE = "Normalizing a vector did not produce a vector in the same direction.";
+	private static final String NORMALIZATION_OPPOSITE_DIRECTION_FAILURE_MESSAGE = "Normalizing a vector produced a vector in the opposite direction.";
 
 	/**
 	 * Test method for {@link Vector#Vector(double, double, double)}

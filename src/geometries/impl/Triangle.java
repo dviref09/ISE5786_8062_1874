@@ -14,7 +14,7 @@ import static primitives.Util.isZero;
  * Class representing a triangle in 3D space.
  * @author Amichai Feigelson
  */
-public class Triangle extends Polygon {
+public final class Triangle extends Polygon {
 	/**
 	 * Constructs a triangle given three vertices.
 	 * @param p1 The first vertex of the triangle.

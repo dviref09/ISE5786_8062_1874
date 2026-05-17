@@ -39,7 +39,7 @@ public class Point {
 	 * @return The result vector.
 	 * @throws IllegalArgumentException When the two points are equal.
 	 */
-	public Vector subtract(Point other) {
+	public final Vector subtract(Point other) {
 		return new Vector(this._xyz.subtract(other._xyz));
 	}
 
@@ -63,7 +63,7 @@ public class Point {
 	 * @param other The other point.
 	 * @return The squared distance between the two points.
 	 */
-	public double distanceSquared(Point other) {
+	public final double distanceSquared(Point other) {
 		double distanceX = this._xyz._d1() - other._xyz._d1();
 		double distanceY = this._xyz._d2() - other._xyz._d2();
 		double distanceZ = this._xyz._d3() - other._xyz._d3();
@@ -75,7 +75,7 @@ public class Point {
 	 * @param other The other point.
 	 * @return The distance between the two points.
 	 */
-	public double distance(Point other) {
+	public final double distance(Point other) {
 		return Math.sqrt(distanceSquared(other));
 	}
 

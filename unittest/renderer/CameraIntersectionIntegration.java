@@ -18,16 +18,16 @@ class CameraIntersectionIntegration {
 	/**
 	 * Camera data
 	 */
-	private final static Point LOCATION = Point.ZERO;
-	private final static Vector V_TO = new Vector(-1, 0, 0);
-	private final static Vector V_UP = new Vector(0, 0, 1);
-	private final static double DISTANCE = 1d;
-	private final static double WIDTH = 3d;
-	private final static double HEIGHT = 3d;
-	private final static int NX = 3;
-	private final static int NY = 3;
+	private static final Point LOCATION = Point.ZERO;
+	private static final Vector V_TO = new Vector(-1, 0, 0);
+	private static final Vector V_UP = new Vector(0, 0, 1);
+	private static final double DISTANCE = 1d;
+	private static final double WIDTH = 3d;
+	private static final double HEIGHT = 3d;
+	private static final int NX = 3;
+	private static final int NY = 3;
 
-	private final static Camera testCamera= Camera.getBuilder()
+	private static final Camera testCamera= Camera.getBuilder()
 			.setLocation(LOCATION)
 			.setDirection(V_TO, V_UP)
 			.setVpDistance(DISTANCE)

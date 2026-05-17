@@ -1,12 +1,13 @@
 package primitives;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
  * A class representing a ray in 3D space, which is a straight line starting at a point.
  * @author Amichai Feigelson
  */
-public class Ray {
+public final class Ray {
 	/**
 	 * The origin point of the ray.
 	 */
@@ -44,9 +45,10 @@ public class Ray {
 	public Vector direction() {
 		return _direction;
 	}
+	// end of getters
 
 	/**
-	 * Function for calculating the formula p0 + t*v for points on the ray
+	 * Method for calculating the formula p0 + t*v for points on the ray
 	 * @param t The t parameter in the formula
 	 * @return The result point of the formula
 	 */
@@ -57,6 +59,29 @@ public class Ray {
 		catch (IllegalArgumentException e) {
 			return _origin;
 		}
+	}
+
+	/**
+	 * Method for calculating the closest point to the start of the ray from a list of points on the ray
+	 * @param points The list of points on the ray
+	 * @return the closest point to the start of the ray
+	 */
+    public Point findClosestPoint(List<Point> points) {
+		if (points == null) {
+			return null;
+		}
+
+		double MinimumDistanceSquared = Double.POSITIVE_INFINITY;
+		Point closestPoint = null;
+
+		for (Point point : points) {
+			double currentDistanceSquared = point.distanceSquared(_origin);
+			if (currentDistanceSquared < MinimumDistanceSquared) {
+				MinimumDistanceSquared = currentDistanceSquared;
+				closestPoint = point;
+			}
+		}
+		return closestPoint;
 	}
 
 	@Override

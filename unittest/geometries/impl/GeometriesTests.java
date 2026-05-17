@@ -26,7 +26,7 @@ public class GeometriesTests {
     /**
      * Failure messages for the tests
      */
-    private final static String FIND_INTERSECTIONS_FAILURE_MESSAGE = "The number of intersection points is incorrect";
+    private static final String FIND_INTERSECTIONS_FAILURE_MESSAGE = "The number of intersection points is incorrect";
 
     /**
      * Test method for {@link Geometries#findIntersections(Ray)}

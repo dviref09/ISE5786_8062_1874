@@ -4,7 +4,7 @@ package primitives;
  * A class for representing a vector in 3D space.
  * @author Dvir Farkash
  */
-public class Vector extends Point {
+public final class Vector extends Point {
 	/**
 	 * The unit vector for x axis
 	 */

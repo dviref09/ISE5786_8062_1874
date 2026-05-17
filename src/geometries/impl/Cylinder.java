@@ -12,7 +12,7 @@ import static primitives.Util.isZero;
 /**
  * Class representing a cylinder in 3D space.
  */
-public class Cylinder extends Tube {
+public final class Cylinder extends Tube {
 	/**
 	 * The height (or length) of the cylinder.
 	 */

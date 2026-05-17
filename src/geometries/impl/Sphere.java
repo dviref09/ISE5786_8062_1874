@@ -14,7 +14,7 @@ import primitives.Vector;
  * Class representing a shphere in 3D space.
  * @author Amichai Feigelson
  */
-public class Sphere extends RadialGeometry {
+public final class Sphere extends RadialGeometry {
     /**
      * The center point of the sphere.
      */
@@ -37,13 +37,11 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        Vector pointToCenter;
-        try {
-            pointToCenter = _center.subtract(ray.origin());
-        } catch (IllegalArgumentException e) {
-            // this happens when the origin point of the ray is in the center of the sphere
-            return List.of(ray.getPoint(_radius));
+        if (_center.equals(ray.origin())) {
+            return null;
         }
+
+        Vector pointToCenter = _center.subtract(ray.origin());
 
         double tm = alignZero(pointToCenter.dotProduct(ray.direction()));
         double centerToRayDistance = Math.sqrt(pointToCenter.lengthSquared() - tm * tm);

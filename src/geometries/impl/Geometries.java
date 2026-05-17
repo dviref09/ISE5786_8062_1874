@@ -11,7 +11,7 @@ import primitives.Ray;
  * Composite class for all geometric bodies
  * @author Dvir Farkash
  */
-public class Geometries extends Intersectable {
+public final class Geometries extends Intersectable {
     /**
      * The list of the geometric bodies
      */

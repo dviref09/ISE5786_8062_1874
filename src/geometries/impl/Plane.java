@@ -13,7 +13,7 @@ import static primitives.Util.alignZero;
  * Class for representing a plane in 3D space, defined by a point and a normal vector.
  * @author Dvir Farkash
  */
-public class Plane extends Geometry {
+public final class Plane extends Geometry {
 	/**
 	 * A point on the plane
 	 */
@@ -67,13 +67,11 @@ public class Plane extends Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		Vector pointToCenter;
-		try {
-			pointToCenter = _point.subtract(ray.origin());
-		}
-		catch (IllegalArgumentException e) {
+		if (_point.equals(ray.origin())) {
 			return null;
 		}
+
+		Vector pointToCenter = _point.subtract(ray.origin());
 
 		double normalTimesDirection = alignZero(_normal.dotProduct(ray.direction()));
 		double normalTimesPointToCenter = alignZero(_normal.dotProduct(pointToCenter));

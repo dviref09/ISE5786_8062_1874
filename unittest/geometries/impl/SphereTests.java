@@ -18,20 +18,20 @@ class SphereTests {
 	/**
 	 * Test data.
 	 */
-	private final static Sphere testSphere = new Sphere(new Point(1, 0, 0), 1);
+	private static final Sphere testSphere = new Sphere(new Point(1, 0, 0), 1);
 
 	/**
 	 * Failure messages for the tests.
 	 */
-	private final static String NORMAL_FAILURE_MESSAGE = "Sphere normal is incorrect.";
-	private final static String INTERSECTION_LINE_OUTSIDE_FAILURE_MESSAGE = "Ray's line out of sphere";
-	private final static String INTERSECTION_START_BEFORE_FAILURE_MESSAGE = "Wrong intersection points for the ray";
-	private final static String INTERSECTION_START_INSIDE_FAILURE_MESSAGE = "Wrong intersection point for the ray";
-	private final static String INTERSECTION_START_AFTER_FAILURE_MESSAGE = "Ray starts after sphere";
-	private final static String INTERSECTION_START_ON_SURFACE_FAILURE_MESSAGE = "Should not count starting point";
-	private final static String INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE = "Wrong intersection points for ray through center";
-	private final static String INTERSECTION_TANGENT_FAILURE_MESSAGE = "Tangent ray should not have intersection points";
-	private final static String INTERSECTION_ORTHOGONAL_FAILURE_MESSAGE = "Wrong intersection point for ray orthogonal to center-starting point vector";
+	private static final String NORMAL_FAILURE_MESSAGE = "Sphere normal is incorrect.";
+	private static final String INTERSECTION_LINE_OUTSIDE_FAILURE_MESSAGE = "Ray's line out of sphere";
+	private static final String INTERSECTION_START_BEFORE_FAILURE_MESSAGE = "Wrong intersection points for the ray";
+	private static final String INTERSECTION_START_INSIDE_FAILURE_MESSAGE = "Wrong intersection point for the ray";
+	private static final String INTERSECTION_START_AFTER_FAILURE_MESSAGE = "Ray starts after sphere";
+	private static final String INTERSECTION_START_ON_SURFACE_FAILURE_MESSAGE = "Should not count starting point";
+	private static final String INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE = "Wrong intersection points for ray through center";
+	private static final String INTERSECTION_TANGENT_FAILURE_MESSAGE = "Tangent ray should not have intersection points";
+	private static final String INTERSECTION_ORTHOGONAL_FAILURE_MESSAGE = "Wrong intersection point for ray orthogonal to center-starting point vector";
 
 
 	/**

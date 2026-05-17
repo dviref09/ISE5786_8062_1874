@@ -19,36 +19,36 @@ class PlaneTests {
     /**
      * Delta value for accuracy when comparing double values.
      */
-    private final static double DELTA = 1e-6;
+    private static final double DELTA = 1e-6;
 
     /**
      * Test data
      */
     // this is for constructor and getNormal tests
-    private final static Point point1 = new Point(0, 0, 1);
-    private final static Point point2 = new Point(0, 9, 2);
-    private final static Point point3 = new Point(0, 10, 8);
-    private final static Point point4 = new Point(0, 2, 1);
-    private final static Point point5 = new Point(0, 4, 1);
-    private final static Plane plane1 = new Plane(point1, new Vector(9, 0, 0));
-    private final static Plane plane2 = new Plane(point1, point2, point3);
-    private final static Vector orthogonalVector1 = point1.subtract(point2);
-    private final static Vector orthogonalVector2 = point1.subtract(point3);
+    private static final Point point1 = new Point(0, 0, 1);
+    private static final Point point2 = new Point(0, 9, 2);
+    private static final Point point3 = new Point(0, 10, 8);
+    private static final Point point4 = new Point(0, 2, 1);
+    private static final Point point5 = new Point(0, 4, 1);
+    private static final Plane plane1 = new Plane(point1, new Vector(9, 0, 0));
+    private static final Plane plane2 = new Plane(point1, point2, point3);
+    private static final Vector orthogonalVector1 = point1.subtract(point2);
+    private static final Vector orthogonalVector2 = point1.subtract(point3);
 
     // this is for findIntersection tests
-    private final static Plane testPlane = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
+    private static final Plane testPlane = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
 
     /**
      * Failure messages for the tests
      */
-    private final static String LENGTH_FAILURE_MESSAGE = "The normal should be of length 1.";
-    private final static String DIRECTION_FAILURE_MESSAGE = "The dot product of the normal and a vector made from 2 points in the plane should be 0.";
-    private final static String CONSTRUCTOR_FAILURE_MESSAGE1 = "Constructor should throw an exception when trying to create plane with 2 or more same points.";
-    private final static String CONSTRUCTOR_FAILURE_MESSAGE2 = "Constructor should throw an exception when trying to create plane with 3 points are collinear to each other.";
-    private final static String INTERSECTION_FAILURE_MESSAGE = "Wrong intersection point with plane";
-    private final static String NO_INTERSECTION_FAILURE_MESSAGE = "Ray should not have intersections with plane";
-    private final static String PARALLEL_RAY_FAILURE_MESSAGE = "Parallel ray should not have intersections";
-    private final static String START_IN_PLANE_FAILURE_MESSAGE = "Ray starting in the plane should not have intersections";
+    private static final String LENGTH_FAILURE_MESSAGE = "The normal should be of length 1.";
+    private static final String DIRECTION_FAILURE_MESSAGE = "The dot product of the normal and a vector made from 2 points in the plane should be 0.";
+    private static final String CONSTRUCTOR_FAILURE_MESSAGE1 = "Constructor should throw an exception when trying to create plane with 2 or more same points.";
+    private static final String CONSTRUCTOR_FAILURE_MESSAGE2 = "Constructor should throw an exception when trying to create plane with 3 points are collinear to each other.";
+    private static final String INTERSECTION_FAILURE_MESSAGE = "Wrong intersection point with plane";
+    private static final String NO_INTERSECTION_FAILURE_MESSAGE = "Ray should not have intersections with plane";
+    private static final String PARALLEL_RAY_FAILURE_MESSAGE = "Parallel ray should not have intersections";
+    private static final String START_IN_PLANE_FAILURE_MESSAGE = "Ray starting in the plane should not have intersections";
 
     /**
      * Test method for {@link Plane#getNormal(Point)}
