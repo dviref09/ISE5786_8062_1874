@@ -7,8 +7,7 @@ import primitives.Ray;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test class for {@link geometries.impl.Sphere}.
@@ -32,7 +31,7 @@ class SphereTests {
 	private static final String INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE = "Wrong intersection points for ray through center";
 	private static final String INTERSECTION_TANGENT_FAILURE_MESSAGE = "Tangent ray should not have intersection points";
 	private static final String INTERSECTION_ORTHOGONAL_FAILURE_MESSAGE = "Wrong intersection point for ray orthogonal to center-starting point vector";
-
+	private static final String CALC_INTERSECTIONS_FAILURE = "The geometry in the intersection wasn't the body that was intersected";
 
 	/**
 	 * Test method for {@link geometries.impl.Sphere#getNormal(Point)}.
@@ -142,5 +141,17 @@ class SphereTests {
 		// BV11: Ray starts after the tangent point (0 points)
 		testRay = new Ray(new Point(3, 0, 0), new Vector(0, 1, 0));
 		assertNull(testSphere.findIntersections(testRay), INTERSECTION_ORTHOGONAL_FAILURE_MESSAGE);
+	}
+
+	/**
+	 * Test method for {@link Sphere#calcIntersections(Ray)}
+	 */
+	@Test
+	void testCalcIntersections() {
+		// ============ Equivalence Partitions Tests =============
+		// EP01: Basic test
+		Ray testRay = new Ray(new Point(-1, 0, 0), new Vector(3, 1, 0));
+		assertSame(testSphere, testSphere.calcIntersections(testRay).get(0).geometry, CALC_INTERSECTIONS_FAILURE);
+		assertSame(testSphere, testSphere.calcIntersections(testRay).get(1).geometry, CALC_INTERSECTIONS_FAILURE);
 	}
 }

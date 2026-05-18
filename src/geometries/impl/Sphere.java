@@ -36,9 +36,9 @@ public final class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
         if (_center.equals(ray.origin())) {
-            return null;
+            return List.of(new Intersection(this, ray.getPoint(_radius)));
         }
 
         Vector pointToCenter = _center.subtract(ray.origin());
@@ -55,7 +55,7 @@ public final class Sphere extends RadialGeometry {
         double t2 = alignZero(tm + th);
         if (t1 > 0) {
             // there's two intersection points
-            return List.of(ray.getPoint(t1), ray.getPoint(t2));
+            return List.of(new Intersection(this, ray.getPoint(t1)), new Intersection(this, ray.getPoint(t2)));
         }
         else if (t2 <= 0) {
             // there's no intersection points
@@ -63,7 +63,7 @@ public final class Sphere extends RadialGeometry {
         }
         else {
             // there's one intersection point
-            return List.of(ray.getPoint(t2));
+            return List.of(new Intersection(this, ray.getPoint(t2)));
         }
     }
 

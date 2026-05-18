@@ -1,9 +1,14 @@
 package primitives;
 
+import geometries.api.Intersectable;
+import geometries.impl.Plane;
+import geometries.impl.Sphere;
+import geometries.impl.Triangle;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static geometries.api.Intersectable.Intersection;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,11 +25,22 @@ class RayTests {
     Ray testRay = new Ray(testOrigin, testDirection);
 
     /**
-     * Point on the ray for findClosestPoint test
+     * Points on the ray for findClosestPoint test
      */
     Point point1 = new Point(0,0,2);
     Point point2 = new Point(0,0,3);
     Point point3 = new Point(0,0,4);
+
+    /**
+     * Intersections with points on the ray and geometric bodies for findClosestIntersection test
+     */
+    Sphere testSphereIntersection = new Sphere(new Point(1, 0, 0), 1);
+    Plane testPlaneIntersection = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
+    Triangle testTriangleIntersection = new Triangle(new Point(0, 0, 1), new Point(0, -1, -1), new Point(0, 1, -1));
+    Intersection intersection1 = new Intersection(testSphereIntersection, new Point(0,0,2));
+    Intersection intersection2 = new Intersection(testPlaneIntersection, new Point(0,0,3));
+    Intersection intersection3 = new Intersection(testTriangleIntersection, new Point(0,0,4));
+
 
 
     /**
@@ -107,5 +123,36 @@ class RayTests {
         // BV05: List of at least 3 points and there is two point that are the same and the same points are not the closest
         testPoints = List.of(point3, point3, point1);
         assertEquals(point1, testRay.findClosestPoint(testPoints), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
+    }
+
+    /**
+     * Test method for {@link Ray#findClosestIntersection(List)}
+     */
+    @Test
+    void testFindClosestIntersection() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: List of at least 3 point and the middle one is the closest
+        List<Intersection> testIntersections = List.of(intersection2, intersection1, intersection3);
+        assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: The list of points is null
+        assertNull(testRay.findClosestIntersection(null), FIND_CLOSEST_INTERSECTION_NULL_FAILURE_MESSAGE);
+
+        // BV02: List of at least 3 points and the first one is the closest
+        testIntersections = List.of(intersection1, intersection2, intersection3);
+        assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
+
+        // BV03: List of at least 3 points and the last one is the closest
+        testIntersections = List.of(intersection3, intersection2, intersection1);
+        assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
+
+        // BV04: List of at least 3 points and there is two point that are the same and the same points are the closest
+        testIntersections = List.of(intersection3, intersection1, intersection1);
+        assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
+
+        // BV05: List of at least 3 points and there is two point that are the same and the same points are not the closest
+        testIntersections = List.of(intersection3, intersection3, intersection1);
+        assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
     }
 }

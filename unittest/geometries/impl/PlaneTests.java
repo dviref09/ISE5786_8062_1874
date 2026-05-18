@@ -1,15 +1,15 @@
 package geometries.impl;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+
+import static geometries.api.Intersectable.Intersection;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test class for {@link Plane}.
@@ -49,6 +49,7 @@ class PlaneTests {
     private static final String NO_INTERSECTION_FAILURE_MESSAGE = "Ray should not have intersections with plane";
     private static final String PARALLEL_RAY_FAILURE_MESSAGE = "Parallel ray should not have intersections";
     private static final String START_IN_PLANE_FAILURE_MESSAGE = "Ray starting in the plane should not have intersections";
+    private static final String CALC_INTERSECTIONS_FAILURE = "The geometry in the intersection wasn't the body that was intersected";
 
     /**
      * Test method for {@link Plane#getNormal(Point)}
@@ -157,5 +158,17 @@ class PlaneTests {
         // BV07: Ray starts at the plane's reference point (0 points)
         testRay = new Ray(new Point(0, 0, 1), new Vector(1, 1, 1));
         assertNull(testPlane.findIntersections(testRay), START_IN_PLANE_FAILURE_MESSAGE);
+    }
+
+    /**
+     * Test method for {@link Plane#calcIntersections(Ray)}
+     */
+    @Test
+    void testCalcIntersections() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Basic Test
+        Ray testRay = new Ray(new Point(0, 0, 2), new Vector(1, 1, -1));
+        Point intersectionPoint = new Point(1, 1, 1);
+        assertSame(testPlane, testPlane.calcIntersections(testRay).get(0).geometry, CALC_INTERSECTIONS_FAILURE);
     }
 }

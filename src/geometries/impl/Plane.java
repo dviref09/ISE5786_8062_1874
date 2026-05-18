@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import geometries.api.Geometry;
+import static geometries.api.Intersectable.Intersection;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -66,7 +67,7 @@ public final class Plane extends Geometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	protected List<Intersection> calcIntersectionsHelper(Ray ray) {
 		if (_point.equals(ray.origin())) {
 			return null;
 		}
@@ -81,7 +82,7 @@ public final class Plane extends Geometry {
 		}
 
 		double t = alignZero(normalTimesPointToCenter / normalTimesDirection);
-		return (t > 0 ? List.of(ray.getPoint(t)) : null);
+		return (t > 0 ? List.of(new Intersection(this, ray.getPoint(t))) : null);
 	}
 
 	@Override

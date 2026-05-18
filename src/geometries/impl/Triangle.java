@@ -26,7 +26,7 @@ public final class Triangle extends Polygon {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	protected List<Intersection> calcIntersectionsHelper(Ray ray) {
 		/*
 		* We are using Möller–Trumbore algorithm
 		Explanation of the algorithm and naming of variables:
@@ -43,7 +43,7 @@ public final class Triangle extends Polygon {
 		[t]      1  [Q•E2]
 		|u| = ------|P•T |
 		[v]    P•E1 [Q•D ]
-		P•E1 is the determinant of the matrix [-D, E1, E2] so i will name it 'det'.
+		P•E1 is the determinant of the matrix [-D, E1, E2] so I will name it 'det'.
 		If P•E1 is zero then the ray and triangle are parallel so there isn't an intersection.
 		Else, if u > 0 and v > 0 and (u + v) < 1 and t > 0 then there is an intersection.
 		Else there isn't and intersection.
@@ -96,7 +96,7 @@ public final class Triangle extends Polygon {
 			return null;
 		}
 
-		return List.of(ray.getPoint(t));
+		return List.of(new Intersection(this, ray.getPoint(t)));
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package primitives;
 import java.util.List;
 import java.util.Objects;
 
+import static geometries.api.Intersectable.Intersection;
+
 /**
  * A class representing a ray in 3D space, which is a straight line starting at a point.
  * @author Amichai Feigelson
@@ -60,28 +62,41 @@ public final class Ray {
 			return _origin;
 		}
 	}
+	/**
+	 * Method for calculating the closest intersection to the start of the ray from a list of intersections on the ray
+	 * @param intersections The list of intersections on the ray
+	 * @return the closest intersection to the start of the ray
+	 */
+	public Intersection findClosestIntersection(List<Intersection> intersections) {
+		if (intersections == null) {
+			return null;
+		}
 
+		double MinimumDistanceSquared = Double.POSITIVE_INFINITY;
+		Intersection closestIntersection = null;
+
+		for (Intersection intersection : intersections) {
+			double currentDistanceSquared = intersection.point.distanceSquared(_origin);
+			if (currentDistanceSquared < MinimumDistanceSquared) {
+				MinimumDistanceSquared = currentDistanceSquared;
+				closestIntersection = intersection;
+			}
+		}
+		return closestIntersection;
+	}
 	/**
 	 * Method for calculating the closest point to the start of the ray from a list of points on the ray
 	 * @param points The list of points on the ray
 	 * @return the closest point to the start of the ray
 	 */
     public Point findClosestPoint(List<Point> points) {
-		if (points == null) {
-			return null;
-		}
-
-		double MinimumDistanceSquared = Double.POSITIVE_INFINITY;
-		Point closestPoint = null;
-
-		for (Point point : points) {
-			double currentDistanceSquared = point.distanceSquared(_origin);
-			if (currentDistanceSquared < MinimumDistanceSquared) {
-				MinimumDistanceSquared = currentDistanceSquared;
-				closestPoint = point;
-			}
-		}
-		return closestPoint;
+		return (points == null ? null
+				: findClosestIntersection(
+						points.stream()
+								.map(point -> new Intersection(null, point))
+								.toList()
+				).point
+		);
 	}
 
 	@Override

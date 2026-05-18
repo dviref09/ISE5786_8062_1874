@@ -7,8 +7,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test class for {@link geometries.impl.Triangle}.
@@ -46,6 +45,7 @@ class TriangleTests {
     private static final String INTERSECTION_OUTSIDE_FAILURE_MESSAGE = "Ray outside the triangle should return null.";
     private static final String INTERSECTION_ON_EDGE_FAILURE_MESSAGE = "Ray on triangle edge should return null.";
     private static final String INTERSECTION_PLANE_FAILURE_MESSAGE = "The ray doesnt should not intersect the plane at all";
+    private static final String CALC_INTERSECTIONS_FAILURE = "The geometry in the intersection wasn't the body that was intersected";
 
     /**
      * Test method for {@link geometries.impl.Triangle#getNormal(Point)}
@@ -73,7 +73,7 @@ class TriangleTests {
         List<Point> expectedIntersectionList = List.of(intersectionPoint);
         assertEquals(expectedIntersectionList, testTriangleIntersection.findIntersections(testRay), INTERSECTION_FAILURE_MESSAGE);
 
-        testRay = new Ray(new Point(-1,0,1), new Vector(1,1,1));
+        testRay = new Ray(new Point(-1, 0, 1), new Vector(1, 1, 1));
         assertNull(testTriangleIntersection.findIntersections(testRay));
 
         // EP02: Outside against an edge (0 points)
@@ -159,7 +159,18 @@ class TriangleTests {
         testRay = new Ray(new Point(3, 0, 0), new Vector(0, 0, 1));
         assertNull(testTriangleIntersection.findIntersections(testRay), INTERSECTION_OUTSIDE_FAILURE_MESSAGE);
 
-        testRay = new Ray(new Point(-1, 0, 1), new Vector(1,1,1));
+        testRay = new Ray(new Point(-1, 0, 1), new Vector(1, 1, 1));
         assertNull(testTriangleIntersection.findIntersections(testRay));
+    }
+
+    /**
+     * Test method for {@link Triangle#calcIntersections(Ray)}
+     */
+    @Test
+    void testCalcIntersections() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Basic test
+        Ray testRay = new Ray(new Point(-0.5, -0.5, 0), new Vector(1, 1, 1));
+        assertSame(testTriangleIntersection, testTriangleIntersection.calcIntersections(testRay).get(0).geometry, CALC_INTERSECTIONS_FAILURE);
     }
 }
