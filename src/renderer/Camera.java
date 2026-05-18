@@ -274,6 +274,7 @@ public final class Camera implements Cloneable {
 
         /**
          * Checks whether the resolution values are valid or not
+         * Adds the imageWriter with the resolution data
          * @throws IllegalArgumentException if the resolution values are not valid
          */
         private void checkResolution() {

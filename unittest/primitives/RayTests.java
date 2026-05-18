@@ -104,7 +104,7 @@ class RayTests {
         testPoints = List.of(point3, point1, point1);
         assertEquals(point1, testRay.findClosestPoint(testPoints), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
 
-        // BV04: List of at least 3 points and there is two point that are the same and the same points are not the closest
+        // BV05: List of at least 3 points and there is two point that are the same and the same points are not the closest
         testPoints = List.of(point3, point3, point1);
         assertEquals(point1, testRay.findClosestPoint(testPoints), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
     }
