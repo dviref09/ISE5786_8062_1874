@@ -130,28 +130,28 @@ class RayTests {
      */
     @Test
     void testFindClosestIntersection() {
-        // ============ Equivalence Partitions Tests ==============
-        // EP01: List of at least 3 point and the middle one is the closest
+        // ============ Equivalence Partition Tests ==============
+        // EP01: List of at least 3 intersections and the middle one is the closest
         List<Intersection> testIntersections = List.of(intersection2, intersection1, intersection3);
         assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
 
         // =============== Boundary Values Tests ==================
-        // BV01: The list of points is null
+        // BV01: The list of intersections is null
         assertNull(testRay.findClosestIntersection(null), FIND_CLOSEST_INTERSECTION_NULL_FAILURE_MESSAGE);
 
-        // BV02: List of at least 3 points and the first one is the closest
+        // BV02: List of at least 3 intersections and the first one is the closest
         testIntersections = List.of(intersection1, intersection2, intersection3);
         assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
 
-        // BV03: List of at least 3 points and the last one is the closest
+        // BV03: List of at least 3 intersections and the last one is the closest
         testIntersections = List.of(intersection3, intersection2, intersection1);
         assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
 
-        // BV04: List of at least 3 points and there is two point that are the same and the same points are the closest
+        // BV04: List of at least 3 intersections and there is two intersections that are the same and the same intersections are the closest
         testIntersections = List.of(intersection3, intersection1, intersection1);
         assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
 
-        // BV05: List of at least 3 points and there is two point that are the same and the same points are not the closest
+        // BV05: List of at least 3 intersections and there is two intersections that are the same and the same intersections are not the closest
         testIntersections = List.of(intersection3, intersection3, intersection1);
         assertEquals(intersection1, testRay.findClosestIntersection(testIntersections), FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
     }

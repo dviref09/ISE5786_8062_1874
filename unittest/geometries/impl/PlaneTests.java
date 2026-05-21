@@ -168,7 +168,6 @@ class PlaneTests {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Basic Test
         Ray testRay = new Ray(new Point(0, 0, 2), new Vector(1, 1, -1));
-        Point intersectionPoint = new Point(1, 1, 1);
         assertSame(testPlane, testPlane.calcIntersections(testRay).get(0).geometry, CALC_INTERSECTIONS_FAILURE);
     }
 }

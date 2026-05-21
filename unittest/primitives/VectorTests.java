@@ -60,7 +60,11 @@ class VectorTests {
 	void testConstructorDouble3() {
 		// =============== Boundary Values Tests ==================
 		// BV01: three zero values in the Double3 parameter
-		assertThrows(IllegalArgumentException.class, () -> new Vector(new Double3(0, 0, 0)), CONSTRUCTOR_FAILURE_MESSAGE);
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> new Vector(new Double3(0, 0, 0)),
+				CONSTRUCTOR_FAILURE_MESSAGE
+		);
 	}
 
 	/**

@@ -32,7 +32,7 @@ public final class Geometries extends Intersectable {
     }
 
     @Override
-    public List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
         List<Intersection> intersections = null;
         for (Intersectable geometry : geometries) {
             List<Intersection> geometryIntersections = geometry.calcIntersections(ray);

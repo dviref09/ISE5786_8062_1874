@@ -27,20 +27,14 @@ class CameraIntersectionIntegration {
 	private static final int NX = 3;
 	private static final int NY = 3;
 
-	private static final Camera testCamera= Camera.getBuilder()
-			.setLocation(LOCATION)
-			.setDirection(V_TO, V_UP)
-			.setVpDistance(DISTANCE)
-			.setVpSize(WIDTH, HEIGHT)
-			.setResolution(NX, NY)
-			.build();
+	private static final Camera testCamera = Camera.getBuilder().setLocation(LOCATION).setDirection(V_TO, V_UP).setVpDistance(DISTANCE).setVpSize(WIDTH, HEIGHT).setResolution(NX, NY).build();
 
 	/**
 	 * A helper method for checking that the number of intersections between the rays constructed by the camera and the given geometry is as expected.
-	 * @param camera The camera constructing the rays.
+	 * @param camera        The camera constructing the rays.
 	 * @param intersectable The geometric body getting intersected by the rays.
 	 * @param expectedCount Number of expected intersections.
-	 * @param testName The name of the test.
+	 * @param testName      The name of the test.
 	 */
 	private void assertIntersectionsCount(Camera camera, Intersectable intersectable, int expectedCount, String testName) {
 		int totalIntersections = 0;
