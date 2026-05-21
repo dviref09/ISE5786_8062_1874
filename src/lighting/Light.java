@@ -4,6 +4,7 @@ import primitives.Color;
 
 /**
  * An abstract class for representing different types of light in the scene
+ * @author Dvir Farkash
  */
 abstract class Light {
     /**
