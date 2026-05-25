@@ -1,6 +1,5 @@
 package primitives;
 
-import geometries.api.Intersectable;
 import geometries.impl.Plane;
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
@@ -9,7 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static geometries.api.Intersectable.Intersection;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit test class for {@link primitives.Ray}.
@@ -27,9 +27,9 @@ class RayTests {
     /**
      * Points on the ray for findClosestPoint test
      */
-    Point point1 = new Point(0,0,2);
-    Point point2 = new Point(0,0,3);
-    Point point3 = new Point(0,0,4);
+    Point point1 = new Point(0, 0, 2);
+    Point point2 = new Point(0, 0, 3);
+    Point point3 = new Point(0, 0, 4);
 
     /**
      * Intersections with points on the ray and geometric bodies for findClosestIntersection test
@@ -37,10 +37,9 @@ class RayTests {
     Sphere testSphereIntersection = new Sphere(new Point(1, 0, 0), 1);
     Plane testPlaneIntersection = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
     Triangle testTriangleIntersection = new Triangle(new Point(0, 0, 1), new Point(0, -1, -1), new Point(0, 1, -1));
-    Intersection intersection1 = new Intersection(testSphereIntersection, new Point(0,0,2));
-    Intersection intersection2 = new Intersection(testPlaneIntersection, new Point(0,0,3));
-    Intersection intersection3 = new Intersection(testTriangleIntersection, new Point(0,0,4));
-
+    Intersection intersection1 = new Intersection(testSphereIntersection, new Point(0, 0, 2));
+    Intersection intersection2 = new Intersection(testPlaneIntersection, new Point(0, 0, 3));
+    Intersection intersection3 = new Intersection(testTriangleIntersection, new Point(0, 0, 4));
 
 
     /**

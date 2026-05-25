@@ -2,13 +2,12 @@ package geometries.impl;
 
 import java.util.List;
 import java.util.Objects;
-import java.lang.Math;
-
-import static primitives.Util.alignZero;
 
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
+import static primitives.Util.alignZero;
 
 /**
  * Class representing a shphere in 3D space.
@@ -56,12 +55,10 @@ public final class Sphere extends RadialGeometry {
         if (t1 > 0) {
             // there's two intersection points
             return List.of(new Intersection(this, ray.getPoint(t1)), new Intersection(this, ray.getPoint(t2)));
-        }
-        else if (t2 <= 0) {
+        } else if (t2 <= 0) {
             // there's no intersection points
             return null;
-        }
-        else {
+        } else {
             // there's one intersection point
             return List.of(new Intersection(this, ray.getPoint(t2)));
         }

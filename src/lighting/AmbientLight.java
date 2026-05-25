@@ -6,7 +6,7 @@ import primitives.Color;
  * Class for representing ambient light in 3D scene
  * @author Dvir Farkash
  */
-public final class AmbientLight extends Light{
+public final class AmbientLight extends Light {
     /**
      * Constant for representing no ambient light in the scene
      */

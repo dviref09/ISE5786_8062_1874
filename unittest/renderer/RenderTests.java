@@ -1,16 +1,15 @@
 package renderer;
 
-import static java.awt.Color.YELLOW;
-
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
 import lighting.AmbientLight;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import primitives.Color;
 import primitives.Point;
 import scene.Scene;
+
+import static java.awt.Color.YELLOW;
 
 /**
  * End-to-end rendering tests.

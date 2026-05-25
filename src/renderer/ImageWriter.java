@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
 import primitives.Color;
 
 /**
@@ -13,7 +12,6 @@ import primitives.Color;
  * <p>
  * This class wraps a {@link BufferedImage}, allows setting individual pixel
  * colors, and exports the result as a PNG file.
- *
  * @author Dan Zilberstein
  */
 final class ImageWriter {
@@ -30,7 +28,6 @@ final class ImageWriter {
 
     /**
      * Creates an image writer for the given resolution.
-     *
      * @param nX the horizontal resolution, in pixels
      * @param nY the vertical resolution, in pixels
      * @throws IllegalArgumentException if {@code nX} or {@code nY} is not positive
@@ -61,7 +58,6 @@ final class ImageWriter {
 
     /**
      * Writes a color to the specified pixel.
-     *
      * @param xIndex the pixel x-coordinate
      * @param yIndex the pixel y-coordinate
      * @param color  the color to write

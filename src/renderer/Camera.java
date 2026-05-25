@@ -82,7 +82,7 @@ public final class Camera implements Cloneable {
     /**
      * Adding a grid on top of the current image, for debugging usage
      * @param interval The size of each grid cell in pixels
-     * @param color The color of the grid
+     * @param color    The color of the grid
      * @return The same camera for chaining methods
      */
     public Camera printGrid(int interval, Color color) {
@@ -155,6 +155,7 @@ public final class Camera implements Cloneable {
             _camera._vUp = Vector.AXIS_Y;
             _camera._vTo = null;
         }
+
         /**
          * Helper variable for the setDirection method
          */
@@ -185,7 +186,7 @@ public final class Camera implements Cloneable {
         /**
          * Sets the direction by a vector and point:
          * @param target A point in the direction of the camera, by this point the direction vector of the camera will be calculated
-         * @param up The direction of the top of the camera (affects rotation)
+         * @param up     The direction of the top of the camera (affects rotation)
          * @return The same builder for chaining methods
          */
         public Builder setDirection(Point target, Vector up) {
@@ -206,7 +207,7 @@ public final class Camera implements Cloneable {
 
         /**
          * Sets the size of the view plane
-         * @param width The width of the view plane
+         * @param width  The width of the view plane
          * @param height The height of the view plane
          * @return The same builder for chaining methods
          */
@@ -241,15 +242,14 @@ public final class Camera implements Cloneable {
         /**
          * Sets the ray tracer of the camera
          * @param scene The scene the ray tracer works on
-         * @param type The type of ray tracer to be used in camera
+         * @param type  The type of ray tracer to be used in camera
          * @return The same builder for chaining methods
          * @throws IllegalArgumentException If the ray tracer type is invalid
          */
         Builder setRayTracer(Scene scene, RayTracerType type) {
             if (type == RayTracerType.SIMPLE) {
                 _camera._rayTracer = new SimpleRayTracer(scene);
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Must enter a valid ray tracer");
             }
             return this;
@@ -266,7 +266,7 @@ public final class Camera implements Cloneable {
             checkRayTracer();
 
             try {
-                return (Camera)_camera.clone();
+                return (Camera) _camera.clone();
             } catch (CloneNotSupportedException e) {
                 return null;
             }
@@ -341,8 +341,7 @@ public final class Camera implements Cloneable {
             _camera._vTo = _camera._vTo.normalize();
             try {
                 _camera._vRight = _camera._vTo.crossProduct(_camera._vUp).normalize();
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("vTo and vUp can't be parallel.");
             }
 

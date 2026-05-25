@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit test class for {@link Geometries}.
+ *
  * @author Dvir Farkash
  */
 public class GeometriesTests {

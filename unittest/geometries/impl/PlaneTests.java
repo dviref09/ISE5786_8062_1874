@@ -7,12 +7,11 @@ import primitives.Vector;
 
 import java.util.List;
 
-import static geometries.api.Intersectable.Intersection;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test class for {@link Plane}.
+ *
  * @author Amichai Feigelson
  */
 class PlaneTests {

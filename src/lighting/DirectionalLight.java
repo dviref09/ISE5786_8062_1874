@@ -5,11 +5,11 @@ import primitives.Point;
 import primitives.Vector;
 
 /**
- * A class representing a light that comes to any place in the scene in constant angle and intensity
- * (like a light source very far away like the sun)
+ * A class representing a light that comes to any place in the scene in constant angle and intensity (like a light
+ * source very far away like the sun)
  * @author Dvir Farkash
  */
-public class DirectionalLight extends Light implements LightSource  {
+public class DirectionalLight extends Light implements LightSource {
     /**
      * The normalized direction vector of the light
      */
@@ -27,11 +27,11 @@ public class DirectionalLight extends Light implements LightSource  {
 
     @Override
     public Vector getL(Point p) {
-        return null;
+        return _direction;
     }
 
     @Override
     public Color getIntensity(Point P) {
-        return null;
+        return _intensity;
     }
 }

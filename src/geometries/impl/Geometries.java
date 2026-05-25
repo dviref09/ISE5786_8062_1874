@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import geometries.api.Intersectable;
-import primitives.Point;
 import primitives.Ray;
 
 /**
@@ -39,8 +38,7 @@ public final class Geometries extends Intersectable {
             if (geometryIntersections != null) {
                 if (intersections == null) {
                     intersections = new ArrayList<>(geometryIntersections);
-                }
-                else {
+                } else {
                     intersections.addAll(geometryIntersections);
                 }
             }

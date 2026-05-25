@@ -15,18 +15,18 @@ import static primitives.Util.isZero;
  * @author Amichai Feigelson
  */
 public final class Triangle extends Polygon {
-	/**
-	 * Constructs a triangle given three vertices.
-	 * @param p1 The first vertex of the triangle.
-	 * @param p2 The second vertex of the triangle.
-	 * @param p3 The third vertex of the triangle.
-	 */
-	public Triangle(Point p1, Point p2, Point p3) {
-		super(p1, p2, p3);
-	}
+    /**
+     * Constructs a triangle given three vertices.
+     * @param p1 The first vertex of the triangle.
+     * @param p2 The second vertex of the triangle.
+     * @param p3 The third vertex of the triangle.
+     */
+    public Triangle(Point p1, Point p2, Point p3) {
+        super(p1, p2, p3);
+    }
 
-	@Override
-	protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    @Override
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
 		/*
 		* We are using Möller–Trumbore algorithm
 		Explanation of the algorithm and naming of variables:
@@ -48,75 +48,73 @@ public final class Triangle extends Polygon {
 		Else, if u > 0 and v > 0 and (u + v) < 1 and t > 0 then there is an intersection.
 		Else there isn't and intersection.
 		 */
-		Vector E1 = _vertices.get(1).subtract(_vertices.get(0));
-		Vector E2 = _vertices.get(2).subtract(_vertices.get(0));
-		Vector normal = getNormal(_vertices.get(0));
-		Vector P;
-		if (isZero(ray.direction().dotProduct(normal))) {
-			// this means the ray is parallel to the triangle
-			return null;
-		}
-		P = ray.direction().crossProduct(E2);
-		double det = P.dotProduct(E1);
+        Vector E1 = _vertices.get(1).subtract(_vertices.get(0));
+        Vector E2 = _vertices.get(2).subtract(_vertices.get(0));
+        Vector normal = getNormal(_vertices.get(0));
+        Vector P;
+        if (isZero(ray.direction().dotProduct(normal))) {
+            // this means the ray is parallel to the triangle
+            return null;
+        }
+        P = ray.direction().crossProduct(E2);
+        double det = P.dotProduct(E1);
 
-		if (isZero(det)) {
-			return null;
-		}
+        if (isZero(det)) {
+            return null;
+        }
 
-		if (_vertices.get(0).equals(ray.origin())) {
-			return null;
-		}
-		Vector T = ray.origin().subtract(_vertices.get(0));
+        if (_vertices.get(0).equals(ray.origin())) {
+            return null;
+        }
+        Vector T = ray.origin().subtract(_vertices.get(0));
 
-		if (isZero(T.dotProduct(normal))) {
-			return null;
-		}
+        if (isZero(T.dotProduct(normal))) {
+            return null;
+        }
 
-		Vector Q;
-		try {
-			Q = T.crossProduct(E1);
-		}
-		catch (IllegalArgumentException e) {
-			return null;
-		}
+        Vector Q;
+        try {
+            Q = T.crossProduct(E1);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
 
+        double u = alignZero(P.dotProduct(T) / det);
+        if (u <= 0 || u >= 1) {
+            return null;
+        }
 
-		double u = alignZero(P.dotProduct(T) / det);
-		if (u <= 0 || u >= 1) { 
-			return null;
-		}
+        double v = alignZero(Q.dotProduct(ray.direction()) / det);
+        if (v <= 0 || u + v >= 1) {
+            return null;
+        }
 
-		double v = alignZero(Q.dotProduct(ray.direction()) / det);
-		if (v <= 0 || u + v >= 1) {
-			return null;
-		}
+        double t = alignZero(Q.dotProduct(E2) / det);
+        if (t <= 0) {
+            return null;
+        }
 
-		double t = alignZero(Q.dotProduct(E2) / det);
-		if (t <= 0) {
-			return null;
-		}
+        return List.of(new Intersection(this, ray.getPoint(t)));
+    }
 
-		return List.of(new Intersection(this, ray.getPoint(t)));
-	}
+    @Override
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
+        if (other == null || getClass() != other.getClass())
+            return false;
+        return super.equals(other);
+    }
 
-	@Override
-	public boolean equals(Object other) {
-		if (this == other)
-			return true;
-		if (other == null || getClass() != other.getClass())
-			return false;
-		return super.equals(other);
-	}
+    @Override
+    public String toString() {
+        return "Triangle: Vertex 1: " + _vertices.get(0) +
+                " Vertex 2: " + _vertices.get(1) +
+                " Vertex 3: " + _vertices.get(2);
+    }
 
-	@Override
-	public String toString() {
-		return "Triangle: Vertex 1: " + _vertices.get(0) +
-				" Vertex 2: " + _vertices.get(1) +
-				" Vertex 3: " + _vertices.get(2);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(_vertices);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(_vertices);
+    }
 }

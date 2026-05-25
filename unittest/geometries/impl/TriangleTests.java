@@ -1,16 +1,17 @@
 package geometries.impl;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test class for {@link geometries.impl.Triangle}.
+ *
  * @author Dvir Farkash
  */
 class TriangleTests {

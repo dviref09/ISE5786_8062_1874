@@ -10,111 +10,112 @@ import static geometries.api.Intersectable.Intersection;
  * @author Amichai Feigelson
  */
 public final class Ray {
-	/**
-	 * The origin point of the ray.
-	 */
-	private final Point _origin;
-	/**
-	 * The direction vector of the ray.<br />
-	 * The vector is normalized.
-	 */
-	private final Vector _direction;
+    /**
+     * The origin point of the ray.
+     */
+    private final Point _origin;
+    /**
+     * The direction vector of the ray.<br />
+     * The vector is normalized.
+     */
+    private final Vector _direction;
 
-	/**
-	 * Constructs a new ray with the specified origin and direction.
-	 * @param origin    The origin point of the ray.
-	 * @param direction The direction vector of the ray. It will be normalized.
-	 */
-	public Ray(Point origin, Vector direction) {
-		this._origin = origin;
-		this._direction = direction.normalize();
-	}
+    /**
+     * Constructs a new ray with the specified origin and direction.
+     * @param origin    The origin point of the ray.
+     * @param direction The direction vector of the ray. It will be normalized.
+     */
+    public Ray(Point origin, Vector direction) {
+        this._origin = origin;
+        this._direction = direction.normalize();
+    }
 
-	// getters
+    // getters
 
-	/**
-	 * Getter for the origin point.
-	 * @return The origin point of the ray.
-	 */
-	public Point origin() {
-		return _origin;
-	}
+    /**
+     * Getter for the origin point.
+     * @return The origin point of the ray.
+     */
+    public Point origin() {
+        return _origin;
+    }
 
-	/**
-	 * Getter for the direction vector.
-	 * @return The direction vector of the ray.
-	 */
-	public Vector direction() {
-		return _direction;
-	}
-	// end of getters
+    /**
+     * Getter for the direction vector.
+     * @return The direction vector of the ray.
+     */
+    public Vector direction() {
+        return _direction;
+    }
+    // end of getters
 
-	/**
-	 * Method for calculating the formula p0 + t*v for points on the ray
-	 * @param t The t parameter in the formula
-	 * @return The result point of the formula
-	 */
-	public Point getPoint(double t) {
-		try {
-			return _origin.add(_direction.scale(t));
-		}
-		catch (IllegalArgumentException e) {
-			return _origin;
-		}
-	}
-	/**
-	 * Method for calculating the closest intersection to the start of the ray from a list of intersections on the ray
-	 * @param intersections The list of intersections on the ray
-	 * @return the closest intersection to the start of the ray
-	 */
-	public Intersection findClosestIntersection(List<Intersection> intersections) {
-		if (intersections == null) {
-			return null;
-		}
+    /**
+     * Method for calculating the formula p0 + t*v for points on the ray
+     * @param t The t parameter in the formula
+     * @return The result point of the formula
+     */
+    public Point getPoint(double t) {
+        try {
+            return _origin.add(_direction.scale(t));
+        } catch (IllegalArgumentException e) {
+            return _origin;
+        }
+    }
 
-		double MinimumDistanceSquared = Double.POSITIVE_INFINITY;
-		Intersection closestIntersection = null;
+    /**
+     * Method for calculating the closest intersection to the start of the ray from a list of intersections on the ray
+     * @param intersections The list of intersections on the ray
+     * @return the closest intersection to the start of the ray
+     */
+    public Intersection findClosestIntersection(List<Intersection> intersections) {
+        if (intersections == null) {
+            return null;
+        }
 
-		for (Intersection intersection : intersections) {
-			double currentDistanceSquared = intersection.point.distanceSquared(_origin);
-			if (currentDistanceSquared < MinimumDistanceSquared) {
-				MinimumDistanceSquared = currentDistanceSquared;
-				closestIntersection = intersection;
-			}
-		}
-		return closestIntersection;
-	}
-	/**
-	 * Method for calculating the closest point to the start of the ray from a list of points on the ray
-	 * @param points The list of points on the ray
-	 * @return the closest point to the start of the ray
-	 */
+        double MinimumDistanceSquared = Double.POSITIVE_INFINITY;
+        Intersection closestIntersection = null;
+
+        for (Intersection intersection : intersections) {
+            double currentDistanceSquared = intersection.point.distanceSquared(_origin);
+            if (currentDistanceSquared < MinimumDistanceSquared) {
+                MinimumDistanceSquared = currentDistanceSquared;
+                closestIntersection = intersection;
+            }
+        }
+        return closestIntersection;
+    }
+
+    /**
+     * Method for calculating the closest point to the start of the ray from a list of points on the ray
+     * @param points The list of points on the ray
+     * @return the closest point to the start of the ray
+     */
     public Point findClosestPoint(List<Point> points) {
-		return (points == null ? null
-				: findClosestIntersection(
-						points.stream()
-								.map(point -> new Intersection(null, point))
-								.toList()
-				).point
-		);
-	}
+        return (points == null ? null
+                : findClosestIntersection(
+                points.stream()
+                        .map(point -> new Intersection(null, point))
+                        .toList()
+        ).point
+        );
+    }
 
-	@Override
-	public boolean equals(Object other) {
-		if (this == other)
-			return true;
-		if (other == null || getClass() != other.getClass())
-			return false;
-		return _origin.equals(((Ray) other)._origin) && _direction.equals(((Ray) other)._direction);
-	}
+    @Override
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
+        if (other == null || getClass() != other.getClass())
+            return false;
+        return _origin.equals(((Ray) other)._origin) && _direction.equals(((Ray) other)._direction);
+    }
 
-	@Override
-	public String toString() {
-		return "Ray:" + _origin + _direction;
-	}
+    @Override
+    public String toString() {
+        return "Ray:" + _origin + _direction;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(_origin, _direction);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(_origin, _direction);
+    }
 }

@@ -20,7 +20,6 @@ import static java.lang.Math.abs;
  * floating-point comparisons in rendering calculations and tests.
  * Because equality is approximate, this class is not well-suited for use as a
  * key in hash-based collections that rely on strict equality semantics.
- *
  * @author Dan Zilberstein
  */
 public final class Color {
@@ -55,7 +54,6 @@ public final class Color {
      * <p>
      * Each component must be non-negative. Values greater than 255 are allowed
      * and may be useful for representing light intensities.
-     *
      * @param r the red component
      * @param g the green component
      * @param b the blue component
@@ -68,7 +66,6 @@ public final class Color {
 
     /**
      * Creates a color from an RGB triad.
-     *
      * @param rgb the RGB components
      * @throws IllegalArgumentException if any component is negative
      */
@@ -80,7 +77,6 @@ public final class Color {
 
     /**
      * Creates a color from a {@link java.awt.Color} object.
-     *
      * @param other the source color
      */
     public Color(java.awt.Color other) {
@@ -91,7 +87,6 @@ public final class Color {
      * Converts this color to a {@link java.awt.Color}.
      * <p>
      * Any component greater than 255 is clamped to 255.
-     *
      * @return a {@code java.awt.Color} representing this color
      */
     public java.awt.Color getColor() {
@@ -103,7 +98,6 @@ public final class Color {
 
     /**
      * Adds one or more colors to this color component-wise.
-     *
      * @param colors the colors to add
      * @return a new color equal to the component-wise sum
      */
@@ -121,7 +115,6 @@ public final class Color {
 
     /**
      * Scales this color component-wise by the given factors.
-     *
      * @param k the scale factors for the RGB components
      * @return a new scaled color
      * @throws IllegalArgumentException if any scale factor is negative
@@ -134,7 +127,6 @@ public final class Color {
 
     /**
      * Scales this color by the given factor.
-     *
      * @param k the scale factor
      * @return a new scaled color
      * @throws IllegalArgumentException if the scale factor is negative
@@ -146,7 +138,6 @@ public final class Color {
 
     /**
      * Reduces this color by dividing each component by the given factor.
-     *
      * @param k the reduction factor
      * @return a new reduced color
      * @throws IllegalArgumentException if {@code k} is less than 1
@@ -162,7 +153,6 @@ public final class Color {
      * <p>
      * Note: This is approximate equality (not strictly transitive) and is not
      * suitable for use in hash-based collections.
-     *
      * @param obj the object to compare with
      * @return <b>{@code true}</b> if the given object is a {@code Color} whose
      * RGB components differ from this color by less than {@code DELTA};
@@ -175,7 +165,6 @@ public final class Color {
 
     /**
      * Compares the given colors to this color using tolerant equality.
-     *
      * @param colors colors to compare with this color
      * @return {@code true} if all given colors are approximately equal to
      * this color (vacuously {@code true} if no colors are provided);
@@ -195,7 +184,6 @@ public final class Color {
      * Since {@code equals} is tolerance-based, this hash code is only a best-effort
      * approximation and should not be relied upon in hash-based collections that
      * assume strict equality semantics.
-     *
      * @return a quantized hash code for this color
      */
     @Override

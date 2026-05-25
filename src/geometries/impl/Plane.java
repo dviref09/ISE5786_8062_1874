@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Objects;
 
 import geometries.api.Geometry;
-import static geometries.api.Intersectable.Intersection;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
 import static primitives.Util.alignZero;
 
 /**
@@ -15,88 +15,86 @@ import static primitives.Util.alignZero;
  * @author Dvir Farkash
  */
 public final class Plane extends Geometry {
-	/**
-	 * A point on the plane
-	 */
-	private final Point _point;
-	/**
-	 * The normal vector to the plane. The normal is normlized.
-	 */
-	private final Vector _normal;
+    /**
+     * A point on the plane
+     */
+    private final Point _point;
+    /**
+     * The normal vector to the plane. The normal is normlized.
+     */
+    private final Vector _normal;
 
-	/**
-	 * Constructs a plane given three points in space.
-	 * 
-	 * @param p1 The first point defining the plane
-	 * @param p2 The second point defining the plane
-	 * @param p3 The third point defining the plane
-	 */
-	public Plane(Point p1, Point p2, Point p3) {
-		this._point = p1;
+    /**
+     * Constructs a plane given three points in space.
+     * @param p1 The first point defining the plane
+     * @param p2 The second point defining the plane
+     * @param p3 The third point defining the plane
+     */
+    public Plane(Point p1, Point p2, Point p3) {
+        this._point = p1;
 
-		if(p1.equals(p2) || p1.equals(p3) || p2.equals(p3)) {
-			throw new IllegalArgumentException("Two or more points are the same.");
-		}
+        if (p1.equals(p2) || p1.equals(p3) || p2.equals(p3)) {
+            throw new IllegalArgumentException("Two or more points are the same.");
+        }
 
-		Vector v1 = p1.subtract(p2);
-		Vector v2 = p1.subtract(p3);
+        Vector v1 = p1.subtract(p2);
+        Vector v2 = p1.subtract(p3);
 
-		try {
-			v1.crossProduct(v2);
-		}
-		catch(IllegalArgumentException e) {
-			throw new IllegalArgumentException("All three points are collinear to each other.");
-		}
+        try {
+            v1.crossProduct(v2);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("All three points are collinear to each other.");
+        }
 
-		this._normal = v1.crossProduct(v2).normalize();
-	}
+        this._normal = v1.crossProduct(v2).normalize();
+    }
 
-	/**
-	 * Constructs a plane given a point and a normal vector.
-	 * @param point  A point on the plane
-	 * @param normal The normal vector to the plane
-	 */
-	public Plane(Point point, Vector normal) {
-		this._point = point;
-		this._normal = normal.normalize();
-	}
+    /**
+     * Constructs a plane given a point and a normal vector.
+     * @param point  A point on the plane
+     * @param normal The normal vector to the plane
+     */
+    public Plane(Point point, Vector normal) {
+        this._point = point;
+        this._normal = normal.normalize();
+    }
 
-	@Override
-	public Vector getNormal(Point point) {
-		return _normal;
-	}
+    @Override
+    public Vector getNormal(Point point) {
+        return _normal;
+    }
 
-	@Override
-	protected List<Intersection> calcIntersectionsHelper(Ray ray) {
-		if (_point.equals(ray.origin())) {
-			return null;
-		}
+    @Override
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+        if (_point.equals(ray.origin())) {
+            return null;
+        }
 
-		Vector pointToCenter = _point.subtract(ray.origin());
+        Vector pointToCenter = _point.subtract(ray.origin());
 
-		double normalTimesDirection = alignZero(_normal.dotProduct(ray.direction()));
-		double normalTimesPointToCenter = alignZero(_normal.dotProduct(pointToCenter));
+        double normalTimesDirection = alignZero(_normal.dotProduct(ray.direction()));
+        double normalTimesPointToCenter = alignZero(_normal.dotProduct(pointToCenter));
 
-		if (normalTimesDirection == 0 || normalTimesPointToCenter == 0) {
-			return null;
-		}
+        if (normalTimesDirection == 0 || normalTimesPointToCenter == 0) {
+            return null;
+        }
 
-		double t = alignZero(normalTimesPointToCenter / normalTimesDirection);
-		return (t > 0 ? List.of(new Intersection(this, ray.getPoint(t))) : null);
-	}
+        double t = alignZero(normalTimesPointToCenter / normalTimesDirection);
+        return (t > 0 ? List.of(new Intersection(this, ray.getPoint(t))) : null);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj) && _point.equals(((Plane) obj)._point) && _normal.equals(((Plane) obj)._normal);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj) && _point.equals(((Plane) obj)._point) && _normal.equals(((Plane) obj)._normal);
+    }
 
-	@Override
-	public String toString() {
-		return "Plane: " + _point + "Normal " + _normal;
-	}
+    @Override
+    public String toString() {
+        return "Plane: " + _point + "Normal " + _normal;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(_point, _normal);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(_point, _normal);
+    }
 }
