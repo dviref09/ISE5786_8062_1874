@@ -35,7 +35,7 @@ class PointLightTests {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Target point is not at the light position
         Point testPoint = new Point (4, 2, 6);
-        Vector expectedResult = new Vector(3, 1, 5);
+        Vector expectedResult = (new Vector(3, 1, 5)).normalize();
         assertEquals(expectedResult, testLight.getL(testPoint), GET_L_FAILURE_MESSAGE);
 
         // =============== Boundary Values Tests ==================

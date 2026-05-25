@@ -27,14 +27,13 @@ public class BeamLight extends SpotLight {
         super(intensity, position, direction);
     }
 
-    @Override
-    public Vector getL(Point p) {
-        return null;
-    }
 
     @Override
     public Color getIntensity(Point p) {
-        return null;
+        if (p.equals(_position)) {
+            return _intensity;
+        }
+        return super.getIntensity(p).scale(Math.pow((Math.max(0, getL(p).dotProduct(_direction))), _beamPower - 1));
     }
 
     // setters for the attenuation coefficients

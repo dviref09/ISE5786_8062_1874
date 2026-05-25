@@ -18,7 +18,7 @@ public class SpotLightTests {
      */
     final Point testPosition = new Point(1, 1, 1);
     final Vector testDirection = new Vector(1, 0, 0);
-    final Color testIntensity = new Color(120, 168, 96);
+    final Color testIntensity = new Color(180, 252, 144);
     final LightSource testLight = new SpotLight(testIntensity, testPosition, testDirection)
             .setKc(0).setKl(2).setKq(4);
 
@@ -36,7 +36,7 @@ public class SpotLightTests {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Target point is not at the light position
         Point testPoint = new Point (4, 2, 6);
-        Vector expectedResult = new Vector(3, 1, 5);
+        Vector expectedResult = (new Vector(3, 1, 5)).normalize();
         assertEquals(expectedResult, testLight.getL(testPoint), GET_L_FAILURE_MESSAGE);
 
         // =============== Boundary Values Tests ==================
@@ -52,7 +52,7 @@ public class SpotLightTests {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Point in front of the spotlight
         Point testPoint = new Point(5, 1, 1);
-        Color expectedIntensity = new Color(5, 7, 4);
+        Color expectedIntensity = new Color(2.5, 3.5, 2);
         assertEquals(expectedIntensity, testLight.getIntensity(testPoint), GET_INTENSITY_FAILURE_MESSAGE);
 
         // EP02: Point in behind the spotlight (no lighting)
