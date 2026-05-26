@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
+import static primitives.Util.alignZero;
+
 /**
  * A class representing a spotlight - a point light that light only in one direction
  * @author Dvir Farkash
@@ -30,7 +32,7 @@ public class SpotLight extends PointLight {
 		if (p.equals(_position)) {
 			return _intensity;
 		}
-        return super.getIntensity(p).scale(Math.max(0, getL(p).dotProduct(_direction)));
+        return super.getIntensity(p).scale(Math.max(0, alignZero(getL(p).dotProduct(_direction))));
     }
 
 	// setters for the attenuation coefficients

@@ -15,10 +15,10 @@ class DirectionalLightTests {
     /**
      * Test data
      */
-    final Color testIntensity = new Color(143, 54, 73);
-    final Vector testDirection = new Vector(0.6, 0.8, 0);
-    final LightSource testLight = new DirectionalLight(testIntensity, testDirection);
-    final Point testPoint = new Point(4, 3, 76);
+    private final Color testIntensity = new Color(143, 54, 73);
+    private final Vector testDirection = new Vector(0.6, 0.8, 0);
+    private final LightSource testLight = new DirectionalLight(testIntensity, testDirection);
+    private final Point testPoint = new Point(4, 3, 76);
 
     /**
      * Failure messages

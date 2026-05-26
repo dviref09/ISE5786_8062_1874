@@ -16,10 +16,10 @@ public class SpotLightTests {
     /**
      * Test data
      */
-    final Point testPosition = new Point(1, 1, 1);
-    final Vector testDirection = new Vector(1, 0, 0);
-    final Color testIntensity = new Color(180, 252, 144);
-    final LightSource testLight = new SpotLight(testIntensity, testPosition, testDirection)
+    private final Point testPosition = new Point(1, 1, 1);
+    private final Vector testDirection = new Vector(1, 0, 0);
+    private final Color testIntensity = new Color(55, 165, 110);
+    private final LightSource testLight = new SpotLight(testIntensity, testPosition, testDirection)
             .setKc(0).setKl(2).setKq(4);
 
     /**
@@ -51,8 +51,8 @@ public class SpotLightTests {
     void testGetIntensity() {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Point in front of the spotlight
-        Point testPoint = new Point(5, 1, 1);
-        Color expectedIntensity = new Color(2.5, 3.5, 2);
+        Point testPoint = new Point(5, 4, 1);
+        Color expectedIntensity = new Color(0.4, 1.2, 0.8);
         assertEquals(expectedIntensity, testLight.getIntensity(testPoint), GET_INTENSITY_FAILURE_MESSAGE);
 
         // EP02: Point in behind the spotlight (no lighting)
@@ -63,9 +63,14 @@ public class SpotLightTests {
         // BV01: The target point is in the spotlight position
         assertEquals(testIntensity, testLight.getIntensity(testPosition), GET_INTENSITY_FAILURE_MESSAGE);
 
-        // BV01: The target point is in 90° to the spotlight direction
+        // BV02: The target point is in 90° to the spotlight direction
         testPoint = new Point(1, 3, 5);
         assertEquals(Color.BLACK, testLight.getIntensity(testPoint), GET_INTENSITY_FAILURE_MESSAGE);
+
+        // BV03: The target point is exactly in front of the spotlight (the angel between L and Direction is zero)
+        testPoint = new Point(6, 1, 1);
+        expectedIntensity = new Color(0.5, 1.5, 1);
+        assertEquals(expectedIntensity, testLight.getIntensity(testPoint), GET_INTENSITY_FAILURE_MESSAGE);
     }
 
 }

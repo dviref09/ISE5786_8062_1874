@@ -4,18 +4,13 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 
-public class BeamLight extends SpotLight {
-//    /**
-//     * The beam angle in degrees
-//     * It is the angle between the direction vector to the edge of the beam (not the angel between the two edges of
-//     * the beam)
-//     */
-//    private double angle;
+import static primitives.Util.powerInt;
 
+public class BeamLight extends SpotLight {
     /**
-     * The amount of beam concentration
+     * The amount of beam concentration, must be positive
      */
-    private double _beamPower;
+    private int _beamPower;
 
     /**
      * Constructor
@@ -33,7 +28,7 @@ public class BeamLight extends SpotLight {
         if (p.equals(_position)) {
             return _intensity;
         }
-        return super.getIntensity(p).scale(Math.pow((Math.max(0, getL(p).dotProduct(_direction))), _beamPower - 1));
+        return super.getIntensity(p).scale(powerInt((Math.max(0, getL(p).dotProduct(_direction))), _beamPower - 1));
     }
 
     // setters for the attenuation coefficients
@@ -57,7 +52,10 @@ public class BeamLight extends SpotLight {
      * @param beamPower The new value for the coefficient
      * @return The same instance for setters chaining
      */
-    BeamLight setNarrowBeam(double beamPower) {
+    BeamLight setNarrowBeam(int beamPower) {
+        if (beamPower < 1) {
+            throw new IllegalArgumentException("Beam power must be positive");
+        }
         _beamPower = beamPower;
         return this;
     }

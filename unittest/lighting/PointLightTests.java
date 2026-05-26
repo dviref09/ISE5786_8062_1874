@@ -16,9 +16,9 @@ class PointLightTests {
     /**
      * Test data
      */
-    final Point testPosition = new Point(1, 1, 1);
-    final Color testIntensity = new Color(105, 210, 42);
-    final LightSource testLight = new PointLight(testIntensity, testPosition)
+    private final Point testPosition = new Point(1, 1, 1);
+    private final Color testIntensity = new Color(105, 210, 42);
+    private final LightSource testLight = new PointLight(testIntensity, testPosition)
             .setKc(0).setKl(2).setKq(4);
 
     /**
