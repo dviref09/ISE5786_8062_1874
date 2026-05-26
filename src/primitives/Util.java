@@ -109,4 +109,31 @@ public final class Util {
         return Math.random() * (max - min) + min;
     }
 
+    /**
+     * Calculating a double number raised to the power of an int, the exponent must be positive or zero
+     * @param base The base of the power
+     * @param exponent The exponent of the power
+     * @return The result of the base to the power of the exponent
+     */
+    public static double powerInt(double base, int exponent) {
+        // the function is using exponentiation by squaring
+        double result = 1;
+
+        if (exponent < 0) {
+            throw new IllegalArgumentException("The exponent must be positive or zero.");
+        }
+        while (exponent > 0) {
+            // checks if the exponent is odd
+            if ((exponent & 1) == 1) {
+                result *= base;
+                exponent--;
+            }
+            // squaring the base
+            base *= base;
+            // dividing the exponent by two
+            exponent >>= 1;
+        }
+
+        return result;
+    }
 }
