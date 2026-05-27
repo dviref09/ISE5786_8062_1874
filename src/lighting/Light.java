@@ -11,7 +11,7 @@ abstract class Light {
      * The intensity of the light (the color of the lighting)
      */
     protected Color _intensity;
-
+    
     /**
      * Constructor
      * @param intensity The intensity for the new light
@@ -19,7 +19,7 @@ abstract class Light {
     protected Light(Color intensity) {
         _intensity = intensity;
     }
-
+    
     /**
      * Getter for the intensity
      * @return The intensity of the light

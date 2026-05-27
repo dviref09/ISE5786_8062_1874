@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test class for {@link geometries.impl.Tube}.
- *
  * @author Dvir Farkash
  */
 class TubeTests {
@@ -19,12 +18,12 @@ class TubeTests {
     // Simple tube along the Z axis (from z=1 upwards), radius 1
     private static final Ray axis = new Ray(new Point(0, 0, 1), new Vector(0, 0, 1));
     private static final Tube testTube = new Tube(1, axis);
-
+    
     /**
      * Failure messages for the tests
      */
     private static final String GET_NORMAL_FAILURE_MESSAGE = "Tube normal is incorrect.";
-
+    
     /**
      * Test method for {@link geometries.impl.Tube#getNormal(primitives.Point)}.
      */
@@ -36,19 +35,19 @@ class TubeTests {
         Vector normal = testTube.getNormal(testPoint);
         Vector expectedNormal = new Vector(1, 0, 0);
         assertEquals(expectedNormal, normal, GET_NORMAL_FAILURE_MESSAGE);
-
+        
         // EP02: Point is "after" the start of the ray
         testPoint = new Point(1, 0, 2);
         normal = testTube.getNormal(testPoint);
         expectedNormal = new Vector(1, 0, 0);
         assertEquals(expectedNormal, normal, GET_NORMAL_FAILURE_MESSAGE);
-
+        
         // =============== Boundary Values Tests ==================
         // BV01: The point on the surface is exactly across the ray's starting point
         testPoint = new Point(1, 0, 1);
         normal = testTube.getNormal(testPoint);
         expectedNormal = new Vector(1, 0, 0);
         assertEquals(expectedNormal, normal, GET_NORMAL_FAILURE_MESSAGE);
-
+        
     }
 }

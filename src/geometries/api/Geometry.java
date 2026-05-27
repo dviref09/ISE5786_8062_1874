@@ -14,19 +14,19 @@ public abstract class Geometry extends Intersectable {
      * The emission color of the geometric body
      */
     private Color _emission = Color.BLACK;
-
+    
     /**
      * The material the geometric body have
      */
     private Material _material = new Material();
-
+    
     /**
      * Calculates the normal vector at a given point on the surface of the geometric body.
      * @param point The point on the surface of the geometric body where the normal vector is to be calculated.
      * @return The normal vector at the point.
      */
     public abstract Vector getNormal(Point point);
-
+    
     /**
      * Getter for the emission color
      * @return The emission color
@@ -34,7 +34,7 @@ public abstract class Geometry extends Intersectable {
     public Color getEmission() {
         return _emission;
     }
-
+    
     /**
      * Setter for the emission color
      * @param emission The new emission color
@@ -44,7 +44,7 @@ public abstract class Geometry extends Intersectable {
         _emission = emission;
         return this;
     }
-
+    
     /**
      * Getter for the material
      * @return The material of the geometric body
@@ -52,7 +52,7 @@ public abstract class Geometry extends Intersectable {
     public Material getMaterial() {
         return _material;
     }
-
+    
     /**
      * Setter for The material of the geometric body
      * @param material The new material of the body
@@ -62,7 +62,7 @@ public abstract class Geometry extends Intersectable {
         _material = material;
         return this;
     }
-
+    
     @Override
     public boolean equals(Object other) {
         if (this == other)
@@ -71,7 +71,7 @@ public abstract class Geometry extends Intersectable {
             return false;
         return _emission.equals(((Geometry) other)._emission);
     }
-
+    
     // We didn't override hashCode and toString methods because we don't have any fields in this class, so we don't have
     // anything to hash or to print.
 }

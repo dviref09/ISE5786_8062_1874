@@ -1,6 +1,11 @@
 package test;
 
-import geometries.impl.*;
+import geometries.impl.Cylinder;
+import geometries.impl.Plane;
+import geometries.impl.Polygon;
+import geometries.impl.Sphere;
+import geometries.impl.Triangle;
+import geometries.impl.Tube;
 import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
@@ -22,7 +27,7 @@ public final class Main {
      * Default constructor to satisfy JavaDoc generator
      */
     public Main() { /* to satisfy JavaDoc generator */ }
-
+    
     /**
      * A point for tests at (1,2,3)
      */
@@ -35,7 +40,7 @@ public final class Main {
      * A point for tests at (2,4,5)
      */
     private static final Point P3 = new Point(2, 4, 5);
-
+    
     /**
      * A vector for tests to (1,2,3)
      */
@@ -60,10 +65,12 @@ public final class Main {
      * A vector for tests to (3,6,9)
      */
     private static final Vector V5 = new Vector(3, 6, 9);
-
+    
     /**
-     * Entry point of the project's basic sanity tests. The program checks the core functionality implemented in the first
-     * stage. It is intended to be executed again in later stages, without modification, to verify that new code does not
+     * Entry point of the project's basic sanity tests. The program checks the core functionality implemented in the
+     * first
+     * stage. It is intended to be executed again in later stages, without modification, to verify that new code does
+     * not
      * break the existing functionality.
      */
     public static void main(String[] args) {
@@ -75,7 +82,7 @@ public final class Main {
         geometryConstructorTests();
         out.println("If there were no any other outputs - all tests succeeded!");
     }
-
+    
     /**
      * Basic test for the Ray constructor. Verifies that the direction vector is normalized by the constructor.
      */
@@ -84,7 +91,7 @@ public final class Main {
         if (!isZero(r.direction().length() - 1))
             out.println("ERROR: Ray direction is not normalized");
     }
-
+    
     /**
      * Method for testing operations on points
      */
@@ -100,18 +107,18 @@ public final class Main {
         } catch (Exception e) {
             out.println("ERROR: (point - itself) throws wrong exception");
         }
-
+        
         // Add vector to point
         if (!(P1.add(V1).equals(P2)))
             out.println("ERROR: (point + vector) = other point does not work correctly");
         if (!(P1.add(V1_OPPOSITE).equals(Point.ZERO)))
             out.println("ERROR: (point + vector) = center of coordinates does not work correctly");
-
+        
         // Test consistency: P1 + (P2 - P1) = P2
         if (!P1.add(P2.subtract(P1)).equals(P2))
             out.println("ERROR: point + (point - point) incorrect");
     }
-
+    
     /**
      * Tests distance and distanceSquared operations of Point. Includes symmetry checks and consistency between the two
      * methods.
@@ -135,7 +142,7 @@ public final class Main {
         if (!isZero(d * d - P1.distanceSquared(P3)))
             out.println("ERROR: distance and distanceSquared inconsistent");
     }
-
+    
     /**
      * Method for testing operations on single vector
      */
@@ -150,13 +157,13 @@ public final class Main {
         } catch (Exception e) {
             out.println("ERROR: zero vector throws wrong exception");
         }
-
+        
         // test length
         if (!isZero(V4.lengthSquared() - 9))
             out.println("ERROR: lengthSquared() wrong value");
         if (!isZero(V4.length() - 3))
             out.println("ERROR: length() wrong value");
-
+        
         // test vector normalization vs vector length and cross-product
         Vector u = V1.normalize();
         if (!isZero(u.length() - 1))
@@ -169,7 +176,7 @@ public final class Main {
         }
         if (V1.dotProduct(u) < 0)
             out.println("ERROR: the normalized vector is opposite to the original one");
-
+        
         // Test scale
         if (!V1.scale(2).equals(new Vector(2, 4, 6)))
             out.println("ERROR: scale() wrong result");
@@ -180,7 +187,7 @@ public final class Main {
             /* ignored */
         }
     }
-
+    
     /**
      * Method for testing operations on two vectors
      */
@@ -206,7 +213,7 @@ public final class Main {
             out.println("ERROR: Vector + Vector does not work correctly");
         if (!V1.subtract(V2).equals(V5))
             out.println("ERROR: Vector - Vector does not work correctly");
-
+        
         // test Dot-Product
         if (!isZero(V1.dotProduct(V3)))
             out.println("ERROR: dotProduct() for orthogonal vectors is not zero");
@@ -214,7 +221,7 @@ public final class Main {
             out.println("ERROR: dotProduct() wrong value");
         if (!isZero(V1.dotProduct(V1) - V1.lengthSquared()))
             out.println("ERROR: dotProduct(v,v) != lengthSquared()");
-
+        
         // test Cross-Product properties: orthogonality and magnitude relation
         try { // test zero vector
             V1.crossProduct(V2);
@@ -227,14 +234,14 @@ public final class Main {
             out.println("ERROR: crossProduct() wrong result length");
         if (!isZero(vr.dotProduct(V1)) || !isZero(vr.dotProduct(V3)))
             out.println("ERROR: crossProduct() result is not orthogonal to its operands");
-
+        
         // Test a × b = -(b × a)
         Vector a = V1.crossProduct(V3);
         Vector b = V3.crossProduct(V1);
         if (!a.equals(b.scale(-1)))
             out.println("ERROR: cross product anti-commutativity wrong");
     }
-
+    
     /**
      * Basic constructor checks for geometry classes. At this stage most geometry constructors only store the given
      * parameters. Therefore the tests verify mainly that objects can be created successfully. The only geometry that
@@ -243,7 +250,7 @@ public final class Main {
      */
     private static void geometryConstructorTests() {
         // At this stage geometries mainly store constructor parameters.
-
+        
         // ---- Plane ----------------------------------------------------------
         // constructor by three points
         new Plane(P1, P2, P3);
@@ -251,10 +258,10 @@ public final class Main {
         Plane plane = new Plane(P1, V1);
         if (!plane.getNormal(P1).equals(V1.normalize()))
             out.println("ERROR: Plane(point, normal) constructor - wrong normal");
-
+        
         // ---- Polygon based geometries ---------------------------------------
         new Triangle(P1, P2, P3);
-
+        
         // ---- Radial geometries ----------------------------------------------
         new Sphere(new Point(0, 0, 0), 1);
         // ---- Tube-based geometries ------------------------------------------
@@ -262,5 +269,5 @@ public final class Main {
         new Tube(1, axis);
         new Cylinder(1, axis, 2);
     }
-
+    
 }

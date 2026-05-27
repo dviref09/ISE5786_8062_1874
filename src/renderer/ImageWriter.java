@@ -20,12 +20,12 @@ final class ImageWriter {
      * directory.
      */
     private static final String FOLDER_PATH = System.getProperty("user.dir") + "/images";
-
+    
     /**
      * Internal image buffer (matrix of pixel colors)
      */
     private final BufferedImage _image;
-
+    
     /**
      * Creates an image writer for the given resolution.
      * @param nX the horizontal resolution, in pixels
@@ -37,7 +37,7 @@ final class ImageWriter {
             throw new IllegalArgumentException("Image resolution must be positive");
         _image = new BufferedImage(nX, nY, BufferedImage.TYPE_INT_RGB);
     }
-
+    
     /**
      * Writes the buffered image to a PNG file in the images directory.
      * @param fileName the output file name, without the {@code .png} extension
@@ -55,15 +55,15 @@ final class ImageWriter {
             throw new IllegalStateException("I/O error while writing image to " + FOLDER_PATH, e);
         }
     }
-
+    
     /**
      * Writes a color to the specified pixel.
      * @param xIndex the pixel x-coordinate
      * @param yIndex the pixel y-coordinate
-     * @param color  the color to write
+     * @param color the color to write
      */
     void writePixel(int xIndex, int yIndex, Color color) {
         _image.setRGB(xIndex, yIndex, color.getColor().getRGB());
     }
-
+    
 }

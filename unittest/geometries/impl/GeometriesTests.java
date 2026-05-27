@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Unit test class for {@link Geometries}.
- *
  * @author Dvir Farkash
  */
 public class GeometriesTests {
@@ -23,12 +22,12 @@ public class GeometriesTests {
     Geometries testGeometries = new Geometries(testSphere, testTriangle, testPlane);
     Geometries emptyGeometries = new Geometries();
     Point rayOrigin = new Point(-3, 0, 1.5);
-
+    
     /**
      * Failure messages for the tests
      */
     private static final String FIND_INTERSECTIONS_FAILURE_MESSAGE = "The number of intersection points is incorrect";
-
+    
     /**
      * Test method for {@link Geometries#findIntersections(Ray)}
      */
@@ -38,20 +37,20 @@ public class GeometriesTests {
         // EP01: Some of the geometric bodies get intersected
         Ray testRay = new Ray(rayOrigin, new Vector(1, 0, 0));
         assertEquals(2, testGeometries.findIntersections(testRay).size(), FIND_INTERSECTIONS_FAILURE_MESSAGE);
-
+        
         // =============== Boundary Values Tests ==================
         // BV01: No geometric body get intersected
         testRay = new Ray(rayOrigin, new Vector(-1, 0, 0));
         assertNull(testGeometries.findIntersections(testRay), FIND_INTERSECTIONS_FAILURE_MESSAGE);
-
+        
         // BV02: One geometric body get intersected
         testRay = new Ray(rayOrigin, new Vector(4, 0, 1));
         assertEquals(1, testGeometries.findIntersections(testRay).size(), FIND_INTERSECTIONS_FAILURE_MESSAGE);
-
+        
         // BV03: All geometric bodies get intersected
         testRay = new Ray(rayOrigin, new Vector(4, 0, -1));
         assertEquals(4, testGeometries.findIntersections(testRay).size(), FIND_INTERSECTIONS_FAILURE_MESSAGE);
-
+        
         // BV04: There is no bodies at all
         testRay = new Ray(rayOrigin, new Vector(1, 1, 1));
         assertNull(emptyGeometries.findIntersections(testRay), FIND_INTERSECTIONS_FAILURE_MESSAGE);

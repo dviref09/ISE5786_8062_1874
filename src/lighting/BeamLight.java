@@ -11,18 +11,17 @@ public class BeamLight extends SpotLight {
      * The amount of beam concentration, must be positive
      */
     private int _beamPower;
-
+    
     /**
      * Constructor
      * @param intensity The intensity of the light
-     * @param position  The position of the beam light
+     * @param position The position of the beam light
      * @param direction The direction of the beam light
      */
     public BeamLight(Color intensity, Point position, Vector direction) {
         super(intensity, position, direction);
     }
-
-
+    
     @Override
     public Color getIntensity(Point p) {
         if (p.equals(_position)) {
@@ -30,29 +29,29 @@ public class BeamLight extends SpotLight {
         }
         return super.getIntensity(p).scale(powerInt((Math.max(0, getL(p).dotProduct(_direction))), _beamPower - 1));
     }
-
+    
     // setters for the attenuation coefficients
     @Override
-    BeamLight setKc(double kC) {
+    public BeamLight setKc(double kC) {
         return (BeamLight) super.setKc(kC);
     }
-
+    
     @Override
-    BeamLight setKl(double kL) {
+    public BeamLight setKl(double kL) {
         return (BeamLight) super.setKl(kL);
     }
-
+    
     @Override
-    BeamLight setKq(double kQ) {
+    public BeamLight setKq(double kQ) {
         return (BeamLight) super.setKq(kQ);
     }
-
+    
     /**
      * Setter for beamPower coefficient
      * @param beamPower The new value for the coefficient
      * @return The same instance for setters chaining
      */
-    BeamLight setNarrowBeam(int beamPower) {
+    public BeamLight setNarrowBeam(int beamPower) {
         if (beamPower < 1) {
             throw new IllegalArgumentException("Beam power must be positive");
         }

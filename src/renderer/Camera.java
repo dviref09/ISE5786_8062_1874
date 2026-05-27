@@ -51,13 +51,13 @@ public final class Camera implements Cloneable {
      * The ray tracer to be in use in the camera
      */
     private RayTracerBase _rayTracer;
-
+    
     /**
      * Private constructor, its is private because the camera should be created using the inner builder class
      */
     private Camera() {
     }
-
+    
     /**
      * Method for getting an object of builder
      * @return Builder class object
@@ -65,7 +65,7 @@ public final class Camera implements Cloneable {
     public static Builder getBuilder() {
         return new Builder();
     }
-
+    
     /**
      * Calculated the color of all the pixels and paints them in the writeImage
      * @return The same camera object for chaining methods
@@ -78,26 +78,28 @@ public final class Camera implements Cloneable {
         }
         return this;
     }
-
+    
     /**
      * Adding a grid on top of the current image, for debugging usage
      * @param interval The size of each grid cell in pixels
-     * @param color    The color of the grid
+     * @param color The color of the grid
      * @return The same camera for chaining methods
      */
     public Camera printGrid(int interval, Color color) {
         for (int x = 0; x < _nX; x++) {
             // the y increase is based on which column we are now
-            // if the column is divisible by interval this means it should be fully colored so y is going up by one each time
-            // if the column is not divisible by interval this means it should by colored only in the interval gaps so y is going up by interval each time
+            // if the column is divisible by interval this means it should be fully colored so y is going up by one
+            // each time
+            // if the column is not divisible by interval this means it should by colored only in the interval gaps
+            // so y is going up by interval each time
             for (int y = 0; y < _nY; y += (x % interval == 0 ? 1 : interval)) {
                 _imageWriter.writePixel(x, y, color);
             }
         }
-
+        
         return this;
     }
-
+    
     /**
      * Writes the current image to a PNG file
      * @param name The name of the output PNG file
@@ -105,7 +107,7 @@ public final class Camera implements Cloneable {
     void writeToImage(String name) {
         _imageWriter.writeToImage(name);
     }
-
+    
     /**
      * Creates a ray through the center of a pixel in the view plane
      * For the indexes the center is considered (0,0)
@@ -117,19 +119,20 @@ public final class Camera implements Cloneable {
         double xJ = (xIndex - (double) (_nX - 1) / 2) * _pixelWidth;
         double yI = -(yIndex - (double) (_nY - 1) / 2) * _pixelHeight;
         Point pIJ = _vpCenter;
-
+        
         if (!isZero(xJ)) {
             pIJ = pIJ.add(_vRight.scale(xJ));
         }
         if (!isZero(yI)) {
             pIJ = pIJ.add(_vUp.scale(yI));
         }
-
+        
         return new Ray(_p0, pIJ.subtract(_p0));
     }
-
+    
     /**
-     * Private helper method for creating a ray through a pixel, calculating its color and then paints the corresponding pixel in imageWriter
+     * Private helper method for creating a ray through a pixel, calculating its color and then paints the
+     * corresponding pixel in imageWriter
      * @param xIndex The x index of the pixel to paint
      * @param yIndex The y index of the pixel to paint
      */
@@ -138,7 +141,7 @@ public final class Camera implements Cloneable {
         Color pixelColor = _rayTracer.traceRay(ray);
         _imageWriter.writePixel(xIndex, yIndex, pixelColor);
     }
-
+    
     /**
      * Inner builder class for building the camera object
      */
@@ -147,7 +150,7 @@ public final class Camera implements Cloneable {
          * The camera object the class builds
          */
         private final Camera _camera = new Camera();
-
+        
         /**
          * Constructor for the builder, sets default values to camera's fields
          */
@@ -155,12 +158,12 @@ public final class Camera implements Cloneable {
             _camera._vUp = Vector.AXIS_Y;
             _camera._vTo = null;
         }
-
+        
         /**
          * Helper variable for the setDirection method
          */
         private Point _targetPoint = null;
-
+        
         /**
          * Sets the location of the camera
          * @param location The location of the camera
@@ -170,7 +173,7 @@ public final class Camera implements Cloneable {
             _camera._p0 = location;
             return this;
         }
-
+        
         /**
          * Sets the direction by two vectors:
          * @param to Where the camera is looking
@@ -182,11 +185,12 @@ public final class Camera implements Cloneable {
             _camera._vUp = up;
             return this;
         }
-
+        
         /**
          * Sets the direction by a vector and point:
-         * @param target A point in the direction of the camera, by this point the direction vector of the camera will be calculated
-         * @param up     The direction of the top of the camera (affects rotation)
+         * @param target A point in the direction of the camera, by this point the direction vector of the camera
+         * will be calculated
+         * @param up The direction of the top of the camera (affects rotation)
          * @return The same builder for chaining methods
          */
         public Builder setDirection(Point target, Vector up) {
@@ -194,20 +198,21 @@ public final class Camera implements Cloneable {
             _camera._vUp = up;
             return this;
         }
-
+        
         /**
          * Sets the direction by a target point (and the up vector will be the y-axis)
-         * @param target A point in the direction of the camera, by this point the direction vector of the camera will be calculated
+         * @param target A point in the direction of the camera, by this point the direction vector of the camera
+         * will be calculated
          * @return The same builder for chaining methods
          */
         public Builder setDirection(Point target) {
             _targetPoint = target;
             return this;
         }
-
+        
         /**
          * Sets the size of the view plane
-         * @param width  The width of the view plane
+         * @param width The width of the view plane
          * @param height The height of the view plane
          * @return The same builder for chaining methods
          */
@@ -216,7 +221,7 @@ public final class Camera implements Cloneable {
             _camera._height = height;
             return this;
         }
-
+        
         /**
          * Sets the distance of the view plane from the camera
          * @param distance The distance of the view plane form the camera
@@ -226,7 +231,7 @@ public final class Camera implements Cloneable {
             _camera._distance = distance;
             return this;
         }
-
+        
         /**
          * Sets the resolution of the camera
          * @param nX The number of pixels in the x-axis
@@ -238,11 +243,11 @@ public final class Camera implements Cloneable {
             _camera._nY = nY;
             return this;
         }
-
+        
         /**
          * Sets the ray tracer of the camera
          * @param scene The scene the ray tracer works on
-         * @param type  The type of ray tracer to be used in camera
+         * @param type The type of ray tracer to be used in camera
          * @return The same builder for chaining methods
          * @throws IllegalArgumentException If the ray tracer type is invalid
          */
@@ -254,7 +259,7 @@ public final class Camera implements Cloneable {
             }
             return this;
         }
-
+        
         /**
          * Checks that all values are valid and generates the missing data
          * @return The finished camera object
@@ -264,14 +269,14 @@ public final class Camera implements Cloneable {
             checkLocationAndDirection();
             checkViewPlane();
             checkRayTracer();
-
+            
             try {
                 return (Camera) _camera.clone();
             } catch (CloneNotSupportedException e) {
                 return null;
             }
         }
-
+        
         /**
          * Checks whether the resolution values are valid or not
          * Adds the imageWriter with the resolution data
@@ -283,7 +288,7 @@ public final class Camera implements Cloneable {
             }
             _camera._imageWriter = new ImageWriter(_camera._nX, _camera._nY);
         }
-
+        
         /**
          * Checks if there is enough data about the camera position
          * Enough data is:
@@ -292,16 +297,18 @@ public final class Camera implements Cloneable {
          * 2) vTo
          * After that calculates the remaining data
          * @throws MissingResourceException If the camera's position is missing or both target point an vTo are missing
-         * @throws IllegalArgumentException If the target point is in the camera's position, and we don't have vTo already
+         * @throws IllegalArgumentException If the target point is in the camera's position, and we don't have vTo
+         * already
          */
         private void checkLocationAndDirection() {
             if (_camera._p0 == null) {
                 throw new MissingResourceException("The camera must have a location", "Builder", "_po");
             }
             if (_targetPoint == null && _camera._vTo == null) {
-                throw new MissingResourceException("The camera must have vTo vector or target point", "Builder", "_vTo or _targetPoint");
+                throw new MissingResourceException("The camera must have vTo vector or target point", "Builder",
+                        "_vTo or _targetPoint");
             }
-
+            
             if (_camera._vTo == null) {
                 if (_targetPoint.equals(_camera._p0)) {
                     throw new IllegalArgumentException("The camera's target point can't be in the camera's position");
@@ -310,11 +317,12 @@ public final class Camera implements Cloneable {
             }
             calcVectors();
         }
-
+        
         /**
          * Checks if the view plane data is valid
          * And then calculates the center point of the view plane and the pixel dimensions
-         * @throws IllegalArgumentException If the width or the height or the distance of the view plane are not positive
+         * @throws IllegalArgumentException If the width or the height or the distance of the view plane are not
+         * positive
          */
         private void checkViewPlane() {
             if (_camera._width <= 0 || _camera._height <= 0 || _camera._distance <= 0) {
@@ -322,16 +330,17 @@ public final class Camera implements Cloneable {
             }
             calcViewPlane();
         }
-
+        
         /**
-         * Checks if there is a ray tracer and if there isn't then sets a default ray tracer: simple and scene called "test"
+         * Checks if there is a ray tracer and if there isn't then sets a default ray tracer: simple and scene called
+         * "test"
          */
         private void checkRayTracer() {
             if (_camera._rayTracer == null) {
                 setRayTracer(new Scene("test"), RayTracerType.SIMPLE);
             }
         }
-
+        
         /**
          * Calculates the vUp, vRight vectors.
          * All of the vectors will be normalized
@@ -344,16 +353,16 @@ public final class Camera implements Cloneable {
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("vTo and vUp can't be parallel.");
             }
-
+            
             _camera._vUp = _camera._vRight.crossProduct(_camera._vTo).normalize();
         }
-
+        
         /**
          * Calculates the missing data of the view plane:
          * The center point and the pixel dimensions
          */
         private void calcViewPlane() {
-            _camera._vpCenter = _camera._vTo.scale(_camera._distance);
+            _camera._vpCenter = _camera._p0.add(_camera._vTo.scale(_camera._distance));
             _camera._pixelWidth = _camera._width / _camera._nX;
             _camera._pixelHeight = _camera._height / _camera._nY;
         }

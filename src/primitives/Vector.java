@@ -17,7 +17,7 @@ public final class Vector extends Point {
      * The unit vector for z axis
      */
     public static final Vector AXIS_Z = new Vector(0, 0, 1);
-
+    
     /**
      * Constructs a new vector with the specified coordinates.
      * @param x the x coordinate of the vector
@@ -30,7 +30,7 @@ public final class Vector extends Point {
             throw new IllegalArgumentException("Zero vector is not allowed");
         }
     }
-
+    
     /**
      * Constructs a new vector with the specified coordinates.
      * @param coordinates The coordinates of the vector
@@ -46,7 +46,7 @@ public final class Vector extends Point {
      * רשימת המתודות שכתובה בתמונה, אם יש מתודה שאתה לא בטוח מה היא אמורה לעשות תשאל אותי. תייצר גם הערת javadoc, תקפיד
      * על כך שסגנון ההערכות והקוד יהיה דומה לשאר הקוד וההערות."
      */
-
+    
     /**
      * Adds another vector to this vector.
      * @param other The vector to add.
@@ -56,7 +56,7 @@ public final class Vector extends Point {
     public Vector add(Vector other) {
         return new Vector(_xyz.add(other._xyz));
     }
-
+    
     /**
      * Scales this vector by a scalar value.
      * @param factor The factor of multiplication.
@@ -66,7 +66,7 @@ public final class Vector extends Point {
     public Vector scale(double factor) {
         return new Vector(_xyz.scale(factor));
     }
-
+    
     /**
      * Calculates the dot product of this vector with another vector.
      * @param other The other vector.
@@ -76,7 +76,7 @@ public final class Vector extends Point {
         return _xyz._d1() * other._xyz._d1() + _xyz._d2() * other._xyz._d2()
                 + _xyz._d3() * other._xyz._d3();
     }
-
+    
     /**
      * Calculates the cross product of this vector with another vector.
      * @param other The other vector.
@@ -91,7 +91,7 @@ public final class Vector extends Point {
         double resultZ = thisX * otherY - thisY * otherX;
         return new Vector(resultX, resultY, resultZ);
     }
-
+    
     /**
      * Calculates the squared length of this vector.
      * @return The squared length of the vector.
@@ -99,7 +99,7 @@ public final class Vector extends Point {
     public double lengthSquared() {
         return dotProduct(this);
     }
-
+    
     /**
      * Calculates the length of this vector.
      * @return The length of the vector.
@@ -107,7 +107,7 @@ public final class Vector extends Point {
     public double length() {
         return Math.sqrt(lengthSquared());
     }
-
+    
     /**
      * Returns a new normalized (unit) vector in the same direction as this vector.
      * @return A new unit vector in the direction of this vector.
@@ -115,12 +115,12 @@ public final class Vector extends Point {
     public Vector normalize() {
         return scale(1 / length());
     }
-
+    
     /*
      * We didn't implement hashCode, toString and equals methods, because their implementation is the same as the super
      * class, so we didn't want to needlessly repeat ourselves
      */
-
+    
     @Override
     public String toString() {
         return "->" + super.toString();

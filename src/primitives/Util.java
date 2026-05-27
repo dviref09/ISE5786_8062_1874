@@ -31,13 +31,13 @@ public final class Util {
      * Bit mask used to isolate the exponent field.
      */
     private static final long EXPONENT_MASK = 0x7FFL;
-
+    
     /**
      * Don't let anyone instantiate this class.
      */
     private Util() {
     }
-
+    
     /**
      * Extracts the unbiased exponent of a {@code double}.
      * IEEE-754 double format:
@@ -64,7 +64,7 @@ public final class Util {
         // 4. Remove the exponent bias (1023)
         return (int) ((Double.doubleToRawLongBits(num) >> EXPONENT_SHIFT) & EXPONENT_MASK) - EXPONENT_BIAS;
     }
-
+    
     /**
      * Checks whether a number is effectively zero, within the configured accuracy.
      * @param number the number to check
@@ -73,7 +73,7 @@ public final class Util {
     public static boolean isZero(double number) {
         return getExp(number) < ACCURACY;
     }
-
+    
     /**
      * Returns zero if the given value is numerically close to zero.
      * <p>
@@ -85,7 +85,7 @@ public final class Util {
     public static double alignZero(double number) {
         return getExp(number) < ACCURACY ? 0.0 : number;
     }
-
+    
     /**
      * Checks whether two numbers have the same sign.
      * <p>
@@ -98,7 +98,7 @@ public final class Util {
     public static boolean compareSign(double n1, double n2) {
         return (n1 > 0 && n2 > 0) || (n1 < 0 && n2 < 0);
     }
-
+    
     /**
      * Returns a random double in the range {@code [min, max)}.
      * @param min lower bound (inclusive)
@@ -108,7 +108,7 @@ public final class Util {
     public static double random(double min, double max) {
         return Math.random() * (max - min) + min;
     }
-
+    
     /**
      * Calculating a double number raised to the power of an int, the exponent must be positive or zero
      * @param base The base of the power
@@ -118,7 +118,7 @@ public final class Util {
     public static double powerInt(double base, int exponent) {
         // the function is using exponentiation by squaring
         double result = 1;
-
+        
         if (exponent < 0) {
             throw new IllegalArgumentException("The exponent must be positive or zero.");
         }
@@ -133,7 +133,7 @@ public final class Util {
             // dividing the exponent by two
             exponent >>= 1;
         }
-
+        
         return result;
     }
 }

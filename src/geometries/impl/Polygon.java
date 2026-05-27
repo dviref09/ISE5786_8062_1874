@@ -33,7 +33,7 @@ public class Polygon extends Geometry {
      * Number of vertices
      */
     private final int _size;
-
+    
     /**
      * Constructs a convex polygon from ordered vertices.
      * <p>
@@ -53,18 +53,18 @@ public class Polygon extends Geometry {
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
         _size = vertices.length;
-
+        
         // Create the supporting plane using the first three vertices.
         // The plane stores the constant normal of the polygon.
         _plane = new Plane(vertices[0], vertices[1], vertices[2]);
         if (_size == 3)
             return; // no need for more tests for a Triangle
-
+        
         Vector n = _plane.getNormal(vertices[0]);
         // Subtracting identical vertices would create a zero vector (illegal)
         Vector edge1 = vertices[_size - 1].subtract(vertices[_size - 2]);
         Vector edge2 = vertices[0].subtract(vertices[_size - 1]);
-
+        
         // Cross product of consecutive edges determines orientation.
         // All edge pairs must produce the same sign relative to the normal,
         // otherwise the polygon is concave or vertices are unordered.
@@ -80,12 +80,12 @@ public class Polygon extends Geometry {
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
     }
-
+    
     @Override
     public Vector getNormal(Point point) {
         return _plane.getNormal(point);
     }
-
+    
     @Override
     protected List<Intersection> calcIntersectionsHelper(Ray ray) {
         return null;

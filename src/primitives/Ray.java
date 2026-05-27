@@ -19,19 +19,19 @@ public final class Ray {
      * The vector is normalized.
      */
     private final Vector _direction;
-
+    
     /**
      * Constructs a new ray with the specified origin and direction.
-     * @param origin    The origin point of the ray.
+     * @param origin The origin point of the ray.
      * @param direction The direction vector of the ray. It will be normalized.
      */
     public Ray(Point origin, Vector direction) {
         this._origin = origin;
         this._direction = direction.normalize();
     }
-
+    
     // getters
-
+    
     /**
      * Getter for the origin point.
      * @return The origin point of the ray.
@@ -39,7 +39,7 @@ public final class Ray {
     public Point origin() {
         return _origin;
     }
-
+    
     /**
      * Getter for the direction vector.
      * @return The direction vector of the ray.
@@ -48,7 +48,7 @@ public final class Ray {
         return _direction;
     }
     // end of getters
-
+    
     /**
      * Method for calculating the formula p0 + t*v for points on the ray
      * @param t The t parameter in the formula
@@ -61,7 +61,7 @@ public final class Ray {
             return _origin;
         }
     }
-
+    
     /**
      * Method for calculating the closest intersection to the start of the ray from a list of intersections on the ray
      * @param intersections The list of intersections on the ray
@@ -71,10 +71,10 @@ public final class Ray {
         if (intersections == null) {
             return null;
         }
-
+        
         double MinimumDistanceSquared = Double.POSITIVE_INFINITY;
         Intersection closestIntersection = null;
-
+        
         for (Intersection intersection : intersections) {
             double currentDistanceSquared = intersection.point.distanceSquared(_origin);
             if (currentDistanceSquared < MinimumDistanceSquared) {
@@ -84,7 +84,7 @@ public final class Ray {
         }
         return closestIntersection;
     }
-
+    
     /**
      * Method for calculating the closest point to the start of the ray from a list of points on the ray
      * @param points The list of points on the ray
@@ -99,7 +99,7 @@ public final class Ray {
         ).point
         );
     }
-
+    
     @Override
     public boolean equals(Object other) {
         if (this == other)
@@ -108,12 +108,12 @@ public final class Ray {
             return false;
         return _origin.equals(((Ray) other)._origin) && _direction.equals(((Ray) other)._direction);
     }
-
+    
     @Override
     public String toString() {
         return "Ray:" + _origin + _direction;
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(_origin, _direction);

@@ -1,7 +1,11 @@
 package scene;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import geometries.impl.Geometries;
 import lighting.AmbientLight;
+import lighting.LightSource;
 import primitives.Color;
 
 /**
@@ -29,7 +33,11 @@ public final class Scene {
      * The collection of geometric bodies in the scene, by default set to empty
      */
     public Geometries geometries = new Geometries();
-
+    /**
+     * The light sources in the scene
+     */
+    public List<LightSource> lights = new ArrayList<>();
+    
     /**
      * Constructor of the scene
      * @param name The name of the scene
@@ -37,10 +45,10 @@ public final class Scene {
     public Scene(String name) {
         this.name = name;
     }
-
+    
     // setters
     // all the setter are returning this for setters chaining
-
+    
     /**
      * Setter for the name of the scene
      * @param name The new name for the scene
@@ -50,7 +58,7 @@ public final class Scene {
         this.name = name;
         return this;
     }
-
+    
     /**
      * Setter for the background color of the scene
      * @param background The new background color
@@ -60,7 +68,7 @@ public final class Scene {
         this.background = background;
         return this;
     }
-
+    
     /**
      * Setter for the ambient light of the scene
      * @param ambientLight The new ambient light
@@ -70,7 +78,7 @@ public final class Scene {
         this.ambientLight = ambientLight;
         return this;
     }
-
+    
     /**
      * Setter for the collection of geometric bodies in the scene
      * @param geometries The new collection of geometric bodies

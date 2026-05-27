@@ -4,14 +4,20 @@ import geometries.impl.Sphere;
 import geometries.impl.Triangle;
 import lighting.AmbientLight;
 import org.junit.jupiter.api.Test;
-import primitives.*;
+import primitives.Color;
+import primitives.Double3;
+import primitives.Material;
+import primitives.Point;
+import primitives.Vector;
 import scene.Scene;
 
-import static java.awt.Color.*;
+import static java.awt.Color.BLUE;
+import static java.awt.Color.GREEN;
+import static java.awt.Color.RED;
+import static java.awt.Color.WHITE;
 
 /**
  * Test rendering a basic image
- *
  * @author Dan
  */
 @SuppressWarnings("java:S109")
@@ -20,27 +26,27 @@ class RenderStage6Tests {
      * Default constructor to satisfy JavaDoc generator
      */
     RenderStage6Tests() { /* to satisfy JavaDoc generator */ }
-
+    
     /**
      * Resolution (both X and Y)
      */
     private static final int RESOLUTION = 1001;
-
+    
     /**
      * View plane size (both height and width)
      */
     private static final double SIZE = 500D;
-
+    
     /**
      * Distance from camera to view plane
      */
     private static final double DISTANCE = 100D;
-
+    
     /**
      * Grid interval (pixels)
      */
     private static final int INTERVAL = 100;
-
+    
     /**
      * Z axis location of triangles
      */
@@ -105,7 +111,7 @@ class RenderStage6Tests {
      * Sphere radius
      */
     private static final double RADIUS = 50D;
-
+    
     /**
      * The sphere in the tests
      */
@@ -122,11 +128,10 @@ class RenderStage6Tests {
      * The right bottom triangle in the tests
      */
     private final Triangle _triangleRightBottom = new Triangle(P_RM, P_MB, P_RB);
-
+    
     /**
      * Build camera and render image with grid
-     *
-     * @param scene    the scene to be used for the image
+     * @param scene the scene to be used for the image
      * @param fileName the name of the image file
      */
     private static void createImage(Scene scene, String fileName) {
@@ -140,7 +145,7 @@ class RenderStage6Tests {
                 .printGrid(INTERVAL, new Color(WHITE)) //
                 .writeToImage(fileName);
     }
-
+    
     /**
      * Produce a scene with basic 3D model - including individual emission lights of
      * the
@@ -156,7 +161,7 @@ class RenderStage6Tests {
                         _triangleRightBottom.setEmission(new Color(BLUE)));
         createImage(scene, "emission render test");
     }
-
+    
     /**
      * Produce a scene with basic 3D model - including ambient light attenuation
      * factors of the

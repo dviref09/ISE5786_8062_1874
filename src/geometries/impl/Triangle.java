@@ -24,7 +24,7 @@ public final class Triangle extends Polygon {
     public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);
     }
-
+    
     @Override
     protected List<Intersection> calcIntersectionsHelper(Ray ray) {
 		/*
@@ -51,54 +51,54 @@ public final class Triangle extends Polygon {
         Vector Edge1 = _vertices.get(1).subtract(_vertices.get(0));
         Vector Edge2 = _vertices.get(2).subtract(_vertices.get(0));
         Vector normal = getNormal(_vertices.get(0));
-
+        
         if (isZero(ray.direction().dotProduct(normal))) {
             // this means the ray is parallel to the triangle
             return null;
         }
-
+        
         if (_vertices.get(0).equals(ray.origin())) {
             return null;
         }
-
+        
         Vector P = ray.direction().crossProduct(Edge2);
         double det = P.dotProduct(Edge1);
-
+        
         if (isZero(det)) {
             return null;
         }
-
+        
         Vector T = ray.origin().subtract(_vertices.get(0));
-
+        
         if (isZero(T.dotProduct(normal))) {
             return null;
         }
-
+        
         Vector Q;
         try {
             Q = T.crossProduct(Edge1);
         } catch (IllegalArgumentException e) {
             return null;
         }
-
+        
         double u = alignZero(P.dotProduct(T) / det);
         if (u <= 0 || u >= 1) {
             return null;
         }
-
+        
         double v = alignZero(Q.dotProduct(ray.direction()) / det);
         if (v <= 0 || u + v >= 1) {
             return null;
         }
-
+        
         double t = alignZero(Q.dotProduct(Edge2) / det);
         if (t <= 0) {
             return null;
         }
-
+        
         return List.of(new Intersection(this, ray.getPoint(t)));
     }
-
+    
     @Override
     public boolean equals(Object other) {
         if (this == other)
@@ -107,14 +107,14 @@ public final class Triangle extends Polygon {
             return false;
         return super.equals(other);
     }
-
+    
     @Override
     public String toString() {
         return "Triangle: Vertex 1: " + _vertices.get(0) +
                 " Vertex 2: " + _vertices.get(1) +
                 " Vertex 3: " + _vertices.get(2);
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(_vertices);

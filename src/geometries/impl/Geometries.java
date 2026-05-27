@@ -15,21 +15,21 @@ public final class Geometries extends Intersectable {
      * The list of the geometric bodies
      */
     private final List<Intersectable> geometries = new ArrayList<>();
-
+    
     /**
      * Constructor
      */
     public Geometries(Intersectable... geometries) {
         this.geometries.addAll(List.of(geometries));
     }
-
+    
     /**
      * Method for adding new geometric bodies to the list
      */
     public void add(Intersectable... geometries) {
         this.geometries.addAll(List.of(geometries));
     }
-
+    
     @Override
     protected List<Intersection> calcIntersectionsHelper(Ray ray) {
         List<Intersection> intersections = null;
@@ -45,5 +45,5 @@ public final class Geometries extends Intersectable {
         }
         return intersections;
     }
-
+    
 }

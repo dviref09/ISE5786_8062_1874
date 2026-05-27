@@ -10,7 +10,7 @@ public enum RayTracerType {
      * A basic ray tracer.
      */
     SIMPLE,
-
+    
     /**
      * A ray tracer that uses a regular grid acceleration structure.
      */

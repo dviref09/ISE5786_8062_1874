@@ -21,17 +21,17 @@ import static primitives.Util.isZero;
  * @author Dan Zilberstein
  */
 public record Double3(double _d1, double _d2, double _d3) {
-
+    
     /**
      * Constant triad (0,0,0)
      */
     public static final Double3 ZERO = new Double3(0, 0, 0);
-
+    
     /**
      * Constant triad (1,1,1)
      */
     public static final Double3 ONE = new Double3(1, 1, 1);
-
+    
     /**
      * Constructor to initialize Double3 based object the same number values
      * @param value number value for all 3 numbers
@@ -39,23 +39,23 @@ public record Double3(double _d1, double _d2, double _d3) {
     public Double3(double value) {
         this(value, value, value);
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         return this == obj || (obj instanceof Double3(double od1, double od2, double od3)) && isZero(_d1 - od1)
                 && isZero(_d2 - od2) && isZero(_d3 - od3);
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(_d1, _d2, _d3);
     }
-
+    
     @Override
     public String toString() {
         return "(" + _d1 + "," + _d2 + "," + _d3 + ")";
     }
-
+    
     /**
      * Adds this triad to another triad component-wise.
      * @param rhs the triad to add
@@ -64,7 +64,7 @@ public record Double3(double _d1, double _d2, double _d3) {
     public Double3 add(Double3 rhs) {
         return new Double3(_d1 + rhs._d1, _d2 + rhs._d2, _d3 + rhs._d3);
     }
-
+    
     /**
      * Subtracts another triad from this triad component-wise.
      * @param rhs the triad to subtract
@@ -73,7 +73,7 @@ public record Double3(double _d1, double _d2, double _d3) {
     public Double3 subtract(Double3 rhs) {
         return new Double3(_d1 - rhs._d1, _d2 - rhs._d2, _d3 - rhs._d3);
     }
-
+    
     /**
      * Multiplies all components of this triad by a scalar value.
      * @param rhs the scaling factor
@@ -82,7 +82,7 @@ public record Double3(double _d1, double _d2, double _d3) {
     public Double3 scale(double rhs) {
         return new Double3(_d1 * rhs, _d2 * rhs, _d3 * rhs);
     }
-
+    
     /**
      * Divides all components of this triad by a scalar value.
      * @param rhs the divisor
@@ -91,7 +91,7 @@ public record Double3(double _d1, double _d2, double _d3) {
     public Double3 divide(double rhs) {
         return new Double3(_d1 / rhs, _d2 / rhs, _d3 / rhs);
     }
-
+    
     /**
      * Multiplies this triad with another triad component-wise.
      * @param rhs the triad to multiply with
@@ -100,7 +100,7 @@ public record Double3(double _d1, double _d2, double _d3) {
     public Double3 product(Double3 rhs) {
         return new Double3(_d1 * rhs._d1, _d2 * rhs._d2, _d3 * rhs._d3);
     }
-
+    
     /**
      * Checks whether all components are smaller than a given value.
      * @param k the value to compare against
@@ -109,7 +109,7 @@ public record Double3(double _d1, double _d2, double _d3) {
     public boolean isLowerThan(double k) {
         return _d1 < k && _d2 < k && _d3 < k;
     }
-
+    
     /**
      * Checks whether all components of this triad are smaller than the corresponding components of another triad.
      * @param other the triad to compare with

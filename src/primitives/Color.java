@@ -31,24 +31,24 @@ public final class Color {
      * Tolerance used for comparing RGB components in equality checks.
      */
     private static final double DELTA = 0.5;
-
+    
     /**
      * Internal RGB components stored as non-negative double values.
      */
     private final Double3 _rgb;
-
+    
     /**
      * The black color = (0,0,0)
      */
     public static final Color BLACK = new Color();
-
+    
     /**
      * Private constructor for creating the constant black color.
      */
     private Color() {
         _rgb = Double3.ZERO;
     }
-
+    
     /**
      * Creates a color from RGB components.
      * <p>
@@ -63,7 +63,7 @@ public final class Color {
         if (r < 0 || g < 0 || b < 0) throw new IllegalArgumentException("Negative color component is illegal");
         _rgb = new Double3(r, g, b);
     }
-
+    
     /**
      * Creates a color from an RGB triad.
      * @param rgb the RGB components
@@ -74,7 +74,7 @@ public final class Color {
             throw new IllegalArgumentException("Negative color component is illegal");
         this._rgb = rgb;
     }
-
+    
     /**
      * Creates a color from a {@link java.awt.Color} object.
      * @param other the source color
@@ -82,7 +82,7 @@ public final class Color {
     public Color(java.awt.Color other) {
         _rgb = new Double3(other.getRed(), other.getGreen(), other.getBlue());
     }
-
+    
     /**
      * Converts this color to a {@link java.awt.Color}.
      * <p>
@@ -95,7 +95,7 @@ public final class Color {
         int ib = (int) _rgb._d3();
         return new java.awt.Color(ir > MAX ? MAX : ir, ig > MAX ? MAX : ig, ib > MAX ? MAX : ib);
     }
-
+    
     /**
      * Adds one or more colors to this color component-wise.
      * @param colors the colors to add
@@ -112,7 +112,7 @@ public final class Color {
         }
         return new Color(rr, rg, rb);
     }
-
+    
     /**
      * Scales this color component-wise by the given factors.
      * @param k the scale factors for the RGB components
@@ -124,7 +124,7 @@ public final class Color {
             throw new IllegalArgumentException("Can't scale a color by a negative number");
         return new Color(_rgb.product(k));
     }
-
+    
     /**
      * Scales this color by the given factor.
      * @param k the scale factor
@@ -135,7 +135,7 @@ public final class Color {
         if (k < 0.0) throw new IllegalArgumentException("Can't scale a color by a negative number");
         return new Color(_rgb.scale(k));
     }
-
+    
     /**
      * Reduces this color by dividing each component by the given factor.
      * @param k the reduction factor
@@ -146,7 +146,7 @@ public final class Color {
         if (k < 1) throw new IllegalArgumentException("Reduction factor must be at least 1");
         return new Color(_rgb.divide(k));
     }
-
+    
     /**
      * Tolerant equality based on {@code DELTA} per RGB component.
      * Intended for floating-point comparisons in rendering and tests.
@@ -162,7 +162,7 @@ public final class Color {
     public boolean equals(Object obj) {
         return this == obj || (obj instanceof Color other && abs(_rgb._d1() - other._rgb._d1()) < DELTA && abs(_rgb._d2() - other._rgb._d2()) < DELTA && abs(_rgb._d3() - other._rgb._d3()) < DELTA);
     }
-
+    
     /**
      * Compares the given colors to this color using tolerant equality.
      * @param colors colors to compare with this color
@@ -175,7 +175,7 @@ public final class Color {
             if (!this.equals(color)) return false;
         return true;
     }
-
+    
     /**
      * Returns a hash code based on DELTA-sized quantization of the RGB components.
      * <p>
@@ -191,13 +191,13 @@ public final class Color {
         long q1 = Math.round(_rgb._d1() / DELTA);
         long q2 = Math.round(_rgb._d2() / DELTA);
         long q3 = Math.round(_rgb._d3() / DELTA);
-
+        
         int result = Long.hashCode(q1);
         result = 31 * result + Long.hashCode(q2);
         result = 31 * result + Long.hashCode(q3);
         return result;
     }
-
+    
     @Override
     public String toString() {
         return "rgb:" + _rgb;

@@ -15,7 +15,7 @@ public interface LightSource {
      * @return The normalized vector from the light source to the point
      */
     public Vector getL(Point p);
-
+    
     /**
      * The intensity of the light that comes from the light source in the point
      * @param p The point which the intensity is calculated in
