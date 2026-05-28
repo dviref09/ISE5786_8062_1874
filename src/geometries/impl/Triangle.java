@@ -26,7 +26,7 @@ public final class Triangle extends Polygon {
     }
     
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
 		/*
 		* We are using Möller–Trumbore algorithm
 		Explanation of the algorithm and naming of variables:
@@ -96,7 +96,9 @@ public final class Triangle extends Polygon {
             return null;
         }
         
-        return List.of(new Intersection(this, ray.getPoint(t)));
+        return t <= maxDistance
+                ? List.of(new Intersection(this, ray.getPoint(t)))
+                : null;
     }
     
     @Override

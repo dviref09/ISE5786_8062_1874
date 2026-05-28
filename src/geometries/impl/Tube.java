@@ -41,7 +41,7 @@ public class Tube extends RadialGeometry {
     }
     
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
         return null;
     }
     

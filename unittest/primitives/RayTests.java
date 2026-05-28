@@ -19,36 +19,38 @@ class RayTests {
     /**
      * Test data
      */
-    Point testOrigin = new Point(0, 0, 1);
-    Vector testDirection = new Vector(0, 0, 1);
-    Ray testRay = new Ray(testOrigin, testDirection);
+    private final Point testOrigin = new Point(0, 0, 1);
+    private final Vector testDirection = new Vector(0, 0, 1);
+    private final Ray testRay = new Ray(testOrigin, testDirection);
     
     /**
-     * Points on the ray for findClosestPoint test
+     * Points on the ray for findClosestPoint  and getPoints tests
      */
-    Point point1 = new Point(0, 0, 2);
-    Point point2 = new Point(0, 0, 3);
-    Point point3 = new Point(0, 0, 4);
-    
+    private final Point point1 = new Point(0, 0, 2);
+    private final Point point2 = new Point(0, 0, 3);
+    private final Point point3 = new Point(0, 0, 4);
     /**
      * Intersections with points on the ray and geometric bodies for findClosestIntersection test
      */
-    Sphere testSphereIntersection = new Sphere(new Point(1, 0, 0), 1);
-    Plane testPlaneIntersection = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
-    Triangle testTriangleIntersection = new Triangle(new Point(0, 0, 1), new Point(0, -1, -1), new Point(0, 1, -1));
-    Intersection intersection1 = new Intersection(testSphereIntersection, new Point(0, 0, 2));
-    Intersection intersection2 = new Intersection(testPlaneIntersection, new Point(0, 0, 3));
-    Intersection intersection3 = new Intersection(testTriangleIntersection, new Point(0, 0, 4));
+    private final Sphere testSphereIntersection = new Sphere(new Point(1, 0, 0), 1);
+    private final Plane testPlaneIntersection = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
+    private final Triangle testTriangleIntersection =
+            new Triangle(new Point(0, 0, 1), new Point(0, -1, -1), new Point(0, 1, -1));
+    private final Intersection intersection1 = new Intersection(testSphereIntersection, new Point(0, 0, 2));
+    private final Intersection intersection2 = new Intersection(testPlaneIntersection, new Point(0, 0, 3));
+    private final Intersection intersection3 = new Intersection(testTriangleIntersection, new Point(0, 0, 4));
     
     /**
      * Messages for assertion failures.
      */
-    static final String CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE = "Constructor didn't set the origin properly";
-    static final String CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE = "Constructor didn't set the direction properly";
-    static final String GET_POINT_FAILURE_MESSAGE = "The result point is not correct";
-    static final String FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE = "The result point is not the closest " +
-            "one";
-    static final String FIND_CLOSEST_INTERSECTION_NULL_FAILURE_MESSAGE = "The result should be null";
+    private static final String CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE = "Constructor didn't set the origin properly";
+    private static final String CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE =
+            "Constructor didn't set the direction properly";
+    private static final String GET_POINT_FAILURE_MESSAGE = "The result point is not correct";
+    private static final String FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE =
+            "The result point is not the closest one";
+    private static final String FIND_CLOSEST_INTERSECTION_NULL_FAILURE_MESSAGE = "The result should be null";
+    private static final String GET_POINTS_FAILURE_MESSAGE = "The amount of points or their order is incorrect";
     
     /**
      * Test method for {@link Ray#Ray(Point, Vector)}.
@@ -122,8 +124,8 @@ class RayTests {
         assertEquals(point1, testRay.findClosestPoint(testPoints),
                 FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);
         
-        // BV05: List of at least 3 points and there is two point that are the same and the same points are not the
-        // closest
+        // BV05: List of at least 3 points and there is two point that are the same
+        // and the same points are not the closest
         testPoints = List.of(point3, point3, point1);
         assertEquals(point1, testRay.findClosestPoint(testPoints),
                 FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE);

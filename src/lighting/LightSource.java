@@ -14,12 +14,19 @@ public interface LightSource {
      * @param p The destination point of the vector
      * @return The normalized vector from the light source to the point
      */
-    public Vector getL(Point p);
+    Vector getL(Point p);
     
     /**
-     * The intensity of the light that comes from the light source in the point
+     * Calculates the intensity of the light that comes from the light source in the point
      * @param p The point which the intensity is calculated in
      * @return The intensity in the point
      */
-    public Color getIntensity(Point p);
+    Color getIntensity(Point p);
+    
+    /**
+     * Calculates the distance between the light source and the point
+     * @param p The point to check the distance from the light source
+     * @return The distance between the point and the light source
+     */
+    double getDistance(Point p);
 }

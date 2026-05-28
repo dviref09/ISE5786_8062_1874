@@ -65,7 +65,7 @@ public final class Plane extends Geometry {
     }
     
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
         if (_point.equals(ray.origin())) {
             return null;
         }
@@ -80,7 +80,7 @@ public final class Plane extends Geometry {
         }
         
         double t = alignZero(normalTimesPointToCenter / normalTimesDirection);
-        return (t > 0 ? List.of(new Intersection(this, ray.getPoint(t))) : null);
+        return (t > 0 && t <= maxDistance ? List.of(new Intersection(this, ray.getPoint(t))) : null);
     }
     
     @Override

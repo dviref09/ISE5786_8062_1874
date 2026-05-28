@@ -18,7 +18,11 @@ public abstract class Intersectable {
      * @return The intersections as an instance of Intersection class.
      */
     public final List<Intersection> calcIntersections(Ray ray) {
-        return calcIntersectionsHelper(ray);
+        return calcIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+    
+    public final List<Intersection> calcIntersections(Ray ray, double maxDistance) {
+        return calcIntersectionsHelper(ray, maxDistance);
     }
     
     /**
@@ -27,7 +31,7 @@ public abstract class Intersectable {
      * @param ray The ray which were finding its intersections with the body.
      * @return The intersections.
      */
-    protected abstract List<Intersection> calcIntersectionsHelper(Ray ray);
+    protected abstract List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance);
     
     /**
      * Finds the intersections between a ray and the intersectable body.

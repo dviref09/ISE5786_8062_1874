@@ -7,6 +7,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static geometries.api.Intersectable.Intersection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -42,15 +43,16 @@ class TriangleTests {
      * Failure messages for the tests
      */
     private static final String LENGTH_FAILURE_MESSAGE = "The normal should be of length 1.";
-    private static final String DIRECTION_FAILURE_MESSAGE = "The dot product of the normal and a vector made from 2 " +
-            "points in the triangle should be 0.";
+    private static final String DIRECTION_FAILURE_MESSAGE =
+            "The dot product of the normal and a vector made from 2 points in the triangle should be 0.";
     private static final String INTERSECTION_FAILURE_MESSAGE = "Wrong intersection point inside triangle.";
     private static final String INTERSECTION_OUTSIDE_FAILURE_MESSAGE = "Ray outside the triangle should return null.";
     private static final String INTERSECTION_ON_EDGE_FAILURE_MESSAGE = "Ray on triangle edge should return null.";
-    private static final String INTERSECTION_PLANE_FAILURE_MESSAGE = "The ray doesnt should not intersect the plane " +
-            "at all";
-    private static final String CALC_INTERSECTIONS_FAILURE = "The geometry in the intersection wasn't the body that " +
-            "was intersected";
+    private static final String INTERSECTION_PLANE_FAILURE_MESSAGE =
+            "The ray doesnt should not intersect the plane at all";
+    private static final String CALC_INTERSECTIONS_FAILURE =
+            "The geometry in the intersection wasn't the body that was intersected";
+    private static final String INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE = "Wrong intersections with maxDistance";
     
     /**
      * Test method for {@link geometries.impl.Triangle#getNormal(Point)}
@@ -181,5 +183,36 @@ class TriangleTests {
         Ray testRay = new Ray(new Point(-0.5, -0.5, 0), new Vector(1, 1, 1));
         assertSame(testTriangleIntersection, testTriangleIntersection.calcIntersections(testRay).get(0).geometry,
                 CALC_INTERSECTIONS_FAILURE);
+    }
+    
+    /**
+     * Test method for {@link geometries.impl.Triangle#calcIntersections(primitives.Ray, double)}.
+     */
+    @Test
+    void testCalcIntersectionsWithMaxDistance() {
+        Ray testRay = new Ray(new Point(0.25, 0.25, 0), new Vector(0, 0, 1));
+        Intersection intersection = new Intersection(testTriangleIntersection, new Point(0.25, 0.25, 1));
+        
+        Ray testRayAfter = new Ray(new Point(0.25, 0.25, 1), new Vector(0, 0, 1));
+        
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Ray starts before the triangle, maxDistance is past the intersection point
+        List<Intersection> expectedIntersection = List.of(intersection);
+        assertEquals(expectedIntersection, testTriangleIntersection.calcIntersections(testRay, 2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP02: Ray starts before the triangle, maxDistance is before the intersection point
+        assertNull(testTriangleIntersection.calcIntersections(testRay, 0.5),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP03: Ray starts after the triangle
+        assertNull(testTriangleIntersection.calcIntersections(testRayAfter, 2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // =============== Boundary Values Tests ==================
+        // BV01: Ray starts before the triangle, maxDistance is exactly on the intersection point
+        expectedIntersection = List.of(intersection);
+        assertEquals(expectedIntersection, testTriangleIntersection.calcIntersections(testRay, 1),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
     }
 }

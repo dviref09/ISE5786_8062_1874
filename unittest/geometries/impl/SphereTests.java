@@ -7,6 +7,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static geometries.api.Intersectable.Intersection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -30,14 +31,15 @@ class SphereTests {
     private static final String INTERSECTION_START_INSIDE_FAILURE_MESSAGE = "Wrong intersection point for the ray";
     private static final String INTERSECTION_START_AFTER_FAILURE_MESSAGE = "Ray starts after sphere";
     private static final String INTERSECTION_START_ON_SURFACE_FAILURE_MESSAGE = "Should not count starting point";
-    private static final String INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE = "Wrong intersection points for ray" +
-            " through center";
-    private static final String INTERSECTION_TANGENT_FAILURE_MESSAGE = "Tangent ray should not have intersection " +
-            "points";
-    private static final String INTERSECTION_ORTHOGONAL_FAILURE_MESSAGE = "Wrong intersection point for ray " +
-            "orthogonal to center-starting point vector";
-    private static final String CALC_INTERSECTIONS_FAILURE = "The geometry in the intersection wasn't the body that " +
-            "was intersected";
+    private static final String INTERSECTION_GOES_THROUGH_CENTER_FAILURE_MESSAGE =
+            "Wrong intersection points for ray through center";
+    private static final String INTERSECTION_TANGENT_FAILURE_MESSAGE =
+            "Tangent ray should not have intersection points";
+    private static final String INTERSECTION_ORTHOGONAL_FAILURE_MESSAGE =
+            "Wrong intersection point for ray orthogonal to center-starting point vector";
+    private static final String CALC_INTERSECTIONS_FAILURE =
+            "The geometry in the intersection wasn't the body that was intersected";
+    private static final String INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE = "Wrong intersections with maxDistance";
     
     /**
      * Test method for {@link geometries.impl.Sphere#getNormal(Point)}.
@@ -167,5 +169,63 @@ class SphereTests {
         Ray testRay = new Ray(new Point(-1, 0, 0), new Vector(3, 1, 0));
         assertSame(testSphere, testSphere.calcIntersections(testRay).get(0).geometry, CALC_INTERSECTIONS_FAILURE);
         assertSame(testSphere, testSphere.calcIntersections(testRay).get(1).geometry, CALC_INTERSECTIONS_FAILURE);
+    }
+    
+    /**
+     * Test method for {@link geometries.impl.Sphere#calcIntersections(primitives.Ray, double)}.
+     */
+    @Test
+    void testCalcIntersectionsWithMaxDistance() {
+        // Test data
+        Intersection intersection1 = new Intersection(testSphere, new Point(0, 0, 0)); // Distance is 1
+        Intersection intersection2 = new Intersection(testSphere, new Point(2, 0, 0)); // Distance is 3
+        
+        Ray testRayOutside = new Ray(new Point(-1, 0, 0), new Vector(1, 0, 0));
+        Ray testRayInside = new Ray(new Point(1.5, 0, 0), new Vector(1, 0, 0));
+        Ray testRayAfter = new Ray(new Point(3, 0, 0), new Vector(1, 0, 0));
+        
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Ray starts before the sphere, maxDistance is completely past both intersection points
+        List<Intersection> expected = List.of(intersection1, intersection2);
+        assertEquals(expected, testSphere.calcIntersections(testRayOutside, 4),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP02: Ray starts before the sphere, maxDistance is between the two intersection points
+        expected = List.of(intersection1);
+        assertEquals(expected, testSphere.calcIntersections(testRayOutside, 2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP03: Ray starts before the sphere, maxDistance is before any intersection point
+        assertNull(testSphere.calcIntersections(testRayOutside, 0.5),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP04: Ray starts inside the sphere, maxDistance is past the intersection point
+        expected = List.of(intersection2);
+        assertEquals(expected, testSphere.calcIntersections(testRayInside, 1),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP05: Ray starts inside the sphere, maxDistance is before the intersection point
+        assertNull(testSphere.calcIntersections(testRayInside, 0.2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP06: Ray starts after the sphere, maxDistance is positive
+        assertNull(testSphere.calcIntersections(testRayAfter, 2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // =============== Boundary Values Tests ==================
+        // BV01: Ray starts before the sphere, maxDistance is exactly on the second intersection point
+        expected = List.of(intersection1, intersection2);
+        assertEquals(expected, testSphere.calcIntersections(testRayOutside, 3),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // BV02: Ray starts before the sphere, maxDistance is exactly on the first intersection point
+        expected = List.of(intersection1);
+        assertEquals(expected, testSphere.calcIntersections(testRayOutside, 1),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // BV03: Ray starts inside the sphere, maxDistance is exactly on the intersection point
+        expected = List.of(intersection2);
+        assertEquals(expected, testSphere.calcIntersections(testRayInside, 0.5),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
     }
 }

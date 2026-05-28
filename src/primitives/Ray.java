@@ -55,11 +55,10 @@ public final class Ray {
      * @return The result point of the formula
      */
     public Point getPoint(double t) {
-        try {
-            return _origin.add(_direction.scale(t));
-        } catch (IllegalArgumentException e) {
+        if (t == 0) {
             return _origin;
         }
+        return _origin.add(_direction.scale(t));
     }
     
     /**

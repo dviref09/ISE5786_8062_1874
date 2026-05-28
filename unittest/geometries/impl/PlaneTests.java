@@ -7,6 +7,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static geometries.api.Intersectable.Intersection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -43,19 +44,21 @@ class PlaneTests {
      * Failure messages for the tests
      */
     private static final String LENGTH_FAILURE_MESSAGE = "The normal should be of length 1.";
-    private static final String DIRECTION_FAILURE_MESSAGE = "The dot product of the normal and a vector made from 2 " +
-            "points in the plane should be 0.";
-    private static final String CONSTRUCTOR_FAILURE_MESSAGE1 = "Constructor should throw an exception when trying to " +
-            "create plane with 2 or more same points.";
-    private static final String CONSTRUCTOR_FAILURE_MESSAGE2 = "Constructor should throw an exception when trying to " +
-            "create plane with 3 points are collinear to each other.";
+    private static final String DIRECTION_FAILURE_MESSAGE =
+            "The dot product of the normal and a vector made from 2 points in the plane should be 0.";
+    private static final String CONSTRUCTOR_FAILURE_MESSAGE1 =
+            "Constructor should throw an exception when trying to create plane with 2 or more same points.";
+    private static final String CONSTRUCTOR_FAILURE_MESSAGE2 =
+            "Constructor should throw an exception when trying to create plane with 3 points are collinear to each " +
+                    "other.";
     private static final String INTERSECTION_FAILURE_MESSAGE = "Wrong intersection point with plane";
     private static final String NO_INTERSECTION_FAILURE_MESSAGE = "Ray should not have intersections with plane";
     private static final String PARALLEL_RAY_FAILURE_MESSAGE = "Parallel ray should not have intersections";
-    private static final String START_IN_PLANE_FAILURE_MESSAGE = "Ray starting in the plane should not have " +
-            "intersections";
-    private static final String CALC_INTERSECTIONS_FAILURE = "The geometry in the intersection wasn't the body that " +
-            "was intersected";
+    private static final String START_IN_PLANE_FAILURE_MESSAGE =
+            "Ray starting in the plane should not have intersections";
+    private static final String CALC_INTERSECTIONS_FAILURE =
+            "The geometry in the intersection wasn't the body that was intersected";
+    private static final String INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE = "Wrong intersections with maxDistance";
     
     /**
      * Test method for {@link Plane#getNormal(Point)}
@@ -180,5 +183,36 @@ class PlaneTests {
         // EP01: Basic Test
         Ray testRay = new Ray(new Point(0, 0, 2), new Vector(1, 1, -1));
         assertSame(testPlane, testPlane.calcIntersections(testRay).get(0).geometry, CALC_INTERSECTIONS_FAILURE);
+    }
+    
+    /**
+     * Test method for {@link geometries.impl.Plane#calcIntersections(primitives.Ray, double)}.
+     */
+    @Test
+    void testCalcIntersectionsWithMaxDistance() {
+        Ray testRay = new Ray(new Point(1, 1, 0), new Vector(0, 0, 1));
+        Intersection intersection = new Intersection(testPlane, new Point(1, 1, 1)); // Distance is 1
+        
+        Ray testRayAfter = new Ray(new Point(1, 1, 2), new Vector(0, 0, 1));
+        
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Ray starts before the plane, maxDistance is greater than the distance to the plane
+        List<Intersection> expected = List.of(intersection);
+        assertEquals(expected, testPlane.calcIntersections(testRay, 2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP02: Ray starts before the plane, maxDistance is less than the distance to the plane
+        assertNull(testPlane.calcIntersections(testRay, 0.5),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // EP03: Ray starts after the plane
+        assertNull(testPlane.calcIntersections(testRayAfter, 2),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+        
+        // =============== Boundary Values Tests ==================
+        // BV01: Ray starts before the plane, maxDistance is exactly equal to the distance to the plane
+        expected = List.of(intersection);
+        assertEquals(expected, testPlane.calcIntersections(testRay, 1),
+                INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
     }
 }
