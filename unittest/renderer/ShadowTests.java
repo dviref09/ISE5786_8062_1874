@@ -3,6 +3,7 @@ package renderer;
 import geometries.api.Intersectable;
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
+import lighting.AmbientLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
@@ -146,29 +147,29 @@ class ShadowTests {
      * @return the spotlight object
      */
     private static SpotLight createSpotForTrianglesSpere() {
-        return new SpotLight(new Color(700, 400, 400), //
-                new Point(40, 40, 115), //
-                new Vector(-1, -1, -1)) //
-                .setKl(1E-6).setKq(1E-12);
+        return new SpotLight(new Color(700, 400, 400),
+                new Point(40, 40, 115),
+                new Vector(-1, -1, -1))
+                .setKl(4E-4).setKq(2E-5);
     }
     
     /**
      * Prepare the 3D model for the Sphere over a couple of Triangles test
      */
     private void setTrianglesSphereScene() {
-        Material triangleMaterial = new Material().setKD(0.2).setKS(0.4).setShininess(111);
+        Material triangleMaterial = new Material().setKS(0.8).setShininess(60);
         _scene.geometries //
                 .add( //
                         new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135),
                                 new Point(75, 75, -150)) //
                                 .setMaterial(triangleMaterial), //
                         new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
-                                .setMaterial(triangleMaterial), //
+                                .setMaterial(triangleMaterial),
                         new Sphere(new Point(0, 0, -11), 30D) //
                                 .setEmission(new Color(BLUE)) //
-                                .setMaterial(new Material().setKD(0.5).setKS(0.4).setShininess(111)) //
+                                .setMaterial(new Material().setKD(0.5).setKS(0.4).setShininess(111))
                 );
-        //_scene.setAmbientLight(new AmbientLight(new Color(38, 38, 38)));
+        _scene.setAmbientLight(new AmbientLight(new Color(38, 38, 38)));
     }
     
 }

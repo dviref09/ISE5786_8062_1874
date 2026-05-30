@@ -10,7 +10,7 @@ import primitives.Vector;
 import static primitives.Util.alignZero;
 
 /**
- * Class representing a shphere in 3D space.
+ * Class representing a sphere in 3D space.
  * @author Amichai Feigelson
  */
 public final class Sphere extends RadialGeometry {

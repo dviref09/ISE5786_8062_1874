@@ -16,12 +16,13 @@ public class GeometriesTests {
     /**
      * Test data
      */
-    Sphere testSphere = new Sphere(new Point(1, 0, 0), 1);
-    Triangle testTriangle = new Triangle(new Point(-1, -1, 0), new Point(-1, 1, 0), new Point(-1, 0, 2));
-    Plane testPlane = new Plane(new Point(-2, 0, 0), new Vector(1, 0, 0));
-    Geometries testGeometries = new Geometries(testSphere, testTriangle, testPlane);
-    Geometries emptyGeometries = new Geometries();
-    Point rayOrigin = new Point(-3, 0, 1.5);
+    private final static Sphere testSphere = new Sphere(new Point(1, 0, 0), 1);
+    private final static Triangle testTriangle =
+            new Triangle(new Point(-1, -1, 0), new Point(-1, 1, 0), new Point(-1, 0, 2));
+    private final static Plane testPlane = new Plane(new Point(-2, 0, 0), new Vector(1, 0, 0));
+    private final static Geometries testGeometries = new Geometries(testSphere, testTriangle, testPlane);
+    private final static Geometries emptyGeometries = new Geometries();
+    private final static Point rayOrigin = new Point(-3, 0, 1.5);
     
     /**
      * Failure messages for the tests

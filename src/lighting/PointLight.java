@@ -50,8 +50,8 @@ public class PointLight extends Light implements LightSource {
         if (p.equals(_position)) {
             return _intensity;
         }
-        double distance = p.distance(_position);
-        return _intensity.scale(1 / (_kC + _kL * distance + _kQ * distance * distance));
+        double distanceSquared = p.distanceSquared(_position);
+        return _intensity.scale(1 / (_kC + _kL * Math.sqrt(distanceSquared) + _kQ * distanceSquared));
     }
     
     @Override

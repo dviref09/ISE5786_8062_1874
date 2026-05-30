@@ -46,7 +46,7 @@ public class Point {
     /*
      * The following segment of code has been generated through github copilot with the following prompt: "can you write
      * this? make sure to keep DRY principle, the same style of code, use Double3 when possible, and don't create
-     * temporary variables. And create javadoc comments, simmilarly to what is already in the code"
+     * temporary variables. And create javadoc comments, similarly to what is already in the code"
      */
     
     /**

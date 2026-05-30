@@ -34,7 +34,7 @@ abstract class RayTracerBase {
     abstract Color traceRay(Ray ray);
     
     /**
-     * Processes the geometrical data for the phong reflection model and saves it in the intersection for caching
+     * Processes the geometrical data for the Phong reflection model and saves it in the intersection for caching
      * @param intersection The intersection to save tha data in
      * @param v The vector from the camera to the intersection
      * @return True if the v is not orthogonal to the normal at the intersection else returns false
@@ -47,7 +47,7 @@ abstract class RayTracerBase {
     }
     
     /**
-     * Processes the light source data for the phong reflection model and saves it in the intersection for caching
+     * Processes the light source data for the Phong reflection model and saves it in the intersection for caching
      * @param intersection The intersection to save tha data in
      * @param light The light source for the data processing
      * @return True if the vector from the light and the vector from the camera is in the same side of the object
