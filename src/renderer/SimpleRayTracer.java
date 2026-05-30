@@ -30,7 +30,9 @@ class SimpleRayTracer extends RayTracerBase {
     Color traceRay(Ray ray) {
         List<Intersection> intersections = _scene.geometries.calcIntersections(ray);
         Intersection closestIntersection = ray.findClosestIntersection(intersections);
-        return closestIntersection != null ? calcColor(closestIntersection, ray.direction()) : _scene.background;
+        return closestIntersection != null ?
+                calcColor(closestIntersection, ray.direction())
+                : _scene.background;
     }
     
     /**
@@ -40,7 +42,7 @@ class SimpleRayTracer extends RayTracerBase {
      */
     private boolean unshaded(Intersection intersection) {
         Vector pointToLight = intersection.l.scale(-1);
-        Vector delta = intersection.normal.scale(intersection.vNormal < 0 ? DELTA : -DELTA);
+        Vector delta = intersection.normal.scale(intersection.lNormal < 0 ? DELTA : -DELTA);
         Ray shadowRay = new Ray(intersection.point.add(delta), pointToLight);
         double lightDistance = intersection.light.getDistance(intersection.point);
         return _scene.geometries.calcIntersections(shadowRay, lightDistance) == null;
@@ -57,7 +59,7 @@ class SimpleRayTracer extends RayTracerBase {
     }
     
     /**
-     * Sums the effect of all the light sources on the intersection with phong reflection model
+     * Sums the effect of all the light sources on the intersection with Phong reflection model
      * @param intersection The intersection the effects are calculated on
      * @return The sum of all light sources colors
      */
@@ -81,7 +83,7 @@ class SimpleRayTracer extends RayTracerBase {
     }
     
     /**
-     * Calculates the specular part in the phong reflection model on the intersection from the current light source
+     * Calculates the specular part in the Phong reflection model on the intersection from the current light source
      * @param intersection The intersection the effects are calculated on
      * @return The total of the specular part from all light sources
      */

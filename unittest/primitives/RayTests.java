@@ -50,7 +50,6 @@ class RayTests {
     private static final String FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE =
             "The result point is not the closest one";
     private static final String FIND_CLOSEST_INTERSECTION_NULL_FAILURE_MESSAGE = "The result should be null";
-    private static final String GET_POINTS_FAILURE_MESSAGE = "The amount of points or their order is incorrect";
     
     /**
      * Test method for {@link Ray#Ray(Point, Vector)}.

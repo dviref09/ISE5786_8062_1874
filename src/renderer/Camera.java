@@ -90,7 +90,7 @@ public final class Camera implements Cloneable {
             // the y increase is based on which column we are now
             // if the column is divisible by interval this means it should be fully colored so y is going up by one
             // each time
-            // if the column is not divisible by interval this means it should by colored only in the interval gaps
+            // if the column is not divisible by interval this means it should be colored only in the interval gaps
             // so y is going up by interval each time
             for (int y = 0; y < _nY; y += (x % interval == 0 ? 1 : interval)) {
                 _imageWriter.writePixel(x, y, color);

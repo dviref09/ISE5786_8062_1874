@@ -48,8 +48,8 @@ public final class Triangle extends Polygon {
 		Else, if u > 0 and v > 0 and (u + v) < 1 and t > 0 then there is an intersection.
 		Else there isn't and intersection.
 		 */
-        Vector Edge1 = _vertices.get(1).subtract(_vertices.get(0));
-        Vector Edge2 = _vertices.get(2).subtract(_vertices.get(0));
+        Vector edge1 = _vertices.get(1).subtract(_vertices.get(0));
+        Vector edge2 = _vertices.get(2).subtract(_vertices.get(0));
         Vector normal = getNormal(_vertices.get(0));
         
         if (isZero(ray.direction().dotProduct(normal))) {
@@ -61,8 +61,8 @@ public final class Triangle extends Polygon {
             return null;
         }
         
-        Vector P = ray.direction().crossProduct(Edge2);
-        double det = P.dotProduct(Edge1);
+        Vector P = ray.direction().crossProduct(edge2);
+        double det = P.dotProduct(edge1);
         
         if (isZero(det)) {
             return null;
@@ -76,7 +76,7 @@ public final class Triangle extends Polygon {
         
         Vector Q;
         try {
-            Q = T.crossProduct(Edge1);
+            Q = T.crossProduct(edge1);
         } catch (IllegalArgumentException e) {
             return null;
         }
@@ -91,12 +91,9 @@ public final class Triangle extends Polygon {
             return null;
         }
         
-        double t = alignZero(Q.dotProduct(Edge2) / det);
-        if (t <= 0) {
-            return null;
-        }
+        double t = alignZero(Q.dotProduct(edge2) / det);
         
-        return t <= maxDistance
+        return t <= maxDistance && t > 0
                 ? List.of(new Intersection(this, ray.getPoint(t)))
                 : null;
     }
