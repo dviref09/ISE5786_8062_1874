@@ -167,7 +167,7 @@ class ShadowTests {
                                 .setMaterial(triangleMaterial),
                         new Sphere(new Point(0, 0, -11), 30D) //
                                 .setEmission(new Color(BLUE)) //
-                                .setMaterial(new Material().setKD(0.5).setKS(0.4).setShininess(111))
+                                .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(30))
                 );
         _scene.setAmbientLight(new AmbientLight(new Color(38, 38, 38)));
     }

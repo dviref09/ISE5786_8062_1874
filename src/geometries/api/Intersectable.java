@@ -90,6 +90,10 @@ public abstract class Intersectable {
          * The reflected vector from the surface of the intersection
          */
         public Vector r;
+        /**
+         * The reflected vector from the surface of the intersection from the lightsource
+         */
+        public Vector rLight;
         
         /**
          * Constructor

@@ -17,6 +17,14 @@ public final class Material {
      * The shininess exponent in the specular part in phong reflection model
      */
     public int nShininess = 0;
+    /**
+     * The transparency coefficient of the material
+     */
+    public Double3 kT = Double3.ZERO;
+    /**
+     * The reflection coefficient of the material
+     */
+    public Double3 kR = Double3.ZERO;
     
     /**
      * Setter for kA from Double3
@@ -85,6 +93,46 @@ public final class Material {
      */
     public Material setShininess(int nShininess) {
         this.nShininess = nShininess;
+        return this;
+    }
+    
+    /**
+     * Setter for kR from Double 3
+     * @param kR The new value for kR
+     * @return The same Material class for chaining setters
+     */
+    public Material setKR(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
+    
+    /**
+     * Setter for kR from one double (all the values in the Double3 will be the same)
+     * @param kR The new value for kR
+     * @return The same Material class for chaining setters
+     */
+    public Material setKR(double kR) {
+        this.kR = new Double3(kR);
+        return this;
+    }
+    
+    /**
+     * Setter for kT from Double 3
+     * @param kT The new value for kT
+     * @return The same Material class for chaining setters
+     */
+    public Material setKT(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+    
+    /**
+     * Setter for kT from one double (all the values in the Double3 will be the same)
+     * @param kT The new value for kT
+     * @return The same Material class for chaining setters
+     */
+    public Material setKT(double kT) {
+        this.kT = new Double3(kT);
         return this;
     }
 }

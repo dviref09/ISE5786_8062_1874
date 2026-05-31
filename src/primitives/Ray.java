@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static geometries.api.Intersectable.Intersection;
+import static primitives.Util.alignZero;
 
 /**
  * A class representing a ray in 3D space, which is a straight line starting at a point.
@@ -21,12 +22,35 @@ public final class Ray {
     private final Vector _direction;
     
     /**
+     * A shift constant
+     */
+    private static final double DELTA = 0.1;
+    
+    /**
      * Constructs a new ray with the specified origin and direction.
      * @param origin The origin point of the ray.
      * @param direction The direction vector of the ray. It will be normalized.
      */
     public Ray(Point origin, Vector direction) {
         this._origin = origin;
+        this._direction = direction.normalize();
+    }
+    
+    /**
+     * Constructs a new ray with the point and direction
+     * and before constructing the ray shift the point in the direction of the shift vector
+     * @param origin The origin point of the ray.
+     * @param direction The direction vector of the ray. It will be normalized.
+     * @param normal The vector that the point will be moving in his direction
+     */
+    public Ray(Point origin, Vector direction, Vector normal) {
+        double directionNormal = alignZero(direction.dotProduct(normal));
+        if (directionNormal == 0) {
+            this._origin = origin;
+        } else {
+            this._origin = origin.add(normal.scale(directionNormal > 0 ? DELTA : -DELTA));
+        }
+        
         this._direction = direction.normalize();
     }
     
@@ -93,8 +117,8 @@ public final class Ray {
         return (points == null ? null
                 : findClosestIntersection(
                 points.stream()
-                        .map(point -> new Intersection(null, point))
-                        .toList()
+                      .map(point -> new Intersection(null, point))
+                      .toList()
         ).point
         );
     }

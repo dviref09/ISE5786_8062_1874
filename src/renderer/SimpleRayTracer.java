@@ -12,13 +12,24 @@ import scene.Scene;
 import static geometries.api.Intersectable.Intersection;
 import static primitives.Util.powerInt;
 
-class SimpleRayTracer extends RayTracerBase {
+final class SimpleRayTracer extends RayTracerBase {
     /**
-     * A shift constant for shading checks
+     * The maximum level of recursion in the calculation of global effects
+     * (the level is how many recursive calls left)
      */
-    private static final double DELTA = 0.1;
+    private static final int MAX_CALC_COLOR_LEVEL = 10;
+    /**
+     * The minimum level of effect on the scene to be counted:
+     * stops the calculation of global effects if the effect is less than this
+     */
+    private static final double MIN_CALC_COLOR_K = 0.001;
+    /**
+     * The initial amount of influence on the global effect at the first level of calculation
+     */
+    private static final Double3 INITIAL_K = Double3.ONE;
     
     /**
+     * /**
      * Constructor
      * @param scene The scene the ray tracer works on
      */
@@ -28,8 +39,7 @@ class SimpleRayTracer extends RayTracerBase {
     
     @Override
     Color traceRay(Ray ray) {
-        List<Intersection> intersections = _scene.geometries.calcIntersections(ray);
-        Intersection closestIntersection = ray.findClosestIntersection(intersections);
+        Intersection closestIntersection = findClosestIntersection(ray);
         return closestIntersection != null ?
                 calcColor(closestIntersection, ray.direction())
                 : _scene.background;
@@ -42,10 +52,18 @@ class SimpleRayTracer extends RayTracerBase {
      */
     private boolean unshaded(Intersection intersection) {
         Vector pointToLight = intersection.l.scale(-1);
-        Vector delta = intersection.normal.scale(intersection.lNormal < 0 ? DELTA : -DELTA);
-        Ray shadowRay = new Ray(intersection.point.add(delta), pointToLight);
+        Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
         double lightDistance = intersection.light.getDistance(intersection.point);
-        return _scene.geometries.calcIntersections(shadowRay, lightDistance) == null;
+        List<Intersection> shadowIntersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
+        if (shadowIntersections == null) {
+            return true;
+        }
+        for (Intersection shadowIntersection : shadowIntersections) {
+            if (shadowIntersection.material.kT.isLowerThan(MIN_CALC_COLOR_K)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     /**
@@ -54,11 +72,83 @@ class SimpleRayTracer extends RayTracerBase {
      * @return The color of the point
      */
     private Color calcColor(Intersection intersection, Vector v) {
-        return !preprocessIntersection(intersection, v) ? _scene.background :
-                _scene.ambientLight.getIntensity().scale(intersection.material.kA).add(calcLocalEffects(intersection));
+        return !preprocessIntersection(intersection, v) ?
+                _scene.background
+                : _scene.ambientLight.getIntensity().scale(intersection.material.kA)
+                                     .add(calcColor(intersection, MAX_CALC_COLOR_LEVEL, INITIAL_K));
     }
     
     /**
+     * private helper method for calculating the color at a single point with certain effect
+     * on the final result in a recursive call
+     * @param intersection The intersection at which we calculate the color
+     * @param level The level of recursion
+     * @param k The amount of effect on the final result
+     * @return The color in the intersection with according to the amount of effect
+     */
+    private Color calcColor(Intersection intersection, int level, Double3 k) {
+        Color color = calcLocalEffects(intersection);
+        return level <= 1 ? color
+                : color.add(calcGlobalEffects(intersection, level, k));
+    }
+    
+    /**
+     * Calculates the sum of all the global effects at an intersection with recursion
+     * @param intersection The intersection the global effects are calculated in
+     * @param level The level of recursion
+     * @param k The amount of influence on the final result
+     * @return The global effects at the intersection with respect to the k parameter
+     */
+    private Color calcGlobalEffects(Intersection intersection, int level, Double3 k) {
+        return calcGlobalEffect(constructTransparencyRay(intersection),
+                level, k, intersection.material.kT)
+                .add(calcGlobalEffect(constructReflectionRay(intersection),
+                        level, k, intersection.material.kR));
+    }
+    
+    /**
+     * Calculates the global effect on a ray with recursion
+     * @param ray The ray the global effect will be calculated with
+     * @param level The level of recursion
+     * @param k The amount of influence the current ray color will have on the final result
+     * @param kx The coefficient of the global effect being calculated
+     */
+    private Color calcGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
+        Double3 kkx = k.product(kx);
+        
+        if (kkx.isLowerThan(MIN_CALC_COLOR_K)) {
+            return Color.BLACK;
+        }
+        
+        Intersection intersection = findClosestIntersection(ray);
+        if (intersection == null) {
+            return _scene.background.scale(kx);
+        }
+        return preprocessIntersection(intersection, ray.direction())
+                ? calcColor(intersection, level - 1, kkx).scale(kx)
+                : Color.BLACK;
+    }
+    
+    /**
+     * Construct a transparency ray from the intersection
+     * @param intersection The intersection the ray is created from
+     * @return The transparency ray
+     */
+    private Ray constructTransparencyRay(Intersection intersection) {
+        return new Ray(intersection.point, intersection.v, intersection.normal);
+    }
+    
+    /**
+     * Construct a reflection ray from the intersection
+     * @param intersection The intersection the ray is created from
+     * @return The reflection ray
+     */
+    private Ray constructReflectionRay(Intersection intersection) {
+        return new Ray(intersection.point, intersection.r, intersection.normal);
+    }
+    
+    /**
+     * /**
      * Sums the effect of all the light sources on the intersection with Phong reflection model
      * @param intersection The intersection the effects are calculated on
      * @return The sum of all light sources colors
@@ -67,7 +157,8 @@ class SimpleRayTracer extends RayTracerBase {
         Color color = intersection.geometry.getEmission();
         for (LightSource lightSource : _scene.lights) {
             if (preprocessLightSource(intersection, lightSource) && unshaded(intersection)) {
-                color = color.add(lightSource.getIntensity(intersection.point).scale(calcDiffuse(intersection).add(calcSpecular(intersection))));
+                color = color.add(lightSource.getIntensity(intersection.point)
+                                             .scale(calcDiffuse(intersection).add(calcSpecular(intersection))));
             }
         }
         return color;
@@ -89,6 +180,16 @@ class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 calcSpecular(Intersection intersection) {
         return intersection.material.kS.scale(powerInt(Math.max(0,
-                intersection.r.dotProduct(intersection.v.scale(-1))), intersection.material.nShininess));
+                intersection.rLight.dotProduct(intersection.v.scale(-1))), intersection.material.nShininess));
+    }
+    
+    /**
+     * Method for calculating the closest intersection to the start of the ray
+     * from the list of the intersections of the ray
+     * @param ray The ray the intersection are calculated with
+     * @return The closest intersection from the ray's intersections
+     */
+    public Intersection findClosestIntersection(Ray ray) {
+        return ray.findClosestIntersection(_scene.geometries.calcIntersections(ray));
     }
 }

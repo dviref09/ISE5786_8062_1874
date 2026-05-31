@@ -34,6 +34,20 @@ abstract class RayTracerBase {
     abstract Color traceRay(Ray ray);
     
     /**
+     * Private helper method for calculating reflected vector from intersection surface of a vector
+     * @param intersection The intersection surface the vector is reflected from
+     * @param original The original vector
+     * @param vNormal the dotProduct between the vector and the intersection normal
+     * (here for optimization reasons, because it is already being calculated in the intersection, we just don't know
+     * if original is light vector of intersecting ray vector)
+     * @return the reflected vector
+     * @throws IllegalArgumentException if the vNormal is zero
+     */
+    private Vector reflectedVector(Intersection intersection, Vector original, double vNormal) {
+        return original.subtract(intersection.normal.scale(2 * vNormal));
+    }
+    
+    /**
      * Processes the geometrical data for the Phong reflection model and saves it in the intersection for caching
      * @param intersection The intersection to save tha data in
      * @param v The vector from the camera to the intersection
@@ -43,6 +57,7 @@ abstract class RayTracerBase {
         intersection.v = v;
         intersection.normal = intersection.geometry.getNormal(intersection.point);
         intersection.vNormal = alignZero(intersection.v.dotProduct(intersection.normal));
+        intersection.r = reflectedVector(intersection, v, intersection.vNormal);
         return intersection.vNormal != 0;
     }
     
@@ -60,7 +75,7 @@ abstract class RayTracerBase {
             return false;
         } else {
             // the condition is to prevent generating zero vector inside here
-            intersection.r = intersection.l.subtract(intersection.normal.scale(2 * intersection.lNormal));
+            intersection.rLight = reflectedVector(intersection, intersection.l, intersection.lNormal);
         }
         return intersection.lNormal * intersection.vNormal > 0;
     }

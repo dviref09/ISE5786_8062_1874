@@ -55,7 +55,7 @@ class RayTests {
      * Test method for {@link Ray#Ray(Point, Vector)}.
      */
     @Test
-    void testConstructor() {
+    void testConstructor1() {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Constructing a ray with a valid origin and direction
         Point origin = new Point(1, 2, 3);
@@ -64,6 +64,44 @@ class RayTests {
         Vector expectedDirection = new Vector(0, 1, 0); // The direction should be normalized
         
         assertEquals(origin, testRay.origin(), CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE);
+        assertEquals(expectedDirection, testRay.direction(), CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE);
+    }
+    
+    /**
+     * Test method for {@link Ray#Ray(Point, Vector, Vector)}}
+     */
+    @Test
+    void testConstructor2() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: normal * direction is positive
+        Point testOrigin = new Point(1, 1, 1);
+        Vector testDirection = new Vector(1, 1, 1);
+        Vector testNormal = new Vector(2, 0, 0);
+        Ray testRay = new Ray(testOrigin, testDirection, testNormal);
+        Point expectedOrigin = new Point(1.2, 1, 1);
+        Vector expectedDirection = testDirection.normalize();
+        
+        assertEquals(expectedOrigin, testRay.origin(), CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE);
+        assertEquals(expectedDirection, testRay.direction(), CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE);
+        
+        // EP02: normal * direction is negative
+        testDirection = new Vector(-1, -1, -1);
+        testNormal = new Vector(0, 0, 1);
+        testRay = new Ray(testOrigin, testDirection, testNormal);
+        expectedOrigin = new Point(1, 1, 0.9);
+        expectedDirection = testDirection.normalize();
+        
+        assertEquals(expectedOrigin, testRay.origin(), CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE);
+        assertEquals(expectedDirection, testRay.direction(), CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE);
+        
+        // =============== Boundary Values Tests ==================
+        // BV01: normal and direction is orthogonal
+        testDirection = new Vector(-1, -1, 0);
+        testNormal = new Vector(0, 0, 1);
+        testRay = new Ray(testOrigin, testDirection, testNormal);
+        expectedDirection = testDirection.normalize();
+        
+        assertEquals(testOrigin, testRay.origin(), CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE);
         assertEquals(expectedDirection, testRay.direction(), CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE);
     }
     
