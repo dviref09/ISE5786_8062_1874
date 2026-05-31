@@ -67,6 +67,30 @@ final class SimpleRayTracer extends RayTracerBase {
     }
     
     /**
+     * Checks the blocking bodies between the intersection and the light source and calculates the amount of
+     * influence the light have on the intersection (depends on the transparency of the blocking bodies)
+     * @param intersection The intersection the calculation is performed on
+     * @return The amount of influence the light source has on the intersection
+     */
+    private Double3 transparency(Intersection intersection) {
+        Vector pointToLight = intersection.l.scale(-1);
+        Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
+        double lightDistance = intersection.light.getDistance(intersection.point);
+        List<Intersection> shadowIntersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
+        if (shadowIntersections == null) {
+            return Double3.ONE;
+        }
+        Double3 ktr = Double3.ONE;
+        for (Intersection shadowIntersection : shadowIntersections) {
+            ktr = ktr.product(shadowIntersection.material.kT);
+            if (ktr.isLowerThan(MIN_CALC_COLOR_K)) {
+                return Double3.ZERO;
+            }
+        }
+        return ktr;
+    }
+    
+    /**
      * Private helper method for calculating the color at a single point
      * @param intersection The point to calculate the color in it
      * @return The color of the point
@@ -87,7 +111,7 @@ final class SimpleRayTracer extends RayTracerBase {
      * @return The color in the intersection with according to the amount of effect
      */
     private Color calcColor(Intersection intersection, int level, Double3 k) {
-        Color color = calcLocalEffects(intersection);
+        Color color = calcLocalEffects(intersection, k);
         return level <= 1 ? color
                 : color.add(calcGlobalEffects(intersection, level, k));
     }
@@ -153,12 +177,15 @@ final class SimpleRayTracer extends RayTracerBase {
      * @param intersection The intersection the effects are calculated on
      * @return The sum of all light sources colors
      */
-    private Color calcLocalEffects(Intersection intersection) {
+    private Color calcLocalEffects(Intersection intersection, Double3 k) {
         Color color = intersection.geometry.getEmission();
         for (LightSource lightSource : _scene.lights) {
-            if (preprocessLightSource(intersection, lightSource) && unshaded(intersection)) {
-                color = color.add(lightSource.getIntensity(intersection.point)
-                                             .scale(calcDiffuse(intersection).add(calcSpecular(intersection))));
+            if (preprocessLightSource(intersection, lightSource)) {
+                Double3 ktr = transparency(intersection);
+                if (ktr.product(k).isGreaterThan(MIN_CALC_COLOR_K)) {
+                    color = color.add(lightSource.getIntensity(intersection.point).scale(ktr)
+                                                 .scale(calcDiffuse(intersection).add(calcSpecular(intersection))));
+                }
             }
         }
         return color;
