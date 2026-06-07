@@ -65,6 +65,18 @@ public final class Color {
     }
     
     /**
+     * Creates a color form a single double number, and sets the rgb values to be equal to the same double
+     * @param rgb The unified value for the rgb values
+     * @throws IllegalArgumentException If rgb is negative
+     */
+    public Color(double rgb) {
+        if (rgb < 0) {
+            throw new IllegalArgumentException("Negative color component is illegal");
+        }
+        _rgb = new Double3(rgb);
+    }
+    
+    /**
      * Creates a color from an RGB triad.
      * @param rgb the RGB components
      * @throws IllegalArgumentException if any component is negative
