@@ -27,7 +27,7 @@ public class Stage8Images {
     /**
      * The resolution of the images
      */
-    private static final int RESOLUTION = 1000;
+    private static final int RESOLUTION = 15000;
     
     /**
      * Produces a custom 3D rendered scene illustrating advanced transparency,
@@ -58,14 +58,10 @@ public class Stage8Images {
                                            .setKR(new Double3(0.85));
         
         // 2. Matte floor surface to perfectly display the projected shadows
-        Material floorMat = new Material().setKD(new Double3(0.7))
-                                          .setKS(new Double3(0.1))
-                                          .setShininess(10);
+        Material floorMat = new Material().setKD(new Double3(0.7)).setKS(new Double3(0.1)).setShininess(10);
         
         // 4. Another variation for the table base if needed
-        Material tableMat = new Material().setKD(new Double3(0.5))
-                                          .setKS(new Double3(0.2))
-                                          .setShininess(15);
+        Material tableMat = new Material().setKD(new Double3(0.5)).setKS(new Double3(0.2)).setShininess(15);
         
         // 5. The material for the mirror frame
         Material frameMat = new Material().setKD(new Double3(0.4))
@@ -98,8 +94,8 @@ public class Stage8Images {
                                                                                  .setMaterial(floorMat));
         
         // 4-5. Medium-Sized Mirror on the Back-Left
-        Point pLMirrorTopLeft = new Point(-120, 50, -120);
-        Point pLMirrorTopRight = new Point(30, 50, -150);
+        Point pLMirrorTopLeft = new Point(-120, 50, -140);
+        Point pLMirrorTopRight = new Point(30, 50, -170);
         Point pLMirrorBottomLeft = new Point(-120, -30, -150);
         Point pLMirrorBottomRight = new Point(30, -30, -180);
         
@@ -109,25 +105,28 @@ public class Stage8Images {
                                                                                                     .setMaterial(mirrorMat));
         
         // --- COMPLETE FRAME FOR THE MIRROR (8 Triangles) ---
-        Point fTopLeft = new Point(-126, 55, -119);
-        Point fTopRight = new Point(36, 55, -149);
+        Point fTopLeft = new Point(-126, 55, -139);
+        Point fTopRight = new Point(36, 55, -169);
         Point fBottomLeft = new Point(-126, -35, -149);
         Point fBottomRight = new Point(36, -35, -179);
         
         // 1-2. TOP BORDER (2 Triangles forming a thin tilted rectangle)
         scene.geometries.add(new Triangle(fTopLeft, fTopRight, pLMirrorTopRight).setEmission(new Color(40, 60, 80))
                                                                                 .setMaterial(frameMat));
-        scene.geometries.add(new Triangle(fTopLeft, pLMirrorTopRight, pLMirrorTopLeft).setEmission(new Color(40, 60, 80))
+        scene.geometries.add(new Triangle(fTopLeft, pLMirrorTopRight, pLMirrorTopLeft).setEmission(new Color(40, 60,
+                                                                                              80))
                                                                                       .setMaterial(frameMat));
         
         // 3-4. BOTTOM BORDER (2 Triangles forming a thin tilted rectangle on the floor)
-        scene.geometries.add(new Triangle(fBottomLeft, pLMirrorBottomRight, fBottomRight).setEmission(new Color(40, 60, 80))
+        scene.geometries.add(new Triangle(fBottomLeft, pLMirrorBottomRight, fBottomRight).setEmission(new Color(40,
+                                                                                                 60, 80))
                                                                                          .setMaterial(frameMat));
         scene.geometries.add(new Triangle(fBottomLeft, pLMirrorBottomLeft, pLMirrorBottomRight).setEmission(new Color(40, 60, 80))
                                                                                                .setMaterial(frameMat));
         
         // 5-6. LEFT BORDER (2 Triangles forming a thin tilted rectangle)
-        scene.geometries.add(new Triangle(fTopLeft, pLMirrorTopLeft, pLMirrorBottomLeft).setEmission(new Color(30, 50, 70))
+        scene.geometries.add(new Triangle(fTopLeft, pLMirrorTopLeft, pLMirrorBottomLeft).setEmission(new Color(30, 50
+                                                                                                , 70))
                                                                                         .setMaterial(frameMat));
         scene.geometries.add(new Triangle(fTopLeft, pLMirrorBottomLeft, fBottomLeft).setEmission(new Color(30, 50, 70))
                                                                                     .setMaterial(frameMat));
@@ -159,13 +158,17 @@ public class Stage8Images {
         scene.geometries.add(new Triangle(tBotLeft, tBotRight, tTopRight).setEmission(new Color(70, 45, 30))
                                                                          .setMaterial(tableMat));
         
-        // 10-12. Table Legs (3 simple Triangles dropping down to the floor at Y = -60)
-        scene.geometries.add(new Triangle(new Point(-28, -25, -22), new Point(-25, -25, -22), new Point(-28, -60, -22)).setEmission(new Color(50, 30, 20))
+        // 10-12. Table Legs
+        scene.geometries.add(new Triangle(new Point(-28, -25, -22), new Point(-25, -25, -22), new Point(-28, -60,
+                -22)).setEmission(new Color(50, 30, 20))
                                                                                                                        .setMaterial(tableMat));
         scene.geometries.add(new Triangle(new Point(25, -25, -22), new Point(28, -25, -22), new Point(28, -60, -22)).setEmission(new Color(50, 30, 20))
                                                                                                                     .setMaterial(tableMat));
-        scene.geometries.add(new Triangle(new Point(-28, -25, -58), new Point(-25, -25, -58), new Point(-28, -60, -58)).setEmission(new Color(40, 20, 10))
+        scene.geometries.add(new Triangle(new Point(-28, -25, -58), new Point(-25, -25, -58), new Point(-28, -60,
+                -58)).setEmission(new Color(40, 20, 10))
                                                                                                                        .setMaterial(tableMat));
+        scene.geometries.add(new Triangle(new Point(25, -25, -58), new Point(28, -25, -58), new Point(28, -60,
+                        -58)).setEmission(new Color(40, 20, 10)).setMaterial(tableMat));
         
         // --- CENTERPIECE: GLASS PYRAMIDS SET (Diverse Materials & Non-Cyan Colors) ---
         
@@ -210,11 +213,12 @@ public class Stage8Images {
         
         // ----------------- Multi-Light Sources Setup -----------------
         // 1. Main Spotlight from top-left pointing to the center to cast clear shadows
-        scene.lights.add(new SpotLight(new Color(500, 400, 300), new Point(-100, 120, 100), new Vector(1, -1.2, -1.5)).setKl(0.0001)
+        scene.lights.add(new SpotLight(new Color(189, 294, 612), new Point(-100, 120, 100),
+                new Vector(1, -1.2, -1.5)).setKl(0.0001)
                                                                                                                       .setKq(0.00001));
         
         // 2. Point Light on the right side to add secondary softer cross-shadowing
-        scene.lights.add(new PointLight(new Color(200, 200, 300), new Point(100, 80, 50)).setKl(0.0002).setKq(0.0002));
+        scene.lights.add(new PointLight(new Color(750, 735, 276), new Point(100, 80, 50)).setKl(0.0002).setKq(0.0002));
         
         // ----------------- Execute Rendering and Image Compilation -----------------
         camera.renderImage().writeToImage("Stage8Image");
