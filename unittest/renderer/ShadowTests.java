@@ -157,7 +157,7 @@ class ShadowTests {
      * Prepare the 3D model for the Sphere over a couple of Triangles test
      */
     private void setTrianglesSphereScene() {
-        Material triangleMaterial = new Material().setKS(0.8).setShininess(60);
+        Material triangleMaterial = new Material().setKS(0.8).setShininess(111);
         _scene.geometries //
                 .add( //
                         new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135),
@@ -167,7 +167,7 @@ class ShadowTests {
                                 .setMaterial(triangleMaterial),
                         new Sphere(new Point(0, 0, -11), 30D) //
                                 .setEmission(new Color(BLUE)) //
-                                .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(30))
+                                .setMaterial(new Material().setKD(0.5).setKS(0.4).setShininess(111))
                 );
         _scene.setAmbientLight(new AmbientLight(new Color(38, 38, 38)));
     }
