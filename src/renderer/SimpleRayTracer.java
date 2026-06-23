@@ -7,6 +7,7 @@ import primitives.Color;
 import primitives.Double3;
 import primitives.Ray;
 import primitives.Vector;
+import sampling.Blackboard;
 import scene.Scene;
 
 import static geometries.api.Intersectable.Intersection;
@@ -27,6 +28,10 @@ final class SimpleRayTracer extends RayTracerBase {
      * The initial amount of influence on the global effect at the first level of calculation
      */
     private static final Double3 INITIAL_K = Double3.ONE;
+    /**
+     * A shift constant
+     */
+    private static final double DELTA = 0.1;
     
     
     /**
@@ -74,10 +79,29 @@ final class SimpleRayTracer extends RayTracerBase {
      * @return The amount of influence the light source has on the intersection
      */
     private Double3 transparency(Intersection intersection) {
-        Vector pointToLight = intersection.l.scale(-1);
-        
-        Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
-        
+        if (intersection.light.isSoftShadows() && _softShadowNumRays > 1) {
+            // This means soft shadow in enabled
+            Blackboard blackboard =
+                    intersection.light.getBlackboard(intersection.point, _softShadowNumRays, _softShadowSampler);
+            Vector delta = intersection.normal.scale(intersection.lNormal < 0 ? DELTA : -DELTA);
+            List<Ray> shadowBeam =
+                    BeamGenerator.generateBeam(intersection.point.add(delta), blackboard.generatePoints(), false);
+            
+            Double3 ktrSum = Double3.ZERO;
+            for (Ray shadowRay : shadowBeam) {
+                ktrSum = ktrSum.add(singleRayTransparency(intersection, shadowRay));
+            }
+            return ktrSum.divide(shadowBeam.size());
+        }
+        else {
+            Vector pointToLight = intersection.l.scale(-1);
+            Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
+            
+            return singleRayTransparency(intersection, shadowRay);
+        }
+    }
+    
+    private Double3 singleRayTransparency(Intersection intersection, Ray shadowRay) {
         double lightDistance = intersection.light.getDistance(intersection.point);
         List<Intersection> shadowIntersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
         if (shadowIntersections == null) {

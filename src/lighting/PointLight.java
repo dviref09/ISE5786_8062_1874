@@ -4,6 +4,7 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 import sampling.Blackboard;
+import sampling.SamplerType;
 
 /**
  * A class representing a light coming from a point in all directions
@@ -35,8 +36,8 @@ public class PointLight extends Light implements LightSource {
      * The width and height of the light, used for soft shadowing
      * if the width / height is zero or less, than soft shadowing is turned off for this light source
      */
-    private double _width = 0;
-    private double _height = 0;
+    protected double _width = 0;
+    protected double _height = 0;
     
     /**
      * constructor
@@ -68,7 +69,7 @@ public class PointLight extends Light implements LightSource {
     }
     
     @Override
-    public Blackboard getBlackboard(Point p, int resolution) {
+    public Blackboard getBlackboard(Point p, int resolution, SamplerType samplerType) {
         Blackboard.Builder blackboardBuilder = Blackboard.getBuilder();
         
         // vUp and vRight calculation
@@ -86,7 +87,8 @@ public class PointLight extends Light implements LightSource {
         blackboardBuilder.setSize(_width, _height)
                          .setDirection(vUp, vRight)
                          .setCenter(_position)
-                         .setResolution(resolution, resolution);
+                         .setResolution(resolution, resolution)
+                         .setSampler(samplerType);
         return blackboardBuilder.build();
     }
     

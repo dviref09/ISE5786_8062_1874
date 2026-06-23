@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
 import sampling.Blackboard;
+import sampling.Sampler;
+import sampling.SamplerType;
 
 /**
  * An interface for representing an external light source
@@ -44,6 +46,5 @@ public interface LightSource {
      * @param resolution The amount of rays per side in the blackboard
      * @return The calculated blackboard
      */
-    public Blackboard getBlackboard(Point p, int resolution);
-    
+    Blackboard getBlackboard(Point p, int resolution, SamplerType samplerType);
 }

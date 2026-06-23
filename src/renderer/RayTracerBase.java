@@ -22,6 +22,7 @@ abstract class RayTracerBase {
     
     /**
      * The amount of rays per side in soft shadows
+     * If it one or less than soft shadows is disabled
      */
     protected int _softShadowNumRays = 1;
     /**
@@ -43,9 +44,6 @@ abstract class RayTracerBase {
      * @return The current RayTracerBase object for chaining setters
      */
     public RayTracerBase setSoftShadowNumRays(int numRays) {
-        if (numRays <= 0) {
-            throw new IllegalArgumentException("Number of rays per side must be positive");
-        }
         _softShadowNumRays = numRays;
         return this;
     }

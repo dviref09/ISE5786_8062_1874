@@ -54,9 +54,13 @@ public class Blackboard implements Cloneable {
      */
     private double _pixelHeight;
     /**
+     * The default sampler, the value is used both for internal and outer uses
+     */
+    public static final SamplerType DEFAULT_SAMPLER = SamplerType.JITTERED;
+    /**
      * The sampler in use
      */
-    private SamplerType _sampler = SamplerType.JITTERED;
+    private SamplerType _sampler = DEFAULT_SAMPLER;
     
     /**
      * Private constructor so the only one who is capable of creating black board is the builder
@@ -90,7 +94,7 @@ public class Blackboard implements Cloneable {
      * Generates a 3D point from the given x and y indices
      * @param xIndex The horizontal value
      * @param yIndex The vertical value
-     * @return The 3D point 
+     * @return The 3D point
      */
     public Point generatePoint(double xIndex, double yIndex) {
         xIndex = alignZero(xIndex);

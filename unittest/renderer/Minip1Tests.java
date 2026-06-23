@@ -15,12 +15,12 @@ import primitives.Vector;
 import scene.Scene;
 
 /**
- * Creates images that demonstrates all the feature till stage 8
+ * Creates images for demonstrating minip-1 features
  * @author Dvir Farkash
  */
-public class Stage8Images {
+public class Minip1Tests {
     /**
-     * The scene object containing all configurations and components
+     * The scene object
      */
     private final Scene scene = setScene();
     
@@ -30,8 +30,7 @@ public class Stage8Images {
     private static final int RESOLUTION = 1000;
     
     /**
-     * Produces a custom 3D rendered scene illustrating advanced transparency,
-     * reflection, complex multi-shadowing, and diverse material properties.
+     * Produces a custom 3D rendered scene illustrating soft shadow alongside all the previous features
      */
     @Test
     public void testCustomWizardScene() {
@@ -43,10 +42,11 @@ public class Stage8Images {
                               .setVpDistance(Math.sqrt(100 * 100 + 1000 * 1000))
                               .setResolution(RESOLUTION, RESOLUTION)
                               .setRayTracer(scene, RayTracerType.SIMPLE)
+                              .setSSRays(33)
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
-        camera.renderImage().writeToImage("Stage8Image");
+        camera.renderImage().writeToImage("Minip1Image");
     }
     
     /**
@@ -224,11 +224,15 @@ public class Stage8Images {
         // 1. Main Spotlight from top-left pointing to the center to cast clear shadows
         scene.lights.add(new SpotLight(new Color(189, 294, 612), new Point(-100, 120, 100),
                 new Vector(1, -1.2, -1.5)).setKl(0.0001)
-                                          .setKq(0.00001));
+                                          .setKq(0.00001)
+                                          .setHeight(40)
+                                          .setWidth(40));
         
         // 2. Point Light on the right side to add secondary softer cross-shadowing
-        scene.lights.add(new PointLight(new Color(750, 735, 276), new Point(100, 80, 50)).setKl(0.0002).setKq(0.0002));
-    
+        scene.lights.add(new PointLight(new Color(750, 735, 276), new Point(100, 80, 50)).setKl(0.0002)
+                                                                                         .setKq(0.0002)
+                                                                                         .setHeight(40)
+                                                                                         .setWidth(40));
         return scene;
     }
 }

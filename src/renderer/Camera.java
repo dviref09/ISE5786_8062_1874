@@ -7,6 +7,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import sampling.Blackboard;
+import sampling.SamplerType;
 import scene.Scene;
 
 import static primitives.Util.isZero;
@@ -251,6 +252,30 @@ public final class Camera implements Cloneable {
                 _camera._rayTracer = new SimpleRayTracer(scene);
             } else {
                 throw new IllegalArgumentException("Must enter a valid ray tracer");
+            }
+            return this;
+        }
+        
+        /**
+         * Sets the amount of rays per side in soft shadows super sampling
+         * @param numOfRays The number of rays per side in soft shadows
+         * @return The same builder for chaining methods
+         */
+        Builder setSSRays(int numOfRays) {
+            if (_camera._rayTracer != null) {
+                _camera._rayTracer.setSoftShadowNumRays(numOfRays);
+            }
+            return this;
+        }
+        
+        /**
+         * Sets the sample pattern in soft shadows super sampling
+         * @param samplerType The type of sample pattern to use in soft shadows
+         * @return The same builder for chaining methods
+         */
+        Builder setSSSampler(SamplerType samplerType) {
+            if (_camera._rayTracer != null) {
+                _camera._rayTracer.setSoftShadowSampler(samplerType);
             }
             return this;
         }
