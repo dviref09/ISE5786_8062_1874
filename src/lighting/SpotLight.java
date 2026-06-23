@@ -37,17 +37,17 @@ public class SpotLight extends PointLight {
     
     // setters for the attenuation coefficients
     @Override
-    public SpotLight setKc(double kC) {
-        return (SpotLight) super.setKc(kC);
-    }
+    public SpotLight setKc(double kC) {return (SpotLight) super.setKc(kC);}
     
     @Override
-    public SpotLight setKl(double kL) {
-        return (SpotLight) super.setKl(kL);
-    }
+    public SpotLight setKl(double kL) {return (SpotLight) super.setKl(kL);}
     
     @Override
-    public SpotLight setKq(double kQ) {
-        return (SpotLight) super.setKq(kQ);
-    }
+    public SpotLight setKq(double kQ) {return (SpotLight) super.setKq(kQ);}
+    
+    @Override
+    public SpotLight setWidth(double width) {return (SpotLight) super.setWidth(width);}
+    
+    @Override
+    public SpotLight setHeight(double height) {return (SpotLight) super.setHeight(height);}
 }

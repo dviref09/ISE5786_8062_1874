@@ -4,6 +4,7 @@ import lighting.LightSource;
 import primitives.Color;
 import primitives.Ray;
 import primitives.Vector;
+import sampling.SamplerType;
 import scene.Scene;
 
 import static geometries.api.Intersectable.Intersection;
@@ -11,6 +12,7 @@ import static primitives.Util.alignZero;
 
 /**
  * An abstract class for representing the ray tracer of the scene
+ * @author Amichai Feiglson
  */
 abstract class RayTracerBase {
     /**
@@ -19,12 +21,46 @@ abstract class RayTracerBase {
     protected final Scene _scene;
     
     /**
+     * The amount of rays per side in soft shadows
+     */
+    protected int _softShadowNumRays = 1;
+    /**
+     * Sampling pattern for soft shadows
+     */
+    protected SamplerType _softShadowSampler = SamplerType.JITTERED;
+    
+    /**
      * Constructor
      * @param scene The scene the ray tracer works on
      */
     RayTracerBase(Scene scene) {
         _scene = scene;
     }
+    
+    /**
+     * Setter for the number of rays in soft shadows
+     * @param numRays The new value for the num or rays per side
+     * @return The current RayTracerBase object for chaining setters
+     */
+    public RayTracerBase setSoftShadowNumRays(int numRays) {
+        if (numRays <= 0) {
+            throw new IllegalArgumentException("Number of rays per side must be positive");
+        }
+        _softShadowNumRays = numRays;
+        return this;
+    }
+    
+    /**
+     * Setter for the sampler of soft shadows
+     * @param sampler The new sampler for soft shadows
+     * @return The current RayTracerBase object for chaining setters
+     */
+    public RayTracerBase setSoftShadowSampler(SamplerType sampler) {
+        _softShadowSampler = sampler;
+        return this;
+    }
+    
+    
     
     /**
      * Method for tracing a ray and determining the color of the ray

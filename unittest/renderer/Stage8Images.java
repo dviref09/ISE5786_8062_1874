@@ -27,7 +27,7 @@ public class Stage8Images {
     /**
      * The resolution of the images
      */
-    private static final int RESOLUTION = 15000;
+    private static final int RESOLUTION = 1000;
     
     /**
      * Produces a custom 3D rendered scene illustrating advanced transparency,
@@ -161,14 +161,14 @@ public class Stage8Images {
         // 10-12. Table Legs
         scene.geometries.add(new Triangle(new Point(-28, -25, -22), new Point(-25, -25, -22), new Point(-28, -60,
                 -22)).setEmission(new Color(50, 30, 20))
-                                                                                                                       .setMaterial(tableMat));
+                     .setMaterial(tableMat));
         scene.geometries.add(new Triangle(new Point(25, -25, -22), new Point(28, -25, -22), new Point(28, -60, -22)).setEmission(new Color(50, 30, 20))
                                                                                                                     .setMaterial(tableMat));
         scene.geometries.add(new Triangle(new Point(-28, -25, -58), new Point(-25, -25, -58), new Point(-28, -60,
                 -58)).setEmission(new Color(40, 20, 10))
-                                                                                                                       .setMaterial(tableMat));
+                     .setMaterial(tableMat));
         scene.geometries.add(new Triangle(new Point(25, -25, -58), new Point(28, -25, -58), new Point(28, -60,
-                        -58)).setEmission(new Color(40, 20, 10)).setMaterial(tableMat));
+                -58)).setEmission(new Color(40, 20, 10)).setMaterial(tableMat));
         
         // --- CENTERPIECE: GLASS PYRAMIDS SET (Diverse Materials & Non-Cyan Colors) ---
         
@@ -215,7 +215,7 @@ public class Stage8Images {
         // 1. Main Spotlight from top-left pointing to the center to cast clear shadows
         scene.lights.add(new SpotLight(new Color(189, 294, 612), new Point(-100, 120, 100),
                 new Vector(1, -1.2, -1.5)).setKl(0.0001)
-                                                                                                                      .setKq(0.00001));
+                                          .setKq(0.00001));
         
         // 2. Point Light on the right side to add secondary softer cross-shadowing
         scene.lights.add(new PointLight(new Color(750, 735, 276), new Point(100, 80, 50)).setKl(0.0002).setKq(0.0002));

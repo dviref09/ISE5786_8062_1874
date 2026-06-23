@@ -1,11 +1,14 @@
 package renderer;
 
+import java.util.List;
+
 import geometries.api.Intersectable;
 import geometries.impl.Plane;
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +31,13 @@ class CameraIntersectionIntegration {
     private static final int NY = 3;
     
     private static final Camera testCamera =
-            Camera.getBuilder().setLocation(LOCATION).setDirection(V_TO, V_UP).setVpDistance(DISTANCE).setVpSize(WIDTH, HEIGHT).setResolution(NX, NY).build();
+            Camera.getBuilder()
+                  .setLocation(LOCATION)
+                  .setDirection(V_TO, V_UP)
+                  .setVpDistance(DISTANCE)
+                  .setVpSize(WIDTH, HEIGHT)
+                  .setResolution(NX, NY)
+                  .build();
     
     /**
      * A helper method for checking that the number of intersections between the rays constructed by the camera and
@@ -44,8 +53,15 @@ class CameraIntersectionIntegration {
         // Iterate through all pixels in a 3x3 resolution
         for (int i = 0; i < NY; ++i) {
             for (int j = 0; j < NX; ++j) {
-                var ray = camera.constructRay(j, i);
-                var intersections = geometry.findIntersections(ray);
+                Ray cameraRay;
+                try {
+                    cameraRay = camera.constructRay(j, i);
+                }
+                catch (IllegalArgumentException e) {
+                    System.out.println("x: " + j + " y: " + i);
+                    throw e;
+                }
+                List<Point> intersections = geometry.findIntersections(cameraRay);
                 if (intersections != null) {
                     totalIntersections += intersections.size();
                 }

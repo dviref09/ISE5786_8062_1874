@@ -136,14 +136,14 @@ class RenderStage6Tests {
      */
     private static void createImage(Scene scene, String fileName) {
         Camera.getBuilder() //
-                .setResolution(RESOLUTION, RESOLUTION) //
-                .setLocation(Point.ZERO).setDirection(new Point(0, 0, -1), Vector.AXIS_Y) //
-                .setVpDistance(DISTANCE).setVpSize(SIZE, SIZE) //
-                .setRayTracer(scene, RayTracerType.SIMPLE) //
-                .build() //
-                .renderImage() //
-                .printGrid(INTERVAL, new Color(WHITE)) //
-                .writeToImage(fileName);
+              .setResolution(RESOLUTION, RESOLUTION) //
+              .setLocation(Point.ZERO).setDirection(new Point(0, 0, -1), Vector.AXIS_Y) //
+              .setVpDistance(DISTANCE).setVpSize(SIZE, SIZE) //
+              .setRayTracer(scene, RayTracerType.SIMPLE) //
+              .build() //
+              .renderImage() //
+              .printGrid(INTERVAL, new Color(WHITE)) //
+              .writeToImage(fileName);
     }
     
     /**
@@ -155,10 +155,10 @@ class RenderStage6Tests {
     void testRenderEmissionColor() {
         Scene scene = new Scene("Emission color").setAmbientLight(new AmbientLight(new Color(51, 51, 51)));
         scene.geometries //
-                .add(_sphere, // no emission
-                        _triangleLeftTop.setEmission(new Color(GREEN)),
-                        _triangleLeftBottom.setEmission(new Color(RED)),
-                        _triangleRightBottom.setEmission(new Color(BLUE)));
+                         .add(_sphere, // no emission
+                                 _triangleLeftTop.setEmission(new Color(GREEN)),
+                                 _triangleLeftBottom.setEmission(new Color(RED)),
+                                 _triangleRightBottom.setEmission(new Color(BLUE)));
         createImage(scene, "emission render test");
     }
     
@@ -171,11 +171,11 @@ class RenderStage6Tests {
     void testRenderAmbientColor() {
         Scene scene = new Scene("Ambient colors").setAmbientLight(new AmbientLight(new Color(WHITE)));
         scene.geometries //
-                .add(_sphere.setMaterial((new Material()).setKA(0.4)),
-                        _triangleLeftTop.setMaterial((new Material()).setKA(new Double3(0, 0.8, 0))),
-                        _triangleLeftBottom.setMaterial((new Material()).setKA(new Double3(0.8, 0, 0))),
-                        _triangleRightBottom.setMaterial((new Material()).setKA(new Double3(0, 0, 0.8)))
-                );
+                         .add(_sphere.setMaterial((new Material()).setKA(0.4)),
+                                 _triangleLeftTop.setMaterial((new Material()).setKA(new Double3(0, 0.8, 0))),
+                                 _triangleLeftBottom.setMaterial((new Material()).setKA(new Double3(0.8, 0, 0))),
+                                 _triangleRightBottom.setMaterial((new Material()).setKA(new Double3(0, 0, 0.8)))
+                         );
         createImage(scene, "ambient render test");
     }
 }

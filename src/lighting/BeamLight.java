@@ -46,6 +46,16 @@ public class BeamLight extends SpotLight {
         return (BeamLight) super.setKq(kQ);
     }
     
+    @Override
+    public BeamLight setWidth(double width) {
+        return (BeamLight) super.setWidth(width);
+    }
+    
+    @Override
+    public BeamLight setHeight(double height) {
+        return (BeamLight) super.setHeight(height);
+    }
+    
     /**
      * Setter for beamPower coefficient
      * @param beamPower The new value for the coefficient

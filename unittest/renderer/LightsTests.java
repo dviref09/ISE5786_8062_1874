@@ -47,19 +47,19 @@ class LightsTests {
      * First camera builder for some of tests
      */
     private final Camera.Builder _camera1 = Camera.getBuilder()                                //
-            .setRayTracer(_scene1, RayTracerType.SIMPLE)                                                              //
-            .setLocation(new Point(0, 0, 1000))                                                                       //
-            .setDirection(Point.ZERO, Vector.AXIS_Y)                                                                  //
-            .setVpSize(150, 150).setVpDistance(1000);
+                                                  .setRayTracer(_scene1, RayTracerType.SIMPLE)                                                              //
+                                                  .setLocation(new Point(0, 0, 1000))                                                                       //
+                                                  .setDirection(Point.ZERO, Vector.AXIS_Y)                                                                  //
+                                                  .setVpSize(150, 150).setVpDistance(1000);
     
     /**
      * Second camera builder for some of tests
      */
     private final Camera.Builder _camera2 = Camera.getBuilder()                                //
-            .setRayTracer(_scene2, RayTracerType.SIMPLE)                                                              //
-            .setLocation(new Point(0, 0, 1000))                                                                       //
-            .setDirection(Point.ZERO, Vector.AXIS_Y)                                                                  //
-            .setVpSize(200, 200).setVpDistance(1000);
+                                                  .setRayTracer(_scene2, RayTracerType.SIMPLE)                                                              //
+                                                  .setLocation(new Point(0, 0, 1000))                                                                       //
+                                                  .setDirection(Point.ZERO, Vector.AXIS_Y)                                                                  //
+                                                  .setVpSize(200, 200).setVpDistance(1000);
     
     /**
      * Shininess value for most of the geometries in the tests
@@ -87,7 +87,7 @@ class LightsTests {
      * Material for some of the geometries in the tests
      */
     private static final Material MATERIAL = new Material().setKD(KD3).setKS(KS3)
-            .setShininess(SHININESS);
+                                                           .setShininess(SHININESS);
     /**
      * Light color for tests with triangles
      */
@@ -166,10 +166,10 @@ class LightsTests {
         _scene1.lights.add(new DirectionalLight(SPHERE_LIGHT_COLOR, SPHERE_LIGHT_DIRECTION));
         
         _camera1 //
-                .setResolution(RESOLUTION, RESOLUTION) //
-                .build() //
-                .renderImage() //
-                .writeToImage("lightSphereDirectional");
+                 .setResolution(RESOLUTION, RESOLUTION) //
+                 .build() //
+                 .renderImage() //
+                 .writeToImage("lightSphereDirectional");
     }
     
     /**
@@ -180,13 +180,13 @@ class LightsTests {
     void testSpherePoint() {
         _scene1.geometries.add(SPHERE);
         _scene1.lights.add(new PointLight(SPHERE_LIGHT_COLOR, SPHERE_LIGHT_POSITION) //
-                .setKl(0.001).setKq(0.0002));
+                                                                                     .setKl(0.001).setKq(0.0002));
         
         _camera1 //
-                .setResolution(RESOLUTION, RESOLUTION) //
-                .build() //
-                .renderImage() //
-                .writeToImage("lightSpherePoint");
+                 .setResolution(RESOLUTION, RESOLUTION) //
+                 .build() //
+                 .renderImage() //
+                 .writeToImage("lightSpherePoint");
     }
     
     /**
@@ -197,13 +197,14 @@ class LightsTests {
     void testSphereSpot() {
         _scene1.geometries.add(SPHERE);
         _scene1.lights.add(new SpotLight(SPHERE_LIGHT_COLOR, SPHERE_LIGHT_POSITION, SPHERE_LIGHT_DIRECTION) //
-                .setKl(0.001).setKq(0.0001));
+                                                                                                            .setKl(0.001)
+                                                                                                            .setKq(0.0001));
         
         _camera1 //
-                .setResolution(RESOLUTION, RESOLUTION) //
-                .build() //
-                .renderImage() //
-                .writeToImage("lightSphereSpot");
+                 .setResolution(RESOLUTION, RESOLUTION) //
+                 .build() //
+                 .renderImage() //
+                 .writeToImage("lightSphereSpot");
     }
     
     /**
@@ -228,7 +229,7 @@ class LightsTests {
     void testTrianglesPoint() {
         _scene2.geometries.add(TRIANGLE1, TRIANGLE2);
         _scene2.lights.add(new PointLight(TRIANGLES_LIGHT_COLOR, TRIANGLES_LIGHT_POSITION) //
-                .setKl(0.001).setKq(0.0002));
+                                                                                           .setKl(0.001).setKq(0.0002));
         
         _camera2.setResolution(RESOLUTION, RESOLUTION) //
                 .build() //
@@ -244,7 +245,8 @@ class LightsTests {
     void testTrianglesSpot() {
         _scene2.geometries.add(TRIANGLE1, TRIANGLE2);
         _scene2.lights.add(new SpotLight(TRIANGLES_LIGHT_COLOR, TRIANGLES_LIGHT_POSITION, TRIANGLES_LIGHT_DIRECTION) //
-                .setKl(0.001).setKq(0.0001));
+                                                                                                                     .setKl(0.001)
+                                                                                                                     .setKq(0.0001));
         
         _camera2.setResolution(RESOLUTION, RESOLUTION) //
                 .build() //
@@ -261,7 +263,9 @@ class LightsTests {
         _scene1.geometries.add(SPHERE);
         _scene1.lights
                 .add(new BeamLight(SPHERE_LIGHT_COLOR, SPHERE_LIGHT_POSITION, new Vector(1, 1, -0.5)) //
-                        .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+                                                                                                      .setKl(0.001)
+                                                                                                      .setKq(0.00004)
+                                                                                                      .setNarrowBeam(10));
         
         _camera1.setResolution(RESOLUTION, RESOLUTION) //
                 .build() //
@@ -277,7 +281,9 @@ class LightsTests {
     void testTrianglesSpotSharp() {
         _scene2.geometries.add(TRIANGLE1, TRIANGLE2);
         _scene2.lights.add(new BeamLight(TRIANGLES_LIGHT_COLOR, TRIANGLES_LIGHT_POSITION, TRIANGLES_LIGHT_DIRECTION) //
-                .setKl(0.001).setKq(0.00004).setNarrowBeam(10));
+                                                                                                                     .setKl(0.001)
+                                                                                                                     .setKq(0.00004)
+                                                                                                                     .setNarrowBeam(10));
         
         _camera2.setResolution(RESOLUTION, RESOLUTION) //
                 .build() //

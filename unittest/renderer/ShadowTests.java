@@ -34,13 +34,13 @@ class ShadowTests {
      * Camera builder of the tests
      */
     private final Camera.Builder _cameraBuilder = Camera.getBuilder()
-            .setLocation(new Point(0, 0, 1000))
-            .setVpDistance(1000)
-            .setVpSize(200, 200)
-            .setDirection(Point.ZERO, Vector.AXIS_Y)
-            // .setDirection(new Point(-8, -78, 0), Vector.AXIS_Y) // debug
-            .setResolution(600, 600)
-            .setRayTracer(_scene, RayTracerType.SIMPLE);
+                                                        .setLocation(new Point(0, 0, 1000))
+                                                        .setVpDistance(1000)
+                                                        .setVpSize(200, 200)
+                                                        .setDirection(Point.ZERO, Vector.AXIS_Y)
+                                                        // .setDirection(new Point(-8, -78, 0), Vector.AXIS_Y) // debug
+                                                        .setResolution(600, 600)
+                                                        .setRayTracer(_scene, RayTracerType.SIMPLE);
     
     /**
      * The sphere in the tests
@@ -62,8 +62,9 @@ class ShadowTests {
     private void sphereTriangleHelper(String pictName, Triangle triangle, Point spotLocation) {
         _scene.geometries.add(_sphere, triangle.setEmission(new Color(BLUE)).setMaterial(_trMaterial));
         _scene.lights //
-                .add(new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //
-                        .setKl(1E-5).setKq(1.5E-7));
+                      .add(new SpotLight(new Color(400, 240, 0), spotLocation, new Vector(1, 1, -3)) //
+                                                                                                     .setKl(1E-5)
+                                                                                                     .setKq(1.5E-7));
         renderSceneToImage(pictName, false, false);
     }
     
@@ -159,16 +160,19 @@ class ShadowTests {
     private void setTrianglesSphereScene() {
         Material triangleMaterial = new Material().setKS(0.8).setShininess(111);
         _scene.geometries //
-                .add( //
-                        new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135),
-                                new Point(75, 75, -150)) //
-                                .setMaterial(triangleMaterial), //
-                        new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
-                                .setMaterial(triangleMaterial),
-                        new Sphere(new Point(0, 0, -11), 30D) //
-                                .setEmission(new Color(BLUE)) //
-                                .setMaterial(new Material().setKD(0.5).setKS(0.4).setShininess(111))
-                );
+                          .add( //
+                                  new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135),
+                                          new Point(75, 75, -150)) //
+                                                                   .setMaterial(triangleMaterial), //
+                                  new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75,
+                                          75, -150)) //
+                                                                                                                               .setMaterial(triangleMaterial),
+                                  new Sphere(new Point(0, 0, -11), 30D) //
+                                                                        .setEmission(new Color(BLUE)) //
+                                                                        .setMaterial(new Material().setKD(0.5)
+                                                                                                   .setKS(0.4)
+                                                                                                   .setShininess(111))
+                          );
         _scene.setAmbientLight(new AmbientLight(new Color(38, 38, 38)));
     }
     

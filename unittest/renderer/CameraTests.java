@@ -80,8 +80,8 @@ class CameraTests {
      */
     private Camera.Builder baseBuilder() {
         return Camera.getBuilder()
-                .setLocation(LOCATION)
-                .setVpDistance(VP_DISTANCE);
+                     .setLocation(LOCATION)
+                     .setVpDistance(VP_DISTANCE);
     }
     
     /**
@@ -117,31 +117,31 @@ class CameraTests {
         
         // BV01: Build fails when camera location is missing
         Builder builderBV01 = Camera.getBuilder()
-                .setDirection(V_TO, V_UP)
-                .setVpDistance(VP_DISTANCE)
-                .setVpSize(8, 8);
+                                    .setDirection(V_TO, V_UP)
+                                    .setVpDistance(VP_DISTANCE)
+                                    .setVpSize(8, 8);
         assertThrows(MissingResourceException.class, builderBV01::build, ERROR_MISSING_RESOURCE);
         
         // BV02: Build fails when camera direction is missing
         Builder builderBV02 = Camera.getBuilder()
-                .setLocation(LOCATION)
-                .setVpDistance(VP_DISTANCE)
-                .setVpSize(8, 8);
+                                    .setLocation(LOCATION)
+                                    .setVpDistance(VP_DISTANCE)
+                                    .setVpSize(8, 8);
         assertThrows(MissingResourceException.class, builderBV02::build, ERROR_MISSING_RESOURCE);
         
         // BV03: Build fails when view-plane size is missing
         Builder builderBV03 = Camera.getBuilder()
-                .setLocation(LOCATION)
-                .setDirection(V_TO, V_UP)
-                .setVpDistance(VP_DISTANCE);
+                                    .setLocation(LOCATION)
+                                    .setDirection(V_TO, V_UP)
+                                    .setVpDistance(VP_DISTANCE);
         assertThrows(IllegalArgumentException.class, builderBV03::build,
                 "Build should fail when view-plane size was not set");
         
         // BV04: Build fails when view-plane distance is missing
         Builder builderBV04 = Camera.getBuilder()
-                .setLocation(LOCATION)
-                .setDirection(V_TO, V_UP)
-                .setVpSize(8, 8);
+                                    .setLocation(LOCATION)
+                                    .setDirection(V_TO, V_UP)
+                                    .setVpSize(8, 8);
         assertThrows(IllegalArgumentException.class, builderBV04::build,
                 "Build should fail when view-plane distance from camera was not set");
         
@@ -171,18 +171,18 @@ class CameraTests {
         
         // BV09: Build fails with zero view-plane distance
         Builder builderBV09 = Camera.getBuilder()
-                .setLocation(LOCATION)
-                .setDirection(V_TO, V_UP)
-                .setVpDistance(0)
-                .setVpSize(8, 8);
+                                    .setLocation(LOCATION)
+                                    .setDirection(V_TO, V_UP)
+                                    .setVpDistance(0)
+                                    .setVpSize(8, 8);
         assertThrows(IllegalArgumentException.class, builderBV09::build, ERROR_INVALID_ARGUMENT);
         
         // BV10: Build fails with negative view-plane distance
         Builder builderBV10 = Camera.getBuilder()
-                .setLocation(LOCATION)
-                .setDirection(V_TO, V_UP)
-                .setVpDistance(-1)
-                .setVpSize(8, 8);
+                                    .setLocation(LOCATION)
+                                    .setDirection(V_TO, V_UP)
+                                    .setVpDistance(-1)
+                                    .setVpSize(8, 8);
         assertThrows(IllegalArgumentException.class, builderBV10::build, ERROR_INVALID_ARGUMENT);
         
         // BV11: Build fails with zero horizontal resolution

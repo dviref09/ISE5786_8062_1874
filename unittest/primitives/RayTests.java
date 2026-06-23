@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import static geometries.api.Intersectable.Intersection;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit test class for {@link primitives.Ray}.
@@ -46,10 +47,13 @@ class RayTests {
     private static final String CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE = "Constructor didn't set the origin properly";
     private static final String CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE =
             "Constructor didn't set the direction properly";
+    private static final String CONSTRUCTOR_TARGET_AND_ORIGIN_SAME =
+            "Constructor should throw an exception when origin and target are the same point";
     private static final String GET_POINT_FAILURE_MESSAGE = "The result point is not correct";
     private static final String FIND_CLOSEST_INTERSECTION_WRONG_POINT_FAILURE_MESSAGE =
             "The result point is not the closest one";
     private static final String FIND_CLOSEST_INTERSECTION_NULL_FAILURE_MESSAGE = "The result should be null";
+    
     
     /**
      * Test method for {@link Ray#Ray(Point, Vector)}.
@@ -103,6 +107,27 @@ class RayTests {
         
         assertEquals(testOrigin, testRay.origin(), CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE);
         assertEquals(expectedDirection, testRay.direction(), CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE);
+    }
+    
+    /**
+     * Test method for {@link Ray#Ray(Point, Point)}
+     */
+    @Test
+    void testConstructor3() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: General origin and target
+        Point testOrigin = new Point(1, 1, 1);
+        Point testTarget = new Point(2, 2, 2);
+        Ray testRay = new Ray(testOrigin, testTarget);
+        Vector expectedDirection = new Vector(1, 1, 1).normalize();
+        
+        assertEquals(testOrigin, testRay.origin(), CONSTRUCTOR_TEST_ORIGIN_FAILURE_MESSAGE);
+        assertEquals(expectedDirection, testRay.direction(), CONSTRUCTOR_TEST_DIRECTION_FAILURE_MESSAGE);
+        
+        // =============== Boundary Values Tests ==================
+        // BV01: Origin and target are the same point
+        assertThrows(IllegalArgumentException.class, () -> new Ray(testOrigin, testOrigin),
+                CONSTRUCTOR_TARGET_AND_ORIGIN_SAME);
     }
     
     /**

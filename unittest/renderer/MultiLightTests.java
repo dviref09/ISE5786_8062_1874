@@ -43,19 +43,19 @@ public class MultiLightTests {
      * First camera builder for sphere
      */
     private final Camera.Builder _camera1 = Camera.getBuilder()
-            .setRayTracer(_scene1, RayTracerType.SIMPLE)
-            .setLocation(new Point(0, 0, 1000))
-            .setDirection(Point.ZERO, Vector.AXIS_Y)
-            .setVpSize(150, 150).setVpDistance(1000);
+                                                  .setRayTracer(_scene1, RayTracerType.SIMPLE)
+                                                  .setLocation(new Point(0, 0, 1000))
+                                                  .setDirection(Point.ZERO, Vector.AXIS_Y)
+                                                  .setVpSize(150, 150).setVpDistance(1000);
     
     /**
      * Second camera builder for triangle
      */
     private final Camera.Builder _camera2 = Camera.getBuilder()
-            .setRayTracer(_scene2, RayTracerType.SIMPLE)
-            .setLocation(new Point(0, 0, 1000))
-            .setDirection(Point.ZERO, Vector.AXIS_Y)
-            .setVpSize(200, 200).setVpDistance(1000);
+                                                  .setRayTracer(_scene2, RayTracerType.SIMPLE)
+                                                  .setLocation(new Point(0, 0, 1000))
+                                                  .setDirection(Point.ZERO, Vector.AXIS_Y)
+                                                  .setVpSize(200, 200).setVpDistance(1000);
     
     /**
      * Shininess value for most of the geometries in the tests
@@ -74,7 +74,7 @@ public class MultiLightTests {
      * Material for some of the geometries in the tests
      */
     private static final Material MATERIAL = new Material().setKD(KD).setKS(KS)
-            .setShininess(SHININESS);
+                                                           .setShininess(SHININESS);
     /**
      * Color of the sphere
      */

@@ -55,9 +55,9 @@ class RenderTests {
      */
     private static Camera.Builder baseCameraBuilder() {
         return Camera.getBuilder() //
-                .setLocation(LOCATION).setDirection(LOOK_AT) //
-                .setVpDistance(VP_DISTANCE).setVpSize(VP_SIZE, VP_SIZE) //
-                .setResolution(RESOLUTION, RESOLUTION);
+                     .setLocation(LOCATION).setDirection(LOOK_AT) //
+                     .setVpDistance(VP_DISTANCE).setVpSize(VP_SIZE, VP_SIZE) //
+                     .setResolution(RESOLUTION, RESOLUTION);
     }
     
     /**
@@ -67,8 +67,9 @@ class RenderTests {
     @Test
     void testBasicRenderTwoColors() {
         Scene scene = new Scene("Two colors")                   //
-                .setBackground(new Color(75, 127, 90))                       //
-                .setAmbientLight(new AmbientLight(new Color(255, 191, 191)));
+                                                                .setBackground(new Color(75, 127, 90))                       //
+                                                                .setAmbientLight(new AmbientLight(new Color(255, 191,
+                                                                        191)));
         
         final double Z = -100D;
         // Left, Middle, Right X Bottom, Middle, Top
@@ -83,21 +84,21 @@ class RenderTests {
         double radius = 50D;
         
         scene.geometries //
-                .add(// center
-                        new Sphere(o, radius),
-                        // up left
-                        new Triangle(pLM, pMT, pLT),
-                        // down left
-                        new Triangle(pLM, pMB, pLB),
-                        // down right
-                        new Triangle(pRM, pMB, pRB));
+                         .add(// center
+                                 new Sphere(o, radius),
+                                 // up left
+                                 new Triangle(pLM, pMT, pLT),
+                                 // down left
+                                 new Triangle(pLM, pMB, pLB),
+                                 // down right
+                                 new Triangle(pRM, pMB, pRB));
         
         baseCameraBuilder() //
-                .setRayTracer(scene, RayTracerType.SIMPLE) //
-                .build() //
-                .renderImage() //
-                .printGrid(100, new Color(YELLOW)) //
-                .writeToImage("Two colors render test");
+                            .setRayTracer(scene, RayTracerType.SIMPLE) //
+                            .build() //
+                            .renderImage() //
+                            .printGrid(100, new Color(YELLOW)) //
+                            .writeToImage("Two colors render test");
     }
     
     /**
@@ -116,9 +117,9 @@ class RenderTests {
         // NB: unit tests is not the correct place to put XML parsing code.
         
         return builder //
-                .setRayTracer(scene, RayTracerType.SIMPLE) //
-                .build() //
-                .renderImage(); //
+                       .setRayTracer(scene, RayTracerType.SIMPLE) //
+                       .build() //
+                       .renderImage(); //
     }
     
     /**
@@ -137,9 +138,9 @@ class RenderTests {
         // NB: unit tests is not the correct place to put JSON parsing code.
         
         return builder //
-                .setRayTracer(scene, RayTracerType.SIMPLE) //
-                .build() //
-                .renderImage(); //
+                       .setRayTracer(scene, RayTracerType.SIMPLE) //
+                       .build() //
+                       .renderImage(); //
     }
     
     /**
@@ -149,8 +150,8 @@ class RenderTests {
     @Test
     void testBasicRenderXml() {
         renderSceneXML(baseCameraBuilder(), "basicRenderTestTwoColors") //
-                .printGrid(100, new Color(YELLOW)) //
-                .writeToImage("render test xml");
+                                                                        .printGrid(100, new Color(YELLOW)) //
+                                                                        .writeToImage("render test xml");
     }
     
     /**
@@ -160,7 +161,7 @@ class RenderTests {
     @Test
     void testBasicRenderJson() {
         renderSceneJSON(baseCameraBuilder(), "basicRenderTestTwoColors") //
-                .printGrid(100, new Color(YELLOW)) //
-                .writeToImage("render test json");
+                                                                         .printGrid(100, new Color(YELLOW)) //
+                                                                         .writeToImage("render test json");
     }
 }

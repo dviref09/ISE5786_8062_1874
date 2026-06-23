@@ -37,6 +37,15 @@ public final class Ray {
     }
     
     /**
+     * Constructs a new ray from the origin to the target
+     * @param origin The origin point of the rat
+     * @param target The target point of the ray
+     */
+    public Ray(Point origin, Point target) {
+        this._origin = origin;
+        this._direction = target.subtract(origin).normalize();
+    }
+    /**
      * Constructs a new ray with the point and direction
      * and before constructing the ray shift the point in the direction of the shift vector
      * @param origin The origin point of the ray.

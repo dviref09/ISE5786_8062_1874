@@ -6,6 +6,7 @@ import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import sampling.Blackboard;
 import scene.Scene;
 
 import static primitives.Util.isZero;
@@ -20,29 +21,13 @@ public final class Camera implements Cloneable {
      */
     private Point _p0;
     /**
-     * Vector that represent the direction of the camera
-     */
-    private Vector _vTo, _vUp, _vRight;
-    /**
-     * The center of the view plane
-     */
-    private Point _vpCenter;
-    /**
-     * The width and height of the view plane
-     */
-    private double _width, _height;
-    /**
-     * The distance of the camera from the view plane
-     */
-    private double _distance;
-    /**
      * The resolution of the view plane
      */
     private int _nX = 1, _nY = 1;
     /**
-     * The width and height of individual pixel
+     * The view plane of the camera
      */
-    private double _pixelWidth, _pixelHeight;
+    private Blackboard _viewPlane;
     /**
      * The ImageWriter instance to write with him the image
      */
@@ -116,18 +101,7 @@ public final class Camera implements Cloneable {
      * @return A ray through the pixel
      */
     public Ray constructRay(int xIndex, int yIndex) {
-        double xJ = (xIndex - (double) (_nX - 1) / 2) * _pixelWidth;
-        double yI = -(yIndex - (double) (_nY - 1) / 2) * _pixelHeight;
-        Point pIJ = _vpCenter;
-        
-        if (!isZero(xJ)) {
-            pIJ = pIJ.add(_vRight.scale(xJ));
-        }
-        if (!isZero(yI)) {
-            pIJ = pIJ.add(_vUp.scale(yI));
-        }
-        
-        return new Ray(_p0, pIJ.subtract(_p0));
+        return new Ray(_p0, _viewPlane.generatePoint(xIndex, yIndex));
     }
     
     /**
@@ -150,19 +124,40 @@ public final class Camera implements Cloneable {
          * The camera object the class builds
          */
         private final Camera _camera = new Camera();
+        /**
+         * The builder of the view plane
+         */
+        private final Blackboard.Builder _viewPlaneBuilder = Blackboard.getBuilder();
+        // private helper parameter for setting up the view plane
+        /**
+         * Vector that represent the direction of the camera
+         */
+        private Vector _vTo, _vUp, _vRight;
+        /**
+         * The center of the view plane
+         */
+        private Point _vpCenter;
+        /**
+         * The width and height of the view plane
+         */
+        private double _width, _height;
+        /**
+         * The distance of the camera from the view plane
+         */
+        private double _distance;
+        /**
+         * Helper variable for the setDirection method
+         */
+        private Point _targetPoint = null;
         
         /**
          * Constructor for the builder, sets default values to camera's fields
          */
         public Builder() {
-            _camera._vUp = Vector.AXIS_Y;
-            _camera._vTo = null;
+            _vUp = Vector.AXIS_Y;
+            _vTo = null;
         }
         
-        /**
-         * Helper variable for the setDirection method
-         */
-        private Point _targetPoint = null;
         
         /**
          * Sets the location of the camera
@@ -181,8 +176,8 @@ public final class Camera implements Cloneable {
          * @return The same builder for chaining methods
          */
         public Builder setDirection(Vector to, Vector up) {
-            _camera._vTo = to;
-            _camera._vUp = up;
+            _vTo = to;
+            _vUp = up;
             return this;
         }
         
@@ -195,7 +190,7 @@ public final class Camera implements Cloneable {
          */
         public Builder setDirection(Point target, Vector up) {
             _targetPoint = target;
-            _camera._vUp = up;
+            _vUp = up;
             return this;
         }
         
@@ -217,8 +212,8 @@ public final class Camera implements Cloneable {
          * @return The same builder for chaining methods
          */
         public Builder setVpSize(double width, double height) {
-            _camera._width = width;
-            _camera._height = height;
+            _width = width;
+            _height = height;
             return this;
         }
         
@@ -228,7 +223,7 @@ public final class Camera implements Cloneable {
          * @return The same builder for chaining methods
          */
         public Builder setVpDistance(double distance) {
-            _camera._distance = distance;
+            _distance = distance;
             return this;
         }
         
@@ -287,6 +282,7 @@ public final class Camera implements Cloneable {
                 throw new IllegalArgumentException("Resolution in either axes should be greater than 0.");
             }
             _camera._imageWriter = new ImageWriter(_camera._nX, _camera._nY);
+            _viewPlaneBuilder.setResolution(_camera._nX, _camera._nY);
         }
         
         /**
@@ -304,16 +300,16 @@ public final class Camera implements Cloneable {
             if (_camera._p0 == null) {
                 throw new MissingResourceException("The camera must have a location", "Builder", "_po");
             }
-            if (_targetPoint == null && _camera._vTo == null) {
+            if (_targetPoint == null && _vTo == null) {
                 throw new MissingResourceException("The camera must have vTo vector or target point", "Builder",
                         "_vTo or _targetPoint");
             }
             
-            if (_camera._vTo == null) {
+            if (_vTo == null) {
                 if (_targetPoint.equals(_camera._p0)) {
                     throw new IllegalArgumentException("The camera's target point can't be in the camera's position");
                 }
-                _camera._vTo = _targetPoint.subtract(_camera._p0);
+                _vTo = _targetPoint.subtract(_camera._p0);
             }
             calcVectors();
         }
@@ -325,7 +321,7 @@ public final class Camera implements Cloneable {
          * positive
          */
         private void checkViewPlane() {
-            if (_camera._width <= 0 || _camera._height <= 0 || _camera._distance <= 0) {
+            if (_width <= 0 || _height <= 0 || _distance <= 0) {
                 throw new IllegalArgumentException("The camera's view plane dimensions must be greater than 0.");
             }
             calcViewPlane();
@@ -347,14 +343,14 @@ public final class Camera implements Cloneable {
          * @throws IllegalArgumentException If the vTo and vUp are parallel
          */
         private void calcVectors() {
-            _camera._vTo = _camera._vTo.normalize();
+            _vTo = _vTo.normalize();
             try {
-                _camera._vRight = _camera._vTo.crossProduct(_camera._vUp).normalize();
+                _vRight = _vTo.crossProduct(_vUp);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("vTo and vUp can't be parallel.");
             }
             
-            _camera._vUp = _camera._vRight.crossProduct(_camera._vTo).normalize();
+            _vUp = _vRight.crossProduct(_vTo);
         }
         
         /**
@@ -362,9 +358,12 @@ public final class Camera implements Cloneable {
          * The center point and the pixel dimensions
          */
         private void calcViewPlane() {
-            _camera._vpCenter = _camera._p0.add(_camera._vTo.scale(_camera._distance));
-            _camera._pixelWidth = _camera._width / _camera._nX;
-            _camera._pixelHeight = _camera._height / _camera._nY;
+            _vpCenter = _camera._p0.add(_vTo.scale(_distance));
+            
+            _viewPlaneBuilder.setCenter(_vpCenter)
+                    .setSize(_width, _height)
+                    .setDirection(_vUp, _vRight);
+            _camera._viewPlane = _viewPlaneBuilder.build();
         }
     }
 }

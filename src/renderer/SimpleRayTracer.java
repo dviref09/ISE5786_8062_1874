@@ -28,6 +28,7 @@ final class SimpleRayTracer extends RayTracerBase {
      */
     private static final Double3 INITIAL_K = Double3.ONE;
     
+    
     /**
      * /**
      * Constructor
@@ -74,12 +75,15 @@ final class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(Intersection intersection) {
         Vector pointToLight = intersection.l.scale(-1);
+        
         Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
+        
         double lightDistance = intersection.light.getDistance(intersection.point);
         List<Intersection> shadowIntersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
         if (shadowIntersections == null) {
             return Double3.ONE;
         }
+        
         Double3 ktr = Double3.ONE;
         for (Intersection shadowIntersection : shadowIntersections) {
             ktr = ktr.product(shadowIntersection.material.kT);
