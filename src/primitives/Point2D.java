@@ -9,6 +9,6 @@ public record Point2D(double x, double y) {
             return true;
         if (other == null || getClass() != other.getClass())
             return false;
-        return isZero(x - ((Point2D)other).x) && isZero(y - ((Point2D)other).y);
+        return isZero(x - ((Point2D) other).x) && isZero(y - ((Point2D) other).y);
     }
 }

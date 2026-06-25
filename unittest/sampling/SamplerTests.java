@@ -17,7 +17,7 @@ public class SamplerTests {
     /**
      * Test data
      */
-    SamplerType jittered  = SamplerType.JITTERED;
+    SamplerType jittered = SamplerType.JITTERED;
     
     /**
      * Failure messages
@@ -47,7 +47,7 @@ public class SamplerTests {
         
         // BV03: Jittered with x and y value of 1 (The point should be (0, 0) without any offset)
         testPoints = jittered.samplePoints(1, 1);
-        assertEquals(new Point2D(0, 0), testPoints.get(0), JITTERED_00_FAILURE_MESSAGE);
+        assertEquals(new Point2D(0, 0), testPoints.getFirst(), JITTERED_00_FAILURE_MESSAGE);
     }
     
     /**
@@ -65,14 +65,13 @@ public class SamplerTests {
             assertTrue(xOffset <= 0.5 && xOffset >= -0.5,
                     JITTERED_X_FAILURE_MESSAGE + " point x: " + point.x() + " should be x: " + x + " offset: " + xOffset);
             assertTrue(yOffset <= 0.5 && yOffset >= -0.5,
-                    JITTERED_Y_FAILURE_MESSAGE+ " point y: " + point.y() + " should be y: " + y + " offset: " + yOffset);
+                    JITTERED_Y_FAILURE_MESSAGE + " point y: " + point.y() + " should be y: " + y + " offset: " + yOffset);
             
             // Update the current offset
             if (y == nY - 1) {
                 x++;
                 y = 0;
-            }
-            else {
+            } else {
                 y++;
             }
         }

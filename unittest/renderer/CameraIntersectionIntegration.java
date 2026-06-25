@@ -56,8 +56,7 @@ class CameraIntersectionIntegration {
                 Ray cameraRay;
                 try {
                     cameraRay = camera.constructRay(j, i);
-                }
-                catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException e) {
                     System.out.println("x: " + j + " y: " + i);
                     throw e;
                 }

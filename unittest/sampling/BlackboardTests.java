@@ -53,10 +53,12 @@ class BlackboardTests {
         
         // ---- Invalid Partition ----
         // EP02: Negative x offset
-        assertThrows(IllegalArgumentException.class, () -> blackboard.generatePoint(-1.5, 2.5), NEGATIVE_OFFSET_FAILURE);
+        assertThrows(IllegalArgumentException.class, () -> blackboard.generatePoint(-1.5, 2.5),
+                NEGATIVE_OFFSET_FAILURE);
         
         // EP03: Negative y offset
-        assertThrows(IllegalArgumentException.class, () -> blackboard.generatePoint(2.5, -1.5), NEGATIVE_OFFSET_FAILURE);
+        assertThrows(IllegalArgumentException.class, () -> blackboard.generatePoint(2.5, -1.5),
+                NEGATIVE_OFFSET_FAILURE);
         
         // EP04: Out of bounds:
         assertThrows(IllegalArgumentException.class, () -> blackboard.generatePoint(8, 7), NEGATIVE_OFFSET_FAILURE);

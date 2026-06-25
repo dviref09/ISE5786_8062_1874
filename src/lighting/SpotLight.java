@@ -3,8 +3,6 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
-import sampling.Blackboard;
-import sampling.SamplerType;
 
 import static primitives.Util.alignZero;
 
@@ -38,26 +36,8 @@ public class SpotLight extends PointLight {
     }
     
     @Override
-    public Blackboard getBlackboard(Point p, int resolution, SamplerType samplerType) {
-        Blackboard.Builder blackboardBuilder = Blackboard.getBuilder();
-        
-        // vUp and vRight calculation
-        Vector vUp = Vector.AXIS_Y;
-        Vector vRight;
-        try {
-            vRight = _direction.crossProduct(vUp).normalize();
-        } catch (IllegalArgumentException e) {
-            vUp = Vector.AXIS_X;
-            vRight = _direction.crossProduct(vUp).normalize();
-        }
-        vUp = vRight.crossProduct(_direction).normalize();
-        
-        blackboardBuilder.setSize(_width, _height)
-                         .setDirection(vUp, vRight)
-                         .setCenter(_position)
-                         .setResolution(resolution, resolution)
-                         .setSampler(samplerType);
-        return blackboardBuilder.build();
+    protected Vector vToCalc(Point p) {
+        return _direction;
     }
     
     // setters for the attenuation coefficients

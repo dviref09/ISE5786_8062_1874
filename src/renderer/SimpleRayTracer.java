@@ -3,6 +3,7 @@ package renderer;
 import java.util.List;
 
 import lighting.LightSource;
+import lighting.PointLight;
 import primitives.Color;
 import primitives.Double3;
 import primitives.Ray;
@@ -28,11 +29,6 @@ final class SimpleRayTracer extends RayTracerBase {
      * The initial amount of influence on the global effect at the first level of calculation
      */
     private static final Double3 INITIAL_K = Double3.ONE;
-    /**
-     * A shift constant
-     */
-    private static final double DELTA = 0.1;
-    
     
     /**
      * /**
@@ -80,20 +76,21 @@ final class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(Intersection intersection) {
         if (intersection.light.isSoftShadows() && _softShadowNumRays > 1) {
-            // This means soft shadow in enabled
-            Blackboard blackboard =
-                    intersection.light.getBlackboard(intersection.point, _softShadowNumRays, _softShadowSampler);
-            Vector delta = intersection.normal.scale(intersection.lNormal < 0 ? DELTA : -DELTA);
+            // This means soft shadow is enabled
+            // Cast to PointLight since only PointLight (and subclasses) support getBlackboard()
+            Blackboard blackboard = ((PointLight) intersection.light)
+                    .getBlackboard(intersection.point, _softShadowNumRays, _softShadowSampler);
             List<Ray> shadowBeam =
-                    BeamGenerator.generateBeam(intersection.point.add(delta), blackboard.generatePoints(), false);
+                    BeamGenerator.generateBeam(
+                            intersection.point, blackboard.generatePoints(), intersection.normal, false
+                    );
             
             Double3 ktrSum = Double3.ZERO;
             for (Ray shadowRay : shadowBeam) {
                 ktrSum = ktrSum.add(singleRayTransparency(intersection, shadowRay));
             }
             return ktrSum.divide(shadowBeam.size());
-        }
-        else {
+        } else {
             Vector pointToLight = intersection.l.scale(-1);
             Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
             
@@ -244,7 +241,7 @@ final class SimpleRayTracer extends RayTracerBase {
      * @param ray The ray the intersection are calculated with
      * @return The closest intersection from the ray's intersections
      */
-    public Intersection findClosestIntersection(Ray ray) {
+    private Intersection findClosestIntersection(Ray ray) {
         return ray.findClosestIntersection(_scene.geometries.calcIntersections(ray));
     }
 }

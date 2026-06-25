@@ -6,7 +6,6 @@ import java.util.MissingResourceException;
 
 import primitives.Point;
 import primitives.Point2D;
-import primitives.Ray;
 import primitives.Vector;
 
 import static primitives.Util.alignZero;
@@ -54,24 +53,20 @@ public class Blackboard implements Cloneable {
      */
     private double _pixelHeight;
     /**
-     * The default sampler, the value is used both for internal and outer uses
-     */
-    public static final SamplerType DEFAULT_SAMPLER = SamplerType.JITTERED;
-    /**
      * The sampler in use
      */
-    private SamplerType _sampler = DEFAULT_SAMPLER;
+    private SamplerType _sampler = SamplerType.JITTERED;
     
     /**
      * Private constructor so the only one who is capable of creating black board is the builder
      */
-    private Blackboard(){}
+    private Blackboard() {}
     
     /**
      * Getter for the builder of the blackboard
      * @return The builder of the blackboard
      */
-    public static Builder getBuilder(){
+    public static Builder getBuilder() {
         return new Builder();
     }
     
@@ -207,7 +202,8 @@ public class Blackboard implements Cloneable {
                 throw new MissingResourceException("Blackboard must have a center point", "Builder", "_center");
             }
             if (_blackboard._vUp == null || _blackboard._vRight == null) {
-                throw new MissingResourceException("Blackboard must have orientation vectors", "Builder", "_vUp or _vRight");
+                throw new MissingResourceException("Blackboard must have orientation vectors", "Builder", "_vUp or " +
+                        "_vRight");
             }
             
             // Check orthogonality using dot product

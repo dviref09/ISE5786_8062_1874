@@ -1,34 +1,41 @@
 package renderer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
 import java.util.LinkedList;
-import org.junit.jupiter.api.Test;
+import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
- * Unit tests for {@link BeamGenerator} class.
- * * @author Your Name
+ * Unit tests for {@link BeamGenerator} class. * @author Your Name
  */
 class BeamGeneratorTests {
-    /** Error message for incorrect number of rays generated */
+    /**
+     * Error message for incorrect number of rays generated
+     */
     private static final String RAY_COUNT_FAILURE = "Generated beam has an incorrect number of rays";
     
-    /** Error message for incorrect ray origin */
+    /**
+     * Error message for incorrect ray origin
+     */
     private static final String RAY_ORIGIN_FAILURE = "Ray in the beam has an incorrect origin point";
     
-    /** Error message for incorrect ray direction */
+    /**
+     * Error message for incorrect ray direction
+     */
     private static final String RAY_DIRECTION_FAILURE = "Ray in the beam has an incorrect direction vector";
     private static final String GENERATED_BEAM_NOT_NULL_FAILURE = "Generated beam list should not be null";
     private static final String BEAM_EMPTY_TARGETS_FAILURE = "Beam from empty targets list should contain 0 rays";
-    private static final String TARGET_EQUALS_ORIGIN_FAILURE =
-            "Generating a ray where target equals origin should throw an exception";
-    private static final String NULL_TARGETS_FAILURE =
-            "Generating a beam with a null targets list should throw an exception";
+    private static final String TARGET_EQUALS_ORIGIN_FAILURE = "Generating a ray where target equals origin should " +
+            "throw an exception";
+    private static final String NULL_TARGETS_FAILURE = "Generating a beam with a null targets list should throw an " +
+            "exception";
     
     /**
      * Test method for {@link BeamGenerator#generateBeam(Point, List, boolean)}.
@@ -39,9 +46,9 @@ class BeamGeneratorTests {
         
         // Target points for testing
         List<Point> targets = new LinkedList<>();
-        targets.add(new Point(1, 0, 0));  // Along X axis
-        targets.add(new Point(0, 2, 0));  // Along Y axis
-        targets.add(new Point(0, 0, 3));  // Along Z axis
+        targets.add(new Point(1, 0, 0)); // Along X axis
+        targets.add(new Point(0, 2, 0)); // Along Y axis
+        targets.add(new Point(0, 0, 3)); // Along Z axis
         
         // ============ Equivalence Partitions Tests =================
         // EP01: Test beam generation from origin to target points (switchDirection = false)
@@ -50,7 +57,7 @@ class BeamGeneratorTests {
         assertEquals(3, testBeam.size(), RAY_COUNT_FAILURE);
         
         // Check first ray (0,0,0) -> (1,0,0) => Direction vector (1,0,0)
-        Ray testRay = testBeam.get(0);
+        Ray testRay = testBeam.getFirst();
         assertEquals(origin, testRay.origin(), RAY_ORIGIN_FAILURE);
         assertEquals(new Vector(1, 0, 0), testRay.direction(), RAY_DIRECTION_FAILURE);
         
@@ -70,7 +77,7 @@ class BeamGeneratorTests {
         assertEquals(3, testBeam.size(), RAY_COUNT_FAILURE);
         
         // Check first ray (1,0,0) -> (0,0,0) => Direction vector (-1,0,0)
-        testRay = testBeam.get(0);
+        testRay = testBeam.getFirst();
         assertEquals(origin, testRay.origin(), RAY_ORIGIN_FAILURE);
         assertEquals(new Vector(-1, 0, 0), testRay.direction(), RAY_DIRECTION_FAILURE);
         
@@ -100,7 +107,6 @@ class BeamGeneratorTests {
                 TARGET_EQUALS_ORIGIN_FAILURE);
         
         // BV03: The targets list is null
-        List<Point> nullTargets = null;
         assertThrows(NullPointerException.class,
                 () -> BeamGenerator.generateBeam(origin, null, false),
                 NULL_TARGETS_FAILURE);

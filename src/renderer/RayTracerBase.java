@@ -41,24 +41,18 @@ abstract class RayTracerBase {
     /**
      * Setter for the number of rays in soft shadows
      * @param numRays The new value for the num or rays per side
-     * @return The current RayTracerBase object for chaining setters
      */
-    public RayTracerBase setSoftShadowNumRays(int numRays) {
+    void setSoftShadowNumRays(int numRays) {
         _softShadowNumRays = numRays;
-        return this;
     }
     
     /**
      * Setter for the sampler of soft shadows
      * @param sampler The new sampler for soft shadows
-     * @return The current RayTracerBase object for chaining setters
      */
-    public RayTracerBase setSoftShadowSampler(SamplerType sampler) {
+    void setSoftShadowSampler(SamplerType sampler) {
         _softShadowSampler = sampler;
-        return this;
     }
-    
-    
     
     /**
      * Method for tracing a ray and determining the color of the ray

@@ -18,7 +18,7 @@ import scene.Scene;
  * Creates images that demonstrates all the feature till stage 8
  * @author Dvir Farkash
  */
-public class Stage8Images {
+class Stage8Images {
     /**
      * The scene object containing all configurations and components
      */
@@ -34,7 +34,7 @@ public class Stage8Images {
      * reflection, complex multi-shadowing, and diverse material properties.
      */
     @Test
-    public void testCustomWizardScene() {
+    void testCustomWizardScene() {
         // ----------------- Camera Setup (Builder Pattern) -----------------
         Camera camera = Camera.getBuilder()
                               .setLocation(new Point(0, 100, 1000))
@@ -52,7 +52,7 @@ public class Stage8Images {
     /**
      * Helper method for setting the scene
      */
-    public Scene setScene() {
+    Scene setScene() {
         Scene scene = new Scene("Wizard's Laboratory Table");
         // ----------------- Scene Background and Ambient Light -----------------
         scene.setBackground(new Color(10, 15, 25)); // Deep mystical dark-blue background
@@ -228,7 +228,7 @@ public class Stage8Images {
         
         // 2. Point Light on the right side to add secondary softer cross-shadowing
         scene.lights.add(new PointLight(new Color(750, 735, 276), new Point(100, 80, 50)).setKl(0.0002).setKq(0.0002));
-    
+        
         return scene;
     }
 }

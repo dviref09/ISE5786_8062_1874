@@ -3,12 +3,9 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
-import sampling.Blackboard;
-import sampling.Sampler;
-import sampling.SamplerType;
 
 /**
- * An interface for representing an external light source
+ * An interface for representing an external light source.
  * @author Dvir Farkash
  */
 public interface LightSource {
@@ -34,17 +31,8 @@ public interface LightSource {
     double getDistance(Point p);
     
     /**
-     * Method for checking if the light source enabled soft shadows
+     * Method for checking if the light source has soft shadows enabled
      * @return True if soft shadow is enabled for this light source
      */
     boolean isSoftShadows();
-    
-    /**
-     * Calculates the blackboard properties for the light source pointing towards the point
-     * (assumes soft shadows enabled)
-     * @param p The point the blackboard is pointing toward
-     * @param resolution The amount of rays per side in the blackboard
-     * @return The calculated blackboard
-     */
-    Blackboard getBlackboard(Point p, int resolution, SamplerType samplerType);
 }

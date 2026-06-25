@@ -96,8 +96,8 @@ class TransparencyReflectionTests {
         _scene.setAmbientLight(new AmbientLight(new Color(26, 26, 26)));
         _scene.lights.add(new SpotLight(new Color(1020, 400, 400), new Point(-750, -750, -150), new Vector(-1, -1,
                 -4)) //
-                                                                                                                        .setKl(0.00001)
-                                                                                                                        .setKq(0.000005));
+                     .setKl(0.00001)
+                     .setKq(0.000005));
         
         _cameraBuilder
                 .setLocation(new Point(0, 0, 10000)) //

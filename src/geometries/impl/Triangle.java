@@ -57,7 +57,7 @@ public final class Triangle extends Polygon {
             return null;
         }
         
-        if (_vertices.get(0).equals(ray.origin())) {
+        if (_vertices.getFirst().equals(ray.origin())) {
             return null;
         }
         
@@ -68,7 +68,7 @@ public final class Triangle extends Polygon {
             return null;
         }
         
-        Vector T = ray.origin().subtract(_vertices.get(0));
+        Vector T = ray.origin().subtract(_vertices.getFirst());
         
         if (isZero(T.dotProduct(normal))) {
             return null;

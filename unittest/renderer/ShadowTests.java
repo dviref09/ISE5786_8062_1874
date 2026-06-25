@@ -166,7 +166,7 @@ class ShadowTests {
                                                                    .setMaterial(triangleMaterial), //
                                   new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75,
                                           75, -150)) //
-                                                                                                                               .setMaterial(triangleMaterial),
+                                                     .setMaterial(triangleMaterial),
                                   new Sphere(new Point(0, 0, -11), 30D) //
                                                                         .setEmission(new Color(BLUE)) //
                                                                         .setMaterial(new Material().setKD(0.5)

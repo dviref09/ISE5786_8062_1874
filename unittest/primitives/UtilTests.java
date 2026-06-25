@@ -16,11 +16,6 @@ public class UtilTests {
     private final double base = 3.5;
     
     /**
-     * Delta value for accuracy when comparing double values.
-     */
-    private static final double DELTA = 1e-10;
-    
-    /**
      * Failure messages
      */
     private static final String POWER_INT_FAILURE_MESSAGE = "The result of the exponentiation is incorrect.";

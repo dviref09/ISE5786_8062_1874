@@ -10,8 +10,6 @@ import sampling.Blackboard;
 import sampling.SamplerType;
 import scene.Scene;
 
-import static primitives.Util.isZero;
-
 /**
  * Class for representing the camera in 3D scene
  * @author Dvir Farkash
@@ -56,7 +54,7 @@ public final class Camera implements Cloneable {
      * Calculated the color of all the pixels and paints them in the writeImage
      * @return The same camera object for chaining methods
      */
-    Camera renderImage() {
+    public Camera renderImage() {
         for (int x = 0; x < _nX; x++) {
             for (int y = 0; y < _nY; y++) {
                 castRay(x, y);
@@ -90,7 +88,7 @@ public final class Camera implements Cloneable {
      * Writes the current image to a PNG file
      * @param name The name of the output PNG file
      */
-    void writeToImage(String name) {
+    public void writeToImage(String name) {
         _imageWriter.writeToImage(name);
     }
     
@@ -135,10 +133,6 @@ public final class Camera implements Cloneable {
          */
         private Vector _vTo, _vUp, _vRight;
         /**
-         * The center of the view plane
-         */
-        private Point _vpCenter;
-        /**
          * The width and height of the view plane
          */
         private double _width, _height;
@@ -158,7 +152,6 @@ public final class Camera implements Cloneable {
             _vUp = Vector.AXIS_Y;
             _vTo = null;
         }
-        
         
         /**
          * Sets the location of the camera
@@ -247,7 +240,7 @@ public final class Camera implements Cloneable {
          * @return The same builder for chaining methods
          * @throws IllegalArgumentException If the ray tracer type is invalid
          */
-        Builder setRayTracer(Scene scene, RayTracerType type) {
+        public Builder setRayTracer(Scene scene, RayTracerType type) {
             if (type == RayTracerType.SIMPLE) {
                 _camera._rayTracer = new SimpleRayTracer(scene);
             } else {
@@ -261,7 +254,7 @@ public final class Camera implements Cloneable {
          * @param numOfRays The number of rays per side in soft shadows
          * @return The same builder for chaining methods
          */
-        Builder setSSRays(int numOfRays) {
+        public Builder setSSRays(int numOfRays) {
             if (_camera._rayTracer != null) {
                 _camera._rayTracer.setSoftShadowNumRays(numOfRays);
             }
@@ -273,7 +266,7 @@ public final class Camera implements Cloneable {
          * @param samplerType The type of sample pattern to use in soft shadows
          * @return The same builder for chaining methods
          */
-        Builder setSSSampler(SamplerType samplerType) {
+        public Builder setSSSampler(SamplerType samplerType) {
             if (_camera._rayTracer != null) {
                 _camera._rayTracer.setSoftShadowSampler(samplerType);
             }
@@ -383,11 +376,11 @@ public final class Camera implements Cloneable {
          * The center point and the pixel dimensions
          */
         private void calcViewPlane() {
-            _vpCenter = _camera._p0.add(_vTo.scale(_distance));
+            Point _vpCenter = _camera._p0.add(_vTo.scale(_distance));
             
             _viewPlaneBuilder.setCenter(_vpCenter)
-                    .setSize(_width, _height)
-                    .setDirection(_vUp, _vRight);
+                             .setSize(_width, _height)
+                             .setDirection(_vUp, _vRight);
             _camera._viewPlane = _viewPlaneBuilder.build();
         }
     }

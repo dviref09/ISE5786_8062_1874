@@ -55,9 +55,8 @@ public final class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
         
-        boolean t1Valid = t1 > 0 && t1 <= maxDistance;
-        boolean t2Valid = t2 > 0 && t2 <= maxDistance;
-        
+        boolean t1Valid = t1 > 0 && alignZero(t1 - maxDistance) <= 0;
+        boolean t2Valid = t2 > 0 && alignZero(t2 - maxDistance) <= 0;
         if (t1Valid && t2Valid) {
             return List.of(new Intersection(this, ray.getPoint(t1)), new Intersection(this, ray.getPoint(t2)));
         } else if (t1Valid) {

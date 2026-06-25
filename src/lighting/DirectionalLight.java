@@ -3,8 +3,6 @@ package lighting;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
-import sampling.Blackboard;
-import sampling.SamplerType;
 
 /**
  * A class representing a light that comes to any place in the scene in constant angle and intensity (like a light
@@ -45,10 +43,5 @@ public class DirectionalLight extends Light implements LightSource {
     @Override
     public boolean isSoftShadows() {
         return false;
-    }
-    
-    @Override
-    public Blackboard getBlackboard(Point p, int resolution, SamplerType samplerType) {
-        return null;
     }
 }

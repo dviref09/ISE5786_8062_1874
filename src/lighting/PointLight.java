@@ -1,5 +1,7 @@
 package lighting;
 
+import java.util.List;
+
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
@@ -68,12 +70,41 @@ public class PointLight extends Light implements LightSource {
         return p.distance(_position);
     }
     
-    @Override
+    /**
+     * Calculates the blackboard properties for the light source pointing towards the point
+     * (assumes soft shadows enabled)
+     * @param p The point the blackboard is pointing toward
+     * @param resolution The amount of rays per side in the blackboard
+     * @param samplerType The sampling pattern to use
+     * @return The calculated blackboard
+     */
     public Blackboard getBlackboard(Point p, int resolution, SamplerType samplerType) {
-        Blackboard.Builder blackboardBuilder = Blackboard.getBuilder();
+        List<Vector> directions = calculateOrthogonalVectors(vToCalc(p));
         
-        // vUp and vRight calculation
-        Vector vTo = getL(p);
+        return Blackboard.getBuilder()
+                         .setSize(_width, _height)
+                         .setDirection(directions.get(0), directions.get(1))
+                         .setCenter(_position)
+                         .setResolution(resolution, resolution)
+                         .setSampler(samplerType)
+                         .build();
+    }
+    
+    /**
+     * private method for calculating the direction of the blackboard towards certain point
+     * @param p The point the blackboard is "looking" towards
+     * @return The direction of the blackboard
+     */
+    protected Vector vToCalc(Point p) {
+        return getL(p);
+    }
+    
+    /**
+     * Helper method to calculate orthogonal vUp and vRight vectors from a primary direction vector.
+     * Tries to use AXIS_Y as vUp, and if it's parallel to the primary vector, uses AXIS_X instead.
+     * @return A list of two vectors: (vUp, vRight)
+     */
+    protected List<Vector> calculateOrthogonalVectors(Vector vTo) {
         Vector vUp = Vector.AXIS_Y;
         Vector vRight;
         try {
@@ -84,12 +115,7 @@ public class PointLight extends Light implements LightSource {
         }
         vUp = vRight.crossProduct(vTo).normalize();
         
-        blackboardBuilder.setSize(_width, _height)
-                         .setDirection(vUp, vRight)
-                         .setCenter(_position)
-                         .setResolution(resolution, resolution)
-                         .setSampler(samplerType);
-        return blackboardBuilder.build();
+        return List.of(vUp, vRight);
     }
     
     @Override

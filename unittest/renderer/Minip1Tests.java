@@ -1,12 +1,17 @@
 package renderer;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import geometries.impl.Plane;
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
 import lighting.AmbientLight;
-import lighting.PointLight;
-import lighting.SpotLight;
+import lighting.BeamLight;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import primitives.Color;
 import primitives.Double3;
 import primitives.Material;
@@ -18,7 +23,8 @@ import scene.Scene;
  * Creates images for demonstrating minip-1 features
  * @author Dvir Farkash
  */
-public class Minip1Tests {
+@TestMethodOrder(OrderAnnotation.class)
+class Minip1Tests {
     /**
      * The scene object
      */
@@ -28,34 +34,98 @@ public class Minip1Tests {
      * The resolution of the images
      */
     private static final int RESOLUTION = 1000;
+    /**
+     * The number of rays per side for ss
+     */
+    private static final int ssRays = 5;
+    /**
+     * Camera location parts
+     */
+    private static final double cameraY = 100;
+    private static final double cameraZ = 1000;
     
     /**
-     * Produces a custom 3D rendered scene illustrating soft shadow alongside all the previous features
+     * Produces a custom 3D rendered scene without soft shadows
      */
     @Test
-    public void testCustomWizardScene() {
+    @Order(1)
+    void testWizardSceneNoSS() {
         // ----------------- Camera Setup (Builder Pattern) -----------------
         Camera camera = Camera.getBuilder()
-                              .setLocation(new Point(0, 100, 1000))
+                              .setLocation(new Point(0, cameraY, cameraZ))
                               .setDirection(new Point(0, 0, 0))
                               .setVpSize(220, 220)
-                              .setVpDistance(Math.sqrt(100 * 100 + 1000 * 1000))
+                              .setVpDistance(Math.sqrt(cameraY * cameraY + cameraZ * cameraZ))
                               .setResolution(RESOLUTION, RESOLUTION)
                               .setRayTracer(scene, RayTracerType.SIMPLE)
-                              .setSSRays(33)
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
-        camera.renderImage().writeToImage("Minip1Image");
+        long startTime = System.currentTimeMillis();
+        camera.renderImage().writeToImage("Minip1ImageWithoutSS");
+        long endTime = System.currentTimeMillis();
+        
+        writeMeasurement(startTime, endTime, false, false);
+    }
+    
+    /**
+     * Produces a custom 3D rendered scene
+     * illustrating soft shadow alongside all the previous features
+     */
+    @Test
+    @Order(2)
+    void testWizardSceneSS() {
+        // ----------------- Camera Setup (Builder Pattern) -----------------
+        Camera camera = Camera.getBuilder()
+                              .setLocation(new Point(0, cameraY, cameraZ))
+                              .setDirection(new Point(0, 0, 0))
+                              .setVpSize(220, 220)
+                              .setVpDistance(Math.sqrt(cameraY * cameraY + cameraZ * cameraZ))
+                              .setResolution(RESOLUTION, RESOLUTION)
+                              .setRayTracer(scene, RayTracerType.SIMPLE)
+                              .setSSRays(ssRays)
+                              .build();
+        
+        // ----------------- Execute Rendering and Image Compilation -----------------
+        long startTime = System.currentTimeMillis();
+        camera.renderImage().writeToImage("Minip1ImageWithSS");
+        long endTime = System.currentTimeMillis();
+        
+        writeMeasurement(startTime, endTime, true, true);
+    }
+    
+    /**
+     * Helper method for writing the running time to text file
+     * @param startTime The start time of the measurement in ms
+     * @param endTime The end time of the measurement in ms
+     * @param append Whether to append to the file or overwrite it
+     * @param withSS Whether the measurement includes soft shadows
+     */
+    void writeMeasurement(long startTime, long endTime, boolean append, boolean withSS) {
+        long timeMilliSeconds = endTime - startTime;
+        long totalTimeSeconds = timeMilliSeconds / 1000;
+        long hours = totalTimeSeconds / 3600;
+        long minutes = totalTimeSeconds % 3600 / 60;
+        long seconds = totalTimeSeconds % 60;
+        long milliSeconds = timeMilliSeconds % 1000;
+        try {
+            FileWriter measurementWriter = new FileWriter("measurements/MP1_measurements.txt", append);
+            measurementWriter.write("With" + (withSS ? " " : "out ") + "soft shadows, creation time: " +
+                    (hours != 0 ? hours + ":" : "") + (minutes != 0 ? minutes + ":" : "") +
+                    seconds + "." + milliSeconds + "\n");
+            measurementWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
      * Helper method for setting the scene
      */
-    public Scene setScene() {
+    Scene setScene() {
         Scene scene = new Scene("Wizard's Laboratory Table");
         // ----------------- Scene Background and Ambient Light -----------------
-        scene.setBackground(new Color(10, 15, 25)); // Deep mystical dark-blue background
+        scene.setBackground(new Color(10, 15, 25));
         scene.setAmbientLight(new AmbientLight(new Color(13)));
         
         // ----------------- Materials Definition -----------------
@@ -221,18 +291,29 @@ public class Minip1Tests {
                                                                         .setMaterial(glassMat3));
         
         // ----------------- Multi-Light Sources Setup -----------------
-        // 1. Main Spotlight from top-left pointing to the center to cast clear shadows
-        scene.lights.add(new SpotLight(new Color(189, 294, 612), new Point(-100, 120, 100),
-                new Vector(1, -1.2, -1.5)).setKl(0.0001)
+        // 1. Spotlight from top-left pointing to the center to cast clear shadows
+        scene.lights.add(new BeamLight(new Color(252, 392, 816), new Point(-100, 50, 100),
+                new Vector(35, -70, -150)).setKl(0.0001)
                                           .setKq(0.00001)
                                           .setHeight(40)
-                                          .setWidth(40));
+                                          .setWidth(40)
+                                          .setNarrowBeam(10));
         
-        // 2. Point Light on the right side to add secondary softer cross-shadowing
-        scene.lights.add(new PointLight(new Color(750, 735, 276), new Point(100, 80, 50)).setKl(0.0002)
-                                                                                         .setKq(0.0002)
-                                                                                         .setHeight(40)
-                                                                                         .setWidth(40));
+        // 2. Spotlight on the right side to add secondary softer cross-shadowing
+        scene.lights.add(new BeamLight(new Color(1333, 1306, 490), new Point(100, 50, 50),
+                new Vector(-35, -70, -100)).setKl(0.0002)
+                                           .setKq(0.0002)
+                                           .setHeight(40)
+                                           .setWidth(40)
+                                           .setNarrowBeam(10));
+        
+        // 3. Another spotlight above the mirror
+        scene.lights.add(new BeamLight(new Color(235, 15, 255), new Point(-45, 50, -155),
+                new Vector(45, -25, 115)).setKl(0.0001)
+                                         .setKq(0.00001)
+                                         .setHeight(15)
+                                         .setWidth(15)
+                                         .setNarrowBeam(5));
         return scene;
     }
 }

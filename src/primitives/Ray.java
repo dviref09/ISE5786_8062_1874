@@ -45,6 +45,7 @@ public final class Ray {
         this._origin = origin;
         this._direction = target.subtract(origin).normalize();
     }
+    
     /**
      * Constructs a new ray with the point and direction
      * and before constructing the ray shift the point in the direction of the shift vector
@@ -88,10 +89,14 @@ public final class Ray {
      * @return The result point of the formula
      */
     public Point getPoint(double t) {
-        if (t == 0) {
+        // try catch block is used instead of simple if statement because an edge case where isZero(t) is false but
+        // after scaling the direction by t one of the coordinates of the multiplication too small
+        // (based on real case that happened)
+        try {
+            return _origin.add(_direction.scale(t));
+        } catch (IllegalArgumentException e) {
             return _origin;
         }
-        return _origin.add(_direction.scale(t));
     }
     
     /**
