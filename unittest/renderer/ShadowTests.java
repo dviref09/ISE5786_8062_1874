@@ -38,7 +38,6 @@ class ShadowTests {
                                                         .setVpDistance(1000)
                                                         .setVpSize(200, 200)
                                                         .setDirection(Point.ZERO, Vector.AXIS_Y)
-                                                        // .setDirection(new Point(-8, -78, 0), Vector.AXIS_Y) // debug
                                                         .setResolution(600, 600)
                                                         .setRayTracer(_scene, RayTracerType.SIMPLE);
     
