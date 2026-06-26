@@ -1,6 +1,10 @@
 package renderer;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.MissingResourceException;
+import java.util.concurrent.CountDownLatch;
+import java.util.stream.IntStream;
 
 import primitives.Color;
 import primitives.Point;
@@ -9,6 +13,8 @@ import primitives.Vector;
 import sampling.Blackboard;
 import sampling.SamplerType;
 import scene.Scene;
+
+import static renderer.PixelManager.Pixel;
 
 /**
  * Class for representing the camera in 3D scene
@@ -35,6 +41,25 @@ public final class Camera implements Cloneable {
      * The ray tracer to be in use in the camera
      */
     private RayTracerBase _rayTracer;
+    /**
+     * The amount of threads to be used in the rendering process:
+     * 0 - no multithreading
+     * -1 - parallel stream
+     * 1+ - raw threads
+     */
+    private int _threadCount = 0;
+    /**
+     * The interval of the printing of the progress of the rendering
+     */
+    private double _printInterval = 0;
+    /**
+     * The pixel manager of the rendering
+     */
+    private PixelManager _pixelManager;
+    /**
+     * Spare threads that won't be used in auto raw threads
+     */
+    private static final int SPARE_THREADS = 2;
     
     /**
      * Private constructor, its is private because the camera should be created using the inner builder class
@@ -55,11 +80,52 @@ public final class Camera implements Cloneable {
      * @return The same camera object for chaining methods
      */
     public Camera renderImage() {
+        _pixelManager = new PixelManager(_nY, _nX, _printInterval);
+        return switch (_threadCount) {
+            case 0 -> renderImageNoThreads();
+            case -1 -> renderImageStream();
+            default -> renderImageRawThreads();
+        };
+    }
+    
+    private Camera renderImageNoThreads() {
         for (int x = 0; x < _nX; x++) {
             for (int y = 0; y < _nY; y++) {
                 castRay(x, y);
             }
         }
+        return this;
+    }
+    
+    private Camera renderImageRawThreads() {
+        List<Thread> threads = new LinkedList<>();
+        int count = _threadCount;
+        CountDownLatch latch = new CountDownLatch(count);
+        
+        while (count-- > 0) {
+            threads.add(new Thread(() -> {
+                Pixel pixel;
+                while ((pixel = _pixelManager.nextPixel()) != null) {
+                    castRay(pixel.col(), pixel.row());
+                }
+                latch.countDown();
+            }));
+        }
+        
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        try {
+            latch.await();
+        } catch (InterruptedException ignored) {
+        }
+        return this;
+    }
+    
+    private Camera renderImageStream() {
+        IntStream.range(0, _nX).parallel()
+                 .forEach(yIndex -> IntStream.range(0, _nY).parallel()
+                                             .forEach(xIndex -> castRay(xIndex, yIndex)));
         return this;
     }
     
@@ -113,6 +179,7 @@ public final class Camera implements Cloneable {
         Ray ray = constructRay(xIndex, yIndex);
         Color pixelColor = _rayTracer.traceRay(ray);
         _imageWriter.writePixel(xIndex, yIndex, pixelColor);
+        _pixelManager.pixelDone();
     }
     
     /**
@@ -274,6 +341,36 @@ public final class Camera implements Cloneable {
         }
         
         /**
+         * Sets the amount of threads to be used in the rendering process
+         * @param threads The amount of threads to be used:
+         * 0 - no multithreading
+         * -1 - parallel stream
+         * -2 - auto raw threads
+         * 1+ - raw threads
+         * @return The same builder for chaining methods
+         */
+        public Builder setMultithreading(int threads) {
+            if (threads < -2) {
+                throw new IllegalArgumentException("Threads parameter must be equal or higher than -2");
+            }
+            if (threads >= -1) {
+                _camera._threadCount = threads;
+            } else {
+                int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+                _camera._threadCount = (cores <= 2 ? 1 : cores);
+            }
+            return this;
+        }
+        
+        public Builder setDebugPrint(double interval) {
+            if (interval < 0) {
+                throw new IllegalArgumentException("Interval parameter must be a non-negative number");
+            }
+            _camera._printInterval = interval;
+            return this;
+        }
+        
+        /**
          * Checks that all values are valid and generates the missing data
          * @return The finished camera object
          */
@@ -357,7 +454,7 @@ public final class Camera implements Cloneable {
         
         /**
          * Calculates the vUp, vRight vectors.
-         * All of the vectors will be normalized
+         * All the vectors will be normalized
          * @throws IllegalArgumentException If the vTo and vUp are parallel
          */
         private void calcVectors() {

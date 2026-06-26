@@ -59,17 +59,17 @@ class PixelManager {
     /**
      * Printing format
      */
-    private static final String PRINT_FORMAT = "%5.1f%%\r";
+    private static final String PRINT_FORMAT = "%5.1f%%\\033[2K\r";
     /**
      * Mutual exclusion object for synchronizing next pixel allocation between
      * threads
      */
-    private Object mutexNext = new Object();
+    private final Object mutexNext = new Object();
     /**
      * Mutual exclusion object for printing progress percentage in console window
      * by different threads
      */
-    private Object mutexPixels = new Object();
+    private final Object mutexPixels = new Object();
     
     /**
      * Initialize pixel manager data for multi-threading
@@ -93,7 +93,7 @@ class PixelManager {
      * function is critical section for all the threads, and the pixel manager data
      * is the shared data of this critical section.<br/>
      * The function provides next available pixel number each call.
-     * @return true if next pixel is allocated, false if there are no more pixels
+     * @return The next pixels if he is allocated, null if there are no more pixels
      */
     Pixel nextPixel() {
         synchronized (mutexNext) {
@@ -120,13 +120,16 @@ class PixelManager {
         synchronized (mutexPixels) {
             ++pixels;
             if (print) {
-                percentage = (int) (1000l * pixels / totalPixels);
+                percentage = (int) (1000L * pixels / totalPixels);
                 if (percentage - lastPrinted >= printInterval) {
                     lastPrinted = percentage;
                     flag = true;
                 }
             }
-            if (flag) System.out.printf(PRINT_FORMAT, percentage / 10d);
+            if (flag) {
+                System.out.printf(PRINT_FORMAT, percentage / 10d);
+                System.out.flush();
+            }
         }
     }
 }

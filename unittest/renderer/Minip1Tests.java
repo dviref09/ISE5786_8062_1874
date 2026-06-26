@@ -37,7 +37,7 @@ class Minip1Tests {
     /**
      * The number of rays per side for ss
      */
-    private static final int ssRays = 5;
+    private static final int ssRays = 33;
     /**
      * Camera location parts
      */
@@ -58,6 +58,8 @@ class Minip1Tests {
                               .setVpDistance(Math.sqrt(cameraY * cameraY + cameraZ * cameraZ))
                               .setResolution(RESOLUTION, RESOLUTION)
                               .setRayTracer(scene, RayTracerType.SIMPLE)
+                              .setMultithreading(-1)
+                              .setDebugPrint(0.1)
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
@@ -84,6 +86,8 @@ class Minip1Tests {
                               .setResolution(RESOLUTION, RESOLUTION)
                               .setRayTracer(scene, RayTracerType.SIMPLE)
                               .setSSRays(ssRays)
+                              .setMultithreading(-1)
+                              .setDebugPrint(0.1)
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
