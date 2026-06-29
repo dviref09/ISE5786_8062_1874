@@ -40,6 +40,7 @@ class SphereTests {
     private static final String CALC_INTERSECTIONS_FAILURE =
             "The geometry in the intersection wasn't the body that was intersected";
     private static final String INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE = "Wrong intersections with maxDistance";
+    private static final String AABB_FAILURE_MESSAGE = "Wrong AABB for the sphere";
     
     /**
      * Test method for {@link geometries.impl.Sphere#getNormal(Point)}.
@@ -227,5 +228,16 @@ class SphereTests {
         expected = List.of(intersection2);
         assertEquals(expected, testSphere.calcIntersections(testRayInside, 0.5),
                 INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+    }
+    
+    /**
+     * Test method for {@link Sphere#getAABB()}
+     */
+    @Test
+    void testAABB() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Basic test
+        AABB expectedAABB = new AABB(new Point(0, -1, -1), new Point(2, 1, 1));
+        assertEquals(expectedAABB, testSphere.getAABB(), AABB_FAILURE_MESSAGE);
     }
 }

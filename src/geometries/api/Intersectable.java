@@ -2,6 +2,7 @@ package geometries.api;
 
 import java.util.List;
 
+import geometries.impl.AABB;
 import lighting.LightSource;
 import primitives.Material;
 import primitives.Point;
@@ -13,6 +14,15 @@ import primitives.Vector;
  */
 public abstract class Intersectable {
     /**
+     * Static field that controls whether the calcIntersections will use cbr
+     */
+    private static boolean cbrEnabled = false;
+    /**
+     * The AABB of the body
+     */
+    protected AABB aabb = null;
+    
+    /**
      * Calculates the intersections between a ray and intersectable body.
      * @param ray The ray which were finding its intersections with the body.
      * @return The intersections as an instance of Intersection class.
@@ -21,13 +31,23 @@ public abstract class Intersectable {
         return calcIntersections(ray, Double.POSITIVE_INFINITY);
     }
     
+    /**
+     * Calc the intersection between a ray and intersectable body.
+     * returns only the intersections in a certain distance from the start of the ray.
+     * @param ray The ray which were finding its intersections with the body.
+     * @param maxDistance The maximum distance from the start of the ray to the intersection point.
+     * @return The intersection between the body and the ray in the certain distance.
+     */
     public final List<Intersection> calcIntersections(Ray ray, double maxDistance) {
+        if (cbrEnabled && getAABB() != null && !getAABB().isIntersects(ray)) {
+            return null;
+        }
         return calcIntersectionsHelper(ray, maxDistance);
     }
     
     /**
      * A helper method for calcIntersections that will be the one to be overridden by the subclasses (by the NVI /
-     * Template Method design patterns)\
+     * Template Method design patterns)
      * @param ray The ray which were finding its intersections with the body.
      * @return The intersections.
      */
@@ -42,6 +62,21 @@ public abstract class Intersectable {
         List<Intersection> intersections = calcIntersections(ray);
         return (intersections == null ? null
                 : intersections.stream().map(intersection -> intersection.point).toList());
+    }
+    
+    /**
+     * Returns the AABB of the body
+     * @return The AABB of the body
+     */
+    public AABB getAABB() {
+        return null;
+    }
+    
+    /**
+     * Enables the use of cbr in the calcIntersections method
+     */
+    public static void enableCbr() {
+        cbrEnabled = true;
     }
     
     /**

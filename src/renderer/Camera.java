@@ -6,6 +6,7 @@ import java.util.MissingResourceException;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.IntStream;
 
+import geometries.api.Intersectable;
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
@@ -211,6 +212,11 @@ public final class Camera implements Cloneable {
          * Helper variable for the setDirection method
          */
         private Point _targetPoint = null;
+        /**
+         * Variables for the ray tracer, used if the values for the ray tracer are set before the ray tracer is set
+         */
+        private int _ssRays = 1;
+        private SamplerType _ssSampler = SamplerType.JITTERED;
         
         /**
          * Constructor for the builder, sets default values to camera's fields
@@ -324,6 +330,8 @@ public final class Camera implements Cloneable {
         public Builder setSSRays(int numOfRays) {
             if (_camera._rayTracer != null) {
                 _camera._rayTracer.setSoftShadowNumRays(numOfRays);
+            } else {
+                _ssRays = numOfRays;
             }
             return this;
         }
@@ -336,7 +344,18 @@ public final class Camera implements Cloneable {
         public Builder setSSSampler(SamplerType samplerType) {
             if (_camera._rayTracer != null) {
                 _camera._rayTracer.setSoftShadowSampler(samplerType);
+            } else {
+                _ssSampler = samplerType;
             }
+            return this;
+        }
+        
+        /**
+         * Enables cbr for the scene
+         * @return The same builder for chaining methods
+         */
+        public Builder enableCbr() {
+            Intersectable.enableCbr();
             return this;
         }
         
@@ -449,6 +468,8 @@ public final class Camera implements Cloneable {
         private void checkRayTracer() {
             if (_camera._rayTracer == null) {
                 setRayTracer(new Scene("test"), RayTracerType.SIMPLE);
+                _camera._rayTracer.setSoftShadowNumRays(_ssRays)
+                                  .setSoftShadowSampler(_ssSampler);
             }
         }
         

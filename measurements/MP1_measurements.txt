@@ -1,2 +1,2 @@
-Without soft shadows, creation time: 3.432
-With soft shadows, creation time: 38:5.607
+Without soft shadows, creation time: 1.773
+With soft shadows, creation time: 4:51.30

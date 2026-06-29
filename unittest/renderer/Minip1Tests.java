@@ -60,14 +60,15 @@ class Minip1Tests {
                               .setRayTracer(scene, RayTracerType.SIMPLE)
                               .setMultithreading(-1)
                               .setDebugPrint(0.1)
+                              .enableCbr()
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
         long startTime = System.currentTimeMillis();
         camera.renderImage().writeToImage("Minip1ImageWithoutSS");
         long endTime = System.currentTimeMillis();
-        
-        writeMeasurement(startTime, endTime, false, false);
+
+//        writeMeasurement(startTime, endTime, false, false);
     }
     
     /**
@@ -88,6 +89,7 @@ class Minip1Tests {
                               .setSSRays(ssRays)
                               .setMultithreading(-1)
                               .setDebugPrint(0.1)
+                              .enableCbr()
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
@@ -126,7 +128,7 @@ class Minip1Tests {
     /**
      * Helper method for setting the scene
      */
-    Scene setScene() {
+    private Scene setScene() {
         Scene scene = new Scene("Wizard's Laboratory Table");
         // ----------------- Scene Background and Ambient Light -----------------
         scene.setBackground(new Color(10, 15, 25));

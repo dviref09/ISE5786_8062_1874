@@ -59,7 +59,7 @@ class PixelManager {
     /**
      * Printing format
      */
-    private static final String PRINT_FORMAT = "%5.1f%%\\033[2K\r";
+    private static final String PRINT_FORMAT = "%5.1f%%\r";
     /**
      * Mutual exclusion object for synchronizing next pixel allocation between
      * threads
@@ -128,7 +128,7 @@ class PixelManager {
             }
             if (flag) {
                 System.out.printf(PRINT_FORMAT, percentage / 10d);
-                System.out.flush();
+                System.out.println();
             }
         }
     }

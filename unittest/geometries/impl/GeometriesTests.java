@@ -22,12 +22,14 @@ public class GeometriesTests {
     private final static Plane testPlane = new Plane(new Point(-2, 0, 0), new Vector(1, 0, 0));
     private final static Geometries testGeometries = new Geometries(testSphere, testTriangle, testPlane);
     private final static Geometries emptyGeometries = new Geometries();
+    private final static Geometries testGeometriesAABB = new Geometries(testSphere, testTriangle);
     private final static Point rayOrigin = new Point(-3, 0, 1.5);
     
     /**
      * Failure messages for the tests
      */
     private static final String FIND_INTERSECTIONS_FAILURE_MESSAGE = "The number of intersection points is incorrect";
+    private static final String AABB_FAILURE_MESSAGE = "Wrong AABB for the geometries";
     
     /**
      * Test method for {@link Geometries#findIntersections(Ray)}
@@ -82,5 +84,23 @@ public class GeometriesTests {
         // BV01: Max distant is exactly on one geometry
         assertEquals(2, testGeometries.calcIntersections(testRay, 2).size(),
                 FIND_INTERSECTIONS_FAILURE_MESSAGE);
+    }
+    
+    /**
+     * Test method for {@link Geometries#getAABB()}
+     */
+    @Test
+    void testAABB() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: No body with null AABB
+        AABB expectedAABB = new AABB(new Point(-1, -1, -1), new Point(2, 1, 2));
+        assertEquals(expectedAABB, testGeometriesAABB.getAABB(), AABB_FAILURE_MESSAGE);
+        
+        // EP02: With body with null AABB
+        assertNull(testGeometries.getAABB(), AABB_FAILURE_MESSAGE);
+        
+        // =============== Boundary Values Tests ==================
+        // BV01: Empty geometries
+        assertNull(emptyGeometries.getAABB(), AABB_FAILURE_MESSAGE);
     }
 }

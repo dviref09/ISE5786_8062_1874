@@ -56,7 +56,8 @@ final class SimpleRayTracer extends RayTracerBase {
         Vector pointToLight = intersection.l.scale(-1);
         Ray shadowRay = new Ray(intersection.point, pointToLight, intersection.normal);
         double lightDistance = intersection.light.getDistance(intersection.point);
-        List<Intersection> shadowIntersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
+        List<Intersection> shadowIntersections =
+                _scene.geometries.calcIntersections(shadowRay, lightDistance);
         if (shadowIntersections == null) {
             return true;
         }
@@ -100,7 +101,8 @@ final class SimpleRayTracer extends RayTracerBase {
     
     private Double3 singleRayTransparency(Intersection intersection, Ray shadowRay) {
         double lightDistance = intersection.light.getDistance(intersection.point);
-        List<Intersection> shadowIntersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
+        List<Intersection> shadowIntersections =
+                _scene.geometries.calcIntersections(shadowRay, lightDistance);
         if (shadowIntersections == null) {
             return Double3.ONE;
         }

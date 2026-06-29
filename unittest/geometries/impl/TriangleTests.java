@@ -53,6 +53,7 @@ class TriangleTests {
     private static final String CALC_INTERSECTIONS_FAILURE =
             "The geometry in the intersection wasn't the body that was intersected";
     private static final String INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE = "Wrong intersections with maxDistance";
+    private static final String AABB_FAILURE_MESSAGE = "Wrong AABB for the triangle";
     
     /**
      * Test method for {@link geometries.impl.Triangle#getNormal(Point)}
@@ -214,5 +215,16 @@ class TriangleTests {
         expectedIntersection = List.of(intersection);
         assertEquals(expectedIntersection, testTriangleIntersection.calcIntersections(testRay, 1),
                 INTERSECTION_MAX_DISTANCE_FAILURE_MESSAGE);
+    }
+    
+    /**
+     * Test method for {@link Triangle#getAABB()}
+     */
+    @Test
+    void TestAABB() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Basic test
+        AABB expectedAABB = new AABB(new Point(0, 0, 1), new Point(2, 2, 1));
+        assertEquals(expectedAABB, testTriangleIntersection.getAABB(), AABB_FAILURE_MESSAGE);
     }
 }

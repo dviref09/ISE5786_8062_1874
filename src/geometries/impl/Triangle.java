@@ -26,6 +26,24 @@ public final class Triangle extends Polygon {
     }
     
     @Override
+    public AABB getAABB() {
+        if (aabb == null) {
+            Point min = new Point(
+                    Math.min(Math.min(_vertices.get(0).x(), _vertices.get(1).x()), _vertices.get(2).x()),
+                    Math.min(Math.min(_vertices.get(0).y(), _vertices.get(1).y()), _vertices.get(2).y()),
+                    Math.min(Math.min(_vertices.get(0).z(), _vertices.get(1).z()), _vertices.get(2).z())
+            );
+            Point max = new Point(
+                    Math.max(Math.max(_vertices.get(0).x(), _vertices.get(1).x()), _vertices.get(2).x()),
+                    Math.max(Math.max(_vertices.get(0).y(), _vertices.get(1).y()), _vertices.get(2).y()),
+                    Math.max(Math.max(_vertices.get(0).z(), _vertices.get(1).z()), _vertices.get(2).z())
+            );
+            aabb = new AABB(min, max);
+        }
+        return aabb;
+    }
+    
+    @Override
     protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
 		/*
 		* We are using Möller–Trumbore algorithm

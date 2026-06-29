@@ -27,7 +27,7 @@ class Stage8Images {
     /**
      * The resolution of the images
      */
-    private static final int RESOLUTION = 1000;
+    private static final int RESOLUTION = 2500;
     
     /**
      * Produces a custom 3D rendered scene illustrating advanced transparency,

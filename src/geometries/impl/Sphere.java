@@ -30,6 +30,16 @@ public final class Sphere extends RadialGeometry {
     }
     
     @Override
+    public AABB getAABB() {
+        if (aabb == null) {
+            Point min = new Point(_center.x() - _radius, _center.y() - _radius, _center.z() - _radius);
+            Point max = new Point(_center.x() + _radius, _center.y() + _radius, _center.z() + _radius);
+            aabb = new AABB(min, max);
+        }
+        return aabb;
+    }
+    
+    @Override
     public Vector getNormal(Point point) {
         return point.subtract(_center).normalize();
     }
