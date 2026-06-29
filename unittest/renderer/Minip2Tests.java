@@ -3,6 +3,7 @@ package renderer;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import geometries.api.Intersectable;
 import geometries.impl.Geometries;
 import geometries.impl.Plane;
 import geometries.impl.Sphere;
@@ -233,6 +234,11 @@ public class Minip2Tests {
         scene.lights.add(new SpotLight(new Color(100, 200, 600), new Point(135, 410, -215), new Vector(-0.05, -1,
                 0.05)).setKl(0.0005)
                       .setKq(0.0001));
+
+        if (useCBR) {
+            Intersectable.enableCbr(); // Ensure CBR flag is enabled in the engine
+            scene.geometries.buildTree(); // Automatically sort the scene into an optimized tree structure
+        }
         
         // 4. Camera Configuration Builder
         Camera.Builder cameraBuilder = new Camera.Builder()
