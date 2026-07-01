@@ -15,8 +15,8 @@ public final class Geometries extends Intersectable {
     /**
      * The minimum number of geometric items required to allow a tree node split.
      */
-    private static final int MIN_ITEMS_TO_SPLIT = 2;
-
+    private static final int MIN_ITEMS_TO_SPLIT = 5;
+    
     /**
      * The list of the geometric bodies
      */
@@ -28,11 +28,19 @@ public final class Geometries extends Intersectable {
     private boolean hasInfiniteBody = false;
     
     /**
-     * Constructor
+     * Constructs the object from all the geometries in the parameters
      * @param geometries List of geometries to have in this instance
      */
     public Geometries(Intersectable... geometries) {
         this.geometries.addAll(List.of(geometries));
+    }
+    
+    /**
+     * Constructs the object from the list object containing all the geometries in the parameters
+     * @param geometries List of geometries to have in this instance
+     */
+    public Geometries(List<Intersectable> geometries) {
+        this.geometries.addAll(geometries);
     }
     
     /**
@@ -45,10 +53,10 @@ public final class Geometries extends Intersectable {
     
     /**
      * Method for adding new geometric bodies to the list
-     * @param geometries Another geometries object to add to the current one
+     * @param geometries List of geometries to add to the geometries instance
      */
-    public void add(Geometries geometries) {
-        this.geometries.addAll(geometries.geometries);
+    public void add(List<Intersectable> geometries) {
+        this.geometries.addAll(geometries);
     }
     
     @Override
@@ -85,7 +93,29 @@ public final class Geometries extends Intersectable {
         }
         return aabb;
     }
-
+    
+    /**
+     * Private helper method to separate all the infinite bodies from the finite bodies.
+     * The infinite bodies stays in the geometries object.
+     * the finite bodies are added to sub-geometries object and then buildTree is applied on it.
+     */
+    private void separateInfiniteBodies() {
+        List<Intersectable> finiteBodies = new ArrayList<>();
+        List<Intersectable> infiniteBodies = new ArrayList<>();
+        for (Intersectable geometry : geometries) {
+            if (geometry.getAABB() != null) {
+                finiteBodies.add(geometry);
+            } else {
+                infiniteBodies.add(geometry);
+            }
+        }
+        geometries.clear();
+        geometries.addAll(infiniteBodies);
+        Geometries finiteBodiesGeometries = new Geometries(finiteBodies);
+        finiteBodiesGeometries.buildTree();
+        geometries.add(finiteBodiesGeometries);
+    }
+    
     /**
      * Automatically builds a BVH tree structure out of the current geometries
      * using a Midpoint Split along the longest axis.
@@ -95,14 +125,17 @@ public final class Geometries extends Intersectable {
             return;
         }
         AABB currentAABB = getAABB();
-        if (currentAABB == null) {
+        if (hasInfiniteBody) {
+            separateInfiniteBodies();
             return;
         }
         double widthX = currentAABB.getMax().x() - currentAABB.getMin().x();
         double widthY = currentAABB.getMax().y() - currentAABB.getMin().y();
         double widthZ = currentAABB.getMax().z() - currentAABB.getMin().z();
         double midpoint;
+        
         int longestAxis; // 0 = X, 1 = Y, 2 = Z
+        
         if (widthX >= widthY && widthX >= widthZ) {
             longestAxis = 0;
             midpoint = (currentAABB.getMin().x() + currentAABB.getMax().x()) / 2.0;
@@ -115,26 +148,25 @@ public final class Geometries extends Intersectable {
         }
         List<Intersectable> leftList = new ArrayList<>();
         List<Intersectable> rightList = new ArrayList<>();
-        for (Intersectable geo : geometries) {
-            AABB geoAABB = geo.getAABB();
-            if (geoAABB == null) {
-                leftList.add(geo);
-                continue;
-            }
+        
+        for (Intersectable geometry : geometries) {
+            AABB geometryAABB = geometry.getAABB();
             double center;
             if (longestAxis == 0) {
-                center = (geoAABB.getMin().x() + geoAABB.getMax().x()) / 2.0;
+                center = (geometryAABB.getMin().x() + geometryAABB.getMax().x()) / 2.0;
             } else if (longestAxis == 1) {
-                center = (geoAABB.getMin().y() + geoAABB.getMax().y()) / 2.0;
+                center = (geometryAABB.getMin().y() + geometryAABB.getMax().y()) / 2.0;
             } else {
-                center = (geoAABB.getMin().z() + geoAABB.getMax().z()) / 2.0;
+                center = (geometryAABB.getMin().z() + geometryAABB.getMax().z()) / 2.0;
             }
+            
             if (center < midpoint) {
-                leftList.add(geo);
+                leftList.add(geometry);
             } else {
-                rightList.add(geo);
+                rightList.add(geometry);
             }
         }
+        
         // Edge Case Guard: If all objects fall on one side (if they have identical center points),
         // force an index-based split to avoid an infinite loop.
         if (leftList.isEmpty() || rightList.isEmpty()) {
@@ -149,16 +181,18 @@ public final class Geometries extends Intersectable {
                 }
             }
         }
+        
         Geometries leftSubTree = new Geometries();
         leftSubTree.geometries.addAll(leftList);
         leftSubTree.buildTree();
+        
         Geometries rightSubTree = new Geometries();
         rightSubTree.geometries.addAll(rightList);
         rightSubTree.buildTree();
+        
         this.geometries.clear();
         this.geometries.add(leftSubTree);
         this.geometries.add(rightSubTree);
-        this.aabb = null;
     }
     
     @Override

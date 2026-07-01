@@ -4,7 +4,6 @@ import geometries.impl.Geometries;
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
 import lighting.PointLight;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 import primitives.Double3;
@@ -46,7 +45,7 @@ class TeapotTest {
      */
     @Test
     void testTeapot2() {
-        for (int i = 1; i > 0; --i) {
+        for (int i = 10; i > 0; --i) {
             teapot2();
         }
     }
@@ -55,9 +54,8 @@ class TeapotTest {
      * 100 Teapot tests with BVH
      */
     @Test
-    @Disabled
     void testTeapot3() {
-        for (int i = 100; i > 0; --i) {
+        for (int i = 10; i > 0; --i) {
             teapot3();
         }
     }
@@ -66,24 +64,24 @@ class TeapotTest {
      * Teapot with CBR
      */
     void teapot2() {
-        prepareTeapot() //
-                        .enableCbr() //
-                        .build() //
-                        .renderImage() //
-                        .printGrid(50, new Color(YELLOW)) //
-                        .writeToImage("teapot2");
+        prepareTeapot()
+                .enableCBR() //
+                .build() //
+                .renderImage() //
+                .printGrid(50, new Color(YELLOW)) //
+                .writeToImage("teapot2");
     }
     
     /**
      * Teapot with BVH
      */
     void teapot3() {
-        prepareTeapot() //
-//                        .enableBVH()
-                        .build() //
-                        .renderImage() //
-                        .printGrid(50, new Color(YELLOW)) //
-                        .writeToImage("teapot3");
+        prepareTeapot()
+                .enableBVH()
+                .build() //
+                .renderImage() //
+                .printGrid(50, new Color(YELLOW))
+                .writeToImage("teapot3");
     }
     
     /**
@@ -111,12 +109,12 @@ class TeapotTest {
                      .setVpDistance(1000).setVpSize(200, 200)
                      // .setMultithreading(-2) // 9.3
                      // .setMultithreading(-1) // 9.6
-                     .setMultithreading(0) // 25
+                     .setMultithreading(-1) // 25
                      // .setMultithreading(1) // 25.8
                      // .setMultithreading(2) // 13.6
                      // .setMultithreading(3) // 10.7
                      // .setMultithreading(4) // 10.7
-                     .setDebugPrint(1.0)
+                     .setDebugPrint(10.0)
                 ;
     }
     

@@ -60,7 +60,7 @@ class Minip1Tests {
                               .setRayTracer(scene, RayTracerType.SIMPLE)
                               .setMultithreading(-1)
                               .setDebugPrint(0.1)
-                              .enableCbr()
+                              .enableBVH()
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------
@@ -89,7 +89,7 @@ class Minip1Tests {
                               .setSSRays(ssRays)
                               .setMultithreading(-1)
                               .setDebugPrint(0.1)
-                              .enableCbr()
+                              .enableBVH()
                               .build();
         
         // ----------------- Execute Rendering and Image Compilation -----------------

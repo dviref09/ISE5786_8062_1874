@@ -75,7 +75,7 @@ public abstract class Intersectable {
     /**
      * Enables the use of cbr in the calcIntersections method
      */
-    public static void enableCbr() {
+    public static void enableCBR() {
         cbrEnabled = true;
     }
     

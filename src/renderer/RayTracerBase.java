@@ -59,6 +59,15 @@ abstract class RayTracerBase {
     }
     
     /**
+     * Builds a bvh tree for the scene
+     * @return Itself for chaining methods
+     */
+    public RayTracerBase buildBVH() {
+        _scene.geometries.buildTree();
+        return this;
+    }
+    
+    /**
      * Method for tracing a ray and determining the color of the ray
      * @param ray The ray to trace
      * @return The calculated color of the ray

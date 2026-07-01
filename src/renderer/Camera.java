@@ -316,6 +316,8 @@ public final class Camera implements Cloneable {
         public Builder setRayTracer(Scene scene, RayTracerType type) {
             if (type == RayTracerType.SIMPLE) {
                 _camera._rayTracer = new SimpleRayTracer(scene);
+                _camera._rayTracer.setSoftShadowNumRays(_ssRays)
+                                  .setSoftShadowSampler(_ssSampler);
             } else {
                 throw new IllegalArgumentException("Must enter a valid ray tracer");
             }
@@ -330,8 +332,6 @@ public final class Camera implements Cloneable {
         public Builder setSSRays(int numOfRays) {
             if (_camera._rayTracer != null) {
                 _camera._rayTracer.setSoftShadowNumRays(numOfRays);
-            } else {
-                _ssRays = numOfRays;
             }
             return this;
         }
@@ -351,11 +351,25 @@ public final class Camera implements Cloneable {
         }
         
         /**
+         * Enables bvh by building the bvh tree and enabling cbr
+         * @return The same builder for chaining methods
+         */
+        public Builder enableBVH() {
+            if (_camera._rayTracer == null) {
+                throw new MissingResourceException("Cannot enable BVH without a ray tracer", "Camera.Builder",
+                        "_rayTracer");
+            }
+            _camera._rayTracer.buildBVH();
+            Intersectable.enableCBR();
+            return this;
+        }
+        
+        /**
          * Enables cbr for the scene
          * @return The same builder for chaining methods
          */
-        public Builder enableCbr() {
-            Intersectable.enableCbr();
+        public Builder enableCBR() {
+            Intersectable.enableCBR();
             return this;
         }
         
@@ -432,10 +446,10 @@ public final class Camera implements Cloneable {
          */
         private void checkLocationAndDirection() {
             if (_camera._p0 == null) {
-                throw new MissingResourceException("The camera must have a location", "Builder", "_po");
+                throw new MissingResourceException("The camera must have a location", "Camera.Builder", "_po");
             }
             if (_targetPoint == null && _vTo == null) {
-                throw new MissingResourceException("The camera must have vTo vector or target point", "Builder",
+                throw new MissingResourceException("The camera must have vTo vector or target point", "Camera.Builder",
                         "_vTo or _targetPoint");
             }
             
