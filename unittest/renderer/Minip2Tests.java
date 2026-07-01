@@ -23,14 +23,11 @@ import primitives.Vector;
 import scene.Scene;
 
 /**
- * Advanced MP02 Integration and Performance Benchmarking.
- * Scene: "Crystal DNA Helix over a Reflective Ocean"
- * * This test class isolates and measures rendering execution time across
- * 8 distinct acceleration and execution configurations (combinations of
- * Multithreading, CBR, Manual BVH, and Automatic BVH tree building).
- * * Special emphasis is placed on soft shadow casting by utilizing extended
- * light source dimensions to generate highly noticeable, smooth penumbra regions.
- * * @author Senior Software Engineer & 3D Scene Designer
+ * Advanced MP02 Integration and Performance Benchmarking. Scene: "Crystal DNA Helix over a Reflective Ocean" * This
+ * test class isolates and measures rendering execution time across 8 distinct acceleration and execution configurations
+ * (combinations of Multithreading, CBR, Manual BVH, and Automatic BVH tree building). * Special emphasis is placed on
+ * soft shadow casting by utilizing extended light source dimensions to generate highly noticeable, smooth penumbra
+ * regions. * @author Senior Software Engineer & 3D Scene Designer
  */
 @TestMethodOrder(OrderAnnotation.class)
 public class Minip2Tests {
@@ -43,7 +40,7 @@ public class Minip2Tests {
     /**
      * Target image width and height resolution to thoroughly stress test the engine.
      */
-    private static final int RESOLUTION = 800;
+    private static final int RESOLUTION = 1000;
     
     // =========================================================================
     // --- 1. No Acceleration Improvements ---
@@ -67,10 +64,6 @@ public class Minip2Tests {
         runBenchmark("02. No Accel / With MT", true, false, false, false);
     }
     
-    // =========================================================================
-    // --- 2. Cloud Bound Region (CBR) Only ---
-    // =========================================================================
-    
     /**
      * Test 03: Flat scene execution accelerated only via Bounding Box (CBR) testing, single-threaded.
      */
@@ -88,10 +81,6 @@ public class Minip2Tests {
     void test04_CBR_MT() {
         runBenchmark("04. CBR Only / With MT", true, true, false, false);
     }
-    
-    // =========================================================================
-    // --- 3. CBR with Manually Created Hierarchy ---
-    // =========================================================================
     
     /**
      * Test 05: Hierarchical scene graph constructed manually, using CBR, single-threaded.
@@ -111,10 +100,6 @@ public class Minip2Tests {
         runBenchmark("06. Manual BVH / With MT", true, true, true, false);
     }
     
-    // =========================================================================
-    // --- 4. Full BVH with Automatic Tree Build ---
-    // =========================================================================
-    
     /**
      * Test 07: Unstructured scene optimized via automated binary BVH tree construction, single-threaded.
      */
@@ -133,14 +118,50 @@ public class Minip2Tests {
         runBenchmark("08. Auto BVH / With MT", true, true, false, true);
     }
     
+    /**
+     * Test 09: Hierarchical scene graph constructed manually, without acceleration, single-threaded.
+     */
+    @Test
+    @Order(9)
+    void test09_ManualHierarchy_NoMT() {
+        runBenchmark("09. Manual Hierarchy / No MT", false, false, true, false);
+    }
+    
+    /**
+     * Test 10: Hierarchical scene graph constructed manually, without acceleration, with multi-threading.
+     */
+    @Test
+    @Order(10)
+    void test10_ManualHierarchy_MT() {
+        runBenchmark("10. Manual Hierarchy / With MT", true, false, true, false);
+    }
+    
+    /**
+     * Test 11: Unstructured scene optimized via automatic hierarchy construction, single-threaded.
+     */
+    @Test
+    @Order(11)
+    void test11_AutoHierarchy_NoMT() {
+        runBenchmark("11. Auto Hierarchy / No MT", false, false, false, true);
+    }
+    
+    /**
+     * Test 12: Unstructured scene optimized via automatic hierarchy construction, with multi-threading.
+     */
+    @Test
+    @Order(12)
+    void test12_AutoHierarchy_MT() {
+        runBenchmark("12. Auto Hierarchy / With MT", true, false, false, true);
+    }
+    
     // =========================================================================
     // --- Core Benchmark Execution Engine ---
     // =========================================================================
     
     /**
-     * Prepares the scene infrastructure, isolates the rendering execution loop,
-     * triggers image generation, and writes execution records to the benchmark text file.
-     * * @param configName   Label identifying the active testing configuration.
+     * Prepares the scene infrastructure, isolates the rendering execution loop, triggers image generation, and writes
+     * execution records to the benchmark text file. * @param configName Label identifying the active testing
+     * configuration.
      * @param useMT Flag to activate multi-threaded rendering pipelines.
      * @param useCBR Flag to activate basic cloud bounding box intersections.
      * @param useManualBVH Flag to partition the helix structures into custom group hierarchies.
@@ -155,26 +176,24 @@ public class Minip2Tests {
         
         buildDnaScene(scene, useManualBVH);
         
-        // Stage 2-C Automation Hook: Executes tree building outside the rendering timer loop
-        if (useAutoBVH) {
-            // scene.geometries.buildAutomaticHierarchy();
-        }
-        
         // 2. Camera Engineering and View Plane Mapping Configuration
         Camera.Builder cameraBuilder = new Camera.Builder()
-                .setLocation(new Point(0, 160, 480))
-                .setDirection(new Point(0, 120, 0))
-                .setVpSize(200, 200)
-                .setVpDistance(250)
+                .setLocation(new Point(0, 320, 1580))
+                .setDirection(new Point(0, 160, 0))
+                .setVpSize(400, 400)
+                .setVpDistance(1250)
                 .setResolution(RESOLUTION, RESOLUTION)
                 .setRayTracer(scene, RayTracerType.SIMPLE)
                 .setDebugPrint(1)
-                .setSSRays(9);
+                .setSSRays(3);
         
         // Injecting the respective engine acceleration state variables based on target parameters
-        if (useMT) cameraBuilder.setMultithreading(-1);
-        if (useCBR) cameraBuilder.enableCBR();
-        if (useAutoBVH) cameraBuilder.enableBVH();
+        if (useMT)
+            cameraBuilder.setMultithreading(-1);
+        if (useCBR)
+            cameraBuilder.enableCBR();
+        if (useAutoBVH)
+            cameraBuilder.enableBVH();
         
         Camera camera = cameraBuilder.build();
         
@@ -196,21 +215,21 @@ public class Minip2Tests {
     // =========================================================================
     
     /**
-     * Procedurally populates the 3D world space. Generates a complex architectural
-     * double-helix totaling exactly 901 primitive bodies (1 Plane + 150 pairs * 6 shapes).
-     * * Light positions and area sizes are explicitly configured to project wide,
-     * distinct, highly observable soft shadows across the floor plane.
-     * * @param scene           The target active scene object instance.
+     * Procedurally populates the 3D world space. Generates a complex architectural double-helix totaling exactly 901
+     * primitive bodies (1 Plane + 150 pairs * 6 shapes). * Light positions and area sizes are explicitly configured to
+     * project wide, distinct, highly observable soft shadows across the floor plane. * @param scene The target
+     * active scene
+     * object instance.
      * @param manualHierarchy When true, organizes structural elements into a 3-level tree hierarchy.
      */
     private void buildDnaScene(Scene scene, boolean manualHierarchy) {
         // --- High-Performance Physically Based Material Definitions ---
         // Mirror-like reflective ocean bed providing a clear canvas for casting soft penumbras
-        Material oceanMat = new Material().setKD(0.1).setKS(0.8).setShininess(300).setKR(0.7).setKT(0.0);
+        Material oceanMat = new Material().setKD(0.4).setKS(0.6).setShininess(100).setKR(0.4);
         // Deeply refractive transparent crystal compound forming the spiraling strands
-        Material backboneMat = new Material().setKD(0.05).setKS(0.95).setShininess(250).setKT(0.85).setKR(0.15);
+        Material backboneMat = new Material().setKD(0.1).setKS(0.75).setShininess(250).setKT(0.7).setKR(0.15);
         // Semi-translucent material creating dense geometric structures for crisp shadow creation
-        Material bridgeMat = new Material().setKD(0.4).setKS(0.5).setShininess(80).setKT(0.3).setKR(0.1);
+        Material bridgeMat = new Material().setKD(0.45).setKS(0.4).setShininess(80).setKT(0.15).setKR(0.1);
         
         Geometries root = scene.geometries;
         
@@ -243,7 +262,7 @@ public class Minip2Tests {
         double radius = 42;
         
         for (int i = 0; i < totalBasePairs; i++) {
-            double y = 15 + (i * 2.6);        // Spatial elevation mapping
+            double y = 15 + (i * 2.6); // Spatial elevation mapping
             double angle = i * (Math.PI / 12); // Circular helix rotation angle
             
             // Outer Helix Spherical Strands (Refractive Compounds)
@@ -268,8 +287,8 @@ public class Minip2Tests {
             
             // Channeling structural insertion based on structural hierarchy strategies
             if (manualHierarchy) {
-                int macroIndex = i / 30;         // Separates into blocks of 30 pairs (0-4)
-                int microIndex = (i % 30) / 10;  // Sub-separates into blocks of 10 pairs (0-2)
+                int macroIndex = i / 30; // Separates into blocks of 30 pairs (0-4)
+                int microIndex = (i % 30) / 10; // Sub-separates into blocks of 10 pairs (0-2)
                 microGroups[macroIndex][microIndex].add(s1, s2, t1, t2, t3, t4);
             } else {
                 root.add(s1, s2, t1, t2, t3, t4);
@@ -296,14 +315,14 @@ public class Minip2Tests {
         scene.lights.add(new DirectionalLight(new Color(10, 15, 25), new Vector(1, -1, 0.5)));
         
         // B. Point Light 1: Low warm orange source with maximized width to generate extended soft penumbras
-        scene.lights.add(new PointLight(new Color(255, 90, 30), new Point(-80, 40, -40))
+        scene.lights.add(new PointLight(new Color(255, 90, 30), new Point(-280, 40, -40))
                 .setKl(0.002).setKq(0.00005)
-                .setWidth(35).setHeight(35)); // Wide area array for pronounced soft shadow bleeding
+                .setWidth(25).setHeight(25)); // Wide area array for pronounced soft shadow bleeding
         
         // C. Point Light 2: Elevated cold blue source producing overlapping penumbra intersections
         scene.lights.add(new PointLight(new Color(30, 90, 255), new Point(80, 360, 40))
                 .setKl(0.002).setKq(0.00005)
-                .setWidth(30).setHeight(30)); // Large source area creates wide blurred shadows
+                .setWidth(20).setHeight(20)); // Large source area creates wide blurred shadows
         
         // D. Spot Light: High-intensity side-angle spotlight projecting elongated, dramatic structural shadow outlines
         scene.lights.add(new SpotLight(new Color(160, 510, 160), new Point(180, 220, 100), new Vector(-1.2, -0.6, -0.8))
@@ -315,14 +334,14 @@ public class Minip2Tests {
         scene.lights.add(new BeamLight(new Color(765, 765, 765), new Point(0, 440, 0), new Vector(0, -1, 0))
                 .setKl(0.0001)
                 .setKq(0.00001)
-                .setNarrowBeam(8)            // Tight angle constriction
+                .setNarrowBeam(8) // Tight angle constriction
                 .setWidth(10)
                 .setHeight(10)); // Medium area ensures the high-contrast central shadows remain soft at the edges
     }
     
     /**
-     * Appends processing measurements safely into the persistent log file.
-     * * @param config            Name of the tested configuration.
+     * Appends processing measurements safely into the persistent log file. * @param config Name of the tested
+     * configuration.
      * @param renderTimeMillis Time elapsed during the isolated camera execution step.
      */
     private void logPerformance(String config, long renderTimeMillis) {
