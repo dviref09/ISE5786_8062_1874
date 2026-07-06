@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test class for {@link geometries.impl.AABB} class.
+ * @author Dvir Farkash
  */
 public class AABBTests {
     /**

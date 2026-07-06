@@ -23,11 +23,8 @@ import primitives.Vector;
 import scene.Scene;
 
 /**
- * Advanced MP02 Integration and Performance Benchmarking. Scene: "Crystal DNA Helix over a Reflective Ocean" * This
- * test class isolates and measures rendering execution time across 8 distinct acceleration and execution configurations
- * (combinations of Multithreading, CBR, Manual BVH, and Automatic BVH tree building). * Special emphasis is placed on
- * soft shadow casting by utilizing extended light source dimensions to generate highly noticeable, smooth penumbra
- * regions. * @author Senior Software Engineer & 3D Scene Designer
+ * Test for minip2
+ * @author Dvir Farkash
  */
 @TestMethodOrder(OrderAnnotation.class)
 public class Minip2Tests {
